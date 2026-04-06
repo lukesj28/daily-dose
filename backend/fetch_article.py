@@ -170,7 +170,6 @@ _URL_ATTRS = {"href", "src", "action", "formaction", "data"}
 
 
 def _sanitize_element(element: ET.Element) -> None:
-    """Remove unsafe tags and attributes from an element tree in-place."""
     for child in list(element):
         tag = _local_tag(child.tag).lower()
         if tag in _BLOCKED_TAGS:

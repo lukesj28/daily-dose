@@ -9,6 +9,7 @@ struct ArticleReaderView: View {
     @State private var showAnnotationSheet = false
     @State private var pendingAnnotation: PendingAnnotation?
     @State private var editingAnnotation: Annotation?
+    @State private var viewingAnnotation: Annotation?
 
     struct PendingAnnotation {
         let paragraphIndex: Int
@@ -33,6 +34,38 @@ struct ArticleReaderView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(item: $viewingAnnotation) { annotation in
+            VStack(alignment: .leading, spacing: 16) {
+                Text(annotation.noteText)
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                Spacer()
+
+                HStack {
+                    Button(role: .destructive) {
+                        modelContext.delete(annotation)
+                        try? modelContext.save()
+                        viewingAnnotation = nil
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+
+                    Spacer()
+
+                    Button {
+                        viewingAnnotation = nil
+                        editingAnnotation = annotation
+                        showAnnotationSheet = true
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                }
+            }
+            .padding(20)
+            .presentationDetents([.height(180)])
+            .presentationDragIndicator(.visible)
+        }
         .sheet(isPresented: $showAnnotationSheet) {
             AnnotationSheet(
                 noteText: editingAnnotation?.noteText ?? "",
@@ -102,6 +135,9 @@ struct ArticleReaderView: View {
                     )
                     editingAnnotation = nil
                     showAnnotationSheet = true
+                },
+                onViewAnnotation: { annotation in
+                    viewingAnnotation = annotation
                 },
                 onEditAnnotation: { annotation in
                     editingAnnotation = annotation

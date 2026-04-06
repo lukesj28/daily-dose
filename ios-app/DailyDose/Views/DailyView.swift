@@ -13,6 +13,15 @@ struct DailyView: View {
     @State private var noteIconOpacity: Double = 0
     @State private var noteIconY: CGFloat = 0
     @State private var dragOffset: CGFloat = 0
+    @State private var showAnnotationSheet = false
+    @State private var pendingAnnotation: PendingAnnotation?
+    @State private var editingAnnotation: Annotation?
+    @State private var viewingAnnotation: Annotation?
+
+    struct PendingAnnotation {
+        let paragraphIndex: Int
+        let range: NSRange
+    }
 
     private var currentArticle: Article? {
         allArticles.first
@@ -49,6 +58,74 @@ struct DailyView: View {
         .task {
             await cacheManager.checkAndUpdateCache(context: modelContext)
         }
+        .sheet(item: $viewingAnnotation) { annotation in
+            VStack(alignment: .leading, spacing: 16) {
+                Text(annotation.noteText)
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                Spacer()
+
+                HStack {
+                    Button(role: .destructive) {
+                        modelContext.delete(annotation)
+                        try? modelContext.save()
+                        viewingAnnotation = nil
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+
+                    Spacer()
+
+                    Button {
+                        viewingAnnotation = nil
+                        editingAnnotation = annotation
+                        showAnnotationSheet = true
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                }
+            }
+            .padding(20)
+            .presentationDetents([.height(180)])
+            .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $showAnnotationSheet) {
+            AnnotationSheet(
+                noteText: editingAnnotation?.noteText ?? "",
+                onSave: { text in
+                    if let editing = editingAnnotation {
+                        editing.noteText = text
+                        try? modelContext.save()
+                    } else if let pending = pendingAnnotation {
+                        if let article = currentArticle {
+                            let annotation = Annotation(
+                                paragraphIndex: pending.paragraphIndex,
+                                startIndex: pending.range.location,
+                                length: pending.range.length,
+                                noteText: text,
+                                article: article
+                            )
+                            modelContext.insert(annotation)
+                            try? modelContext.save()
+                        }
+                    }
+                    resetAnnotationState()
+                },
+                onDelete: editingAnnotation.map { editing in {
+                    modelContext.delete(editing)
+                    try? modelContext.save()
+                    resetAnnotationState()
+                }}
+            )
+            .presentationDetents([.medium])
+        }
+    }
+
+    private func resetAnnotationState() {
+        pendingAnnotation = nil
+        editingAnnotation = nil
+        showAnnotationSheet = false
     }
 
     // MARK: - Article Reader
@@ -104,9 +181,26 @@ struct DailyView: View {
             TextBlockView(
                 text: block.text ?? "",
                 annotations: annotations,
-                onAnnotate: { _ in },
-                onEditAnnotation: { _ in },
-                onDeleteAnnotation: { _ in }
+                onAnnotate: { range in
+                    pendingAnnotation = PendingAnnotation(
+                        paragraphIndex: block.index,
+                        range: range
+                    )
+                    editingAnnotation = nil
+                    showAnnotationSheet = true
+                },
+                onViewAnnotation: { annotation in
+                    viewingAnnotation = annotation
+                },
+                onEditAnnotation: { annotation in
+                    editingAnnotation = annotation
+                    pendingAnnotation = nil
+                    showAnnotationSheet = true
+                },
+                onDeleteAnnotation: { annotation in
+                    modelContext.delete(annotation)
+                    try? modelContext.save()
+                }
             )
 
         case .image:

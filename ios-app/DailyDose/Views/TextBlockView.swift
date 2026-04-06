@@ -5,6 +5,7 @@ struct TextBlockView: UIViewRepresentable {
     let text: String
     let annotations: [Annotation]
     let onAnnotate: (NSRange) -> Void
+    let onViewAnnotation: (Annotation) -> Void
     let onEditAnnotation: (Annotation) -> Void
     let onDeleteAnnotation: (Annotation) -> Void
 
@@ -22,9 +23,9 @@ struct TextBlockView: UIViewRepresentable {
         textView.delegate = context.coordinator
         context.coordinator.textView = textView
 
-        let interaction = UIEditMenuInteraction(delegate: context.coordinator)
-        textView.addInteraction(interaction)
-        context.coordinator.editMenuInteraction = interaction
+        let tap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
+        tap.delegate = context.coordinator
+        textView.addGestureRecognizer(tap)
 
         return textView
     }
@@ -32,6 +33,7 @@ struct TextBlockView: UIViewRepresentable {
     func updateUIView(_ textView: UITextView, context: Context) {
         let coordinator = context.coordinator
         coordinator.onAnnotate = onAnnotate
+        coordinator.onViewAnnotation = onViewAnnotation
         coordinator.onEditAnnotation = onEditAnnotation
         coordinator.onDeleteAnnotation = onDeleteAnnotation
 
@@ -64,7 +66,7 @@ struct TextBlockView: UIViewRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(onAnnotate: onAnnotate, onEditAnnotation: onEditAnnotation, onDeleteAnnotation: onDeleteAnnotation, annotations: annotations)
+        Coordinator(onAnnotate: onAnnotate, onViewAnnotation: onViewAnnotation, onEditAnnotation: onEditAnnotation, onDeleteAnnotation: onDeleteAnnotation, annotations: annotations)
     }
 
     // MARK: - Markdown Parser
@@ -151,10 +153,10 @@ struct TextBlockView: UIViewRepresentable {
 
     // MARK: - Coordinator
 
-    class Coordinator: NSObject, UITextViewDelegate, UIEditMenuInteractionDelegate {
+    class Coordinator: NSObject, UITextViewDelegate, UIGestureRecognizerDelegate {
         var textView: UITextView?
-        var editMenuInteraction: UIEditMenuInteraction?
         var onAnnotate: (NSRange) -> Void
+        var onViewAnnotation: (Annotation) -> Void
         var onEditAnnotation: (Annotation) -> Void
         var onDeleteAnnotation: (Annotation) -> Void
         var annotations: [Annotation]
@@ -162,25 +164,42 @@ struct TextBlockView: UIViewRepresentable {
 
         init(
             onAnnotate: @escaping (NSRange) -> Void,
+            onViewAnnotation: @escaping (Annotation) -> Void,
             onEditAnnotation: @escaping (Annotation) -> Void,
             onDeleteAnnotation: @escaping (Annotation) -> Void,
             annotations: [Annotation]
         ) {
             self.onAnnotate = onAnnotate
+            self.onViewAnnotation = onViewAnnotation
             self.onEditAnnotation = onEditAnnotation
             self.onDeleteAnnotation = onDeleteAnnotation
             self.annotations = annotations
         }
 
-        func editMenuInteraction(
-            _ interaction: UIEditMenuInteraction,
-            menuFor configuration: UIEditMenuConfiguration,
-            suggestedActions: [UIMenuElement]
-        ) -> UIMenu? {
-            guard let textView = textView else { return nil }
-            let selectedRange = textView.selectedRange
+        // Without this guard the gesture swallows all taps, breaking text selection.
+        func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+            guard let textView = textView else { return false }
+            let point = gestureRecognizer.location(in: textView)
+            let offset = characterOffset(in: textView, at: point)
+            return annotationAtRange(NSRange(location: offset, length: 1)) != nil
+        }
 
-            if let annotation = annotationAtRange(selectedRange) {
+        @objc func handleTap(_ gesture: UITapGestureRecognizer) {
+            guard let textView = textView else { return }
+            let point = gesture.location(in: textView)
+            let offset = characterOffset(in: textView, at: point)
+            if let annotation = annotationAtRange(NSRange(location: offset, length: 1)) {
+                onViewAnnotation(annotation)
+            }
+        }
+
+        private func characterOffset(in textView: UITextView, at point: CGPoint) -> Int {
+            guard let position = textView.closestPosition(to: point) else { return 0 }
+            return textView.offset(from: textView.beginningOfDocument, to: position)
+        }
+
+        func textView(_ textView: UITextView, editMenuForTextIn range: NSRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+            if let annotation = annotationAtRange(range) {
                 let editAction = UIAction(title: "Edit Note", image: UIImage(systemName: "pencil")) { [weak self] _ in
                     self?.onEditAnnotation(annotation)
                 }
@@ -191,35 +210,20 @@ struct TextBlockView: UIViewRepresentable {
                 ) { [weak self] _ in
                     self?.onDeleteAnnotation(annotation)
                 }
-                return UIMenu(children: suggestedActions + [editAction, deleteAction])
+                return UIMenu(children: [editAction, deleteAction] + suggestedActions)
             }
 
-            if selectedRange.length > 0 {
+            if range.length > 0 {
                 let annotateAction = UIAction(
                     title: "Annotate",
                     image: UIImage(systemName: "note.text.badge.plus")
                 ) { [weak self] _ in
-                    self?.onAnnotate(selectedRange)
+                    self?.onAnnotate(range)
                 }
-                return UIMenu(children: suggestedActions + [annotateAction])
+                return UIMenu(children: [annotateAction] + suggestedActions)
             }
 
             return UIMenu(children: suggestedActions)
-        }
-
-        func editMenuInteraction(
-            _ interaction: UIEditMenuInteraction,
-            targetRectFor configuration: UIEditMenuConfiguration
-        ) -> CGRect {
-            guard let textView = textView else { return .zero }
-            let selectedRange = textView.selectedRange
-            guard selectedRange.length > 0,
-                  let start = textView.position(from: textView.beginningOfDocument, offset: selectedRange.location),
-                  let end = textView.position(from: start, offset: selectedRange.length),
-                  let textRange = textView.textRange(from: start, to: end) else {
-                return .zero
-            }
-            return textView.firstRect(for: textRange)
         }
 
         private func annotationAtRange(_ range: NSRange) -> Annotation? {
