@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Daily Dose — PubMed Article Ingestion Engine
-
-Fetches a random open-access article from PubMed Central,
-parses it into a structured JSON payload, and writes public/today.json.
-"""
 
 import json
 import logging
@@ -45,7 +39,6 @@ INLINE_TAG_MAP = {
 
 
 def _element_to_markdown(element: ET.Element) -> str:
-    """Recursively convert XML to Markdown, handling nested formatting tags."""
     parts: list[str] = []
 
     if element.text:
@@ -97,14 +90,18 @@ def _api_params() -> dict:
     return params
 
 
-def _search_count() -> int:
+def _search_term() -> str:
     five_years_ago = (datetime.now(timezone.utc) - timedelta(days=5 * 365)).strftime(
         "%Y/%m/%d"
     )
-    term = (
+    return (
         '"open access"[filter] '
         f'AND ("{five_years_ago}"[PDAT] : "3000/12/31"[PDAT])'
     )
+
+
+def _search_count() -> int:
+    term = _search_term()
     params = {
         **_api_params(),
         "db": "pmc",
@@ -125,15 +122,8 @@ def _search_count() -> int:
 
 
 def _search_random_id(count: int) -> str:
-    """Pick a random PMCID. Capped at 9999 due to PMC's 10K result limit."""
-    offset = random.randint(0, min(count - 1, 9999))
-    five_years_ago = (datetime.now(timezone.utc) - timedelta(days=5 * 365)).strftime(
-        "%Y/%m/%d"
-    )
-    term = (
-        '"open access"[filter] '
-        f'AND ("{five_years_ago}"[PDAT] : "3000/12/31"[PDAT])'
-    )
+    offset = random.randint(0, min(count - 1, 9999))  # PMC's retstart hard limit is 9999
+    term = _search_term()
     params = {
         **_api_params(),
         "db": "pmc",
@@ -171,6 +161,31 @@ def _fetch_article_xml(pmcid: str) -> ET.Element:
     resp = requests.get(f"{BASE_URL}/efetch.fcgi", params=params, timeout=60)
     resp.raise_for_status()
     return ET.fromstring(resp.text)
+
+
+# --- HTML Sanitization ---
+
+_BLOCKED_TAGS = {"script", "style", "object", "embed", "iframe", "frame", "link", "meta", "base"}
+_URL_ATTRS = {"href", "src", "action", "formaction", "data"}
+
+
+def _sanitize_element(element: ET.Element) -> None:
+    """Remove unsafe tags and attributes from an element tree in-place."""
+    for child in list(element):
+        tag = _local_tag(child.tag).lower()
+        if tag in _BLOCKED_TAGS:
+            element.remove(child)
+        else:
+            _sanitize_element(child)
+
+    for attr in list(element.attrib):
+        attr_local = attr.split("}")[-1].lower() if "}" in attr else attr.lower()
+        if attr_local.startswith("on"):
+            del element.attrib[attr]
+        elif attr_local in _URL_ATTRS:
+            val = element.attrib[attr].strip().lower().replace("\x00", "")
+            if val.startswith("javascript:") or val.startswith("data:"):
+                del element.attrib[attr]
 
 
 # --- XML Parsing ---
@@ -271,6 +286,7 @@ def _parse_table(table_wrap: ET.Element) -> dict | None:
     if table_el is None:
         return None
 
+    _sanitize_element(table_el)
     html = ET.tostring(table_el, encoding="unicode", method="html")
     html = re.sub(r'\s+xmlns[^"]*"[^"]*"', "", html)
 
@@ -368,7 +384,6 @@ def _parse_article(root: ET.Element, pmcid: str) -> dict | None:
 
 
 def _validate_image_urls(payload: dict) -> dict:
-    """HEAD-check image URLs; remove broken ones rather than failing the article."""
     validated_content: list[dict] = []
     for block in payload["content"]:
         if block["type"] == "image":
@@ -393,7 +408,7 @@ def _validate_payload(payload: dict) -> bool:
         log.warning("Validation failed: no title")
         return False
 
-    if not payload.get("authors") or len(payload["authors"]) == 0:
+    if not payload.get("authors"):
         log.warning("Validation failed: no authors")
         return False
 
