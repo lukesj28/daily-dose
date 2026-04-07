@@ -4,6 +4,8 @@ import UIKit
 struct TextBlockView: UIViewRepresentable {
     let text: String
     let annotations: [Annotation]
+    var searchRanges: [NSRange] = []
+    var currentSearchRange: NSRange? = nil
     let onAnnotate: (NSRange) -> Void
     let onEditAnnotation: (Annotation) -> Void
     let onDeleteAnnotation: (Annotation) -> Void
@@ -37,7 +39,9 @@ struct TextBlockView: UIViewRepresentable {
         coordinator.onDeleteAnnotation = onDeleteAnnotation
 
         let annotationsChanged = annotations.map(\.id) != coordinator.annotations.map(\.id)
-        guard text != coordinator.lastText || annotationsChanged else {
+        let searchChanged = searchRanges != coordinator.lastSearchRanges
+                         || currentSearchRange != coordinator.lastCurrentSearchRange
+        guard text != coordinator.lastText || annotationsChanged || searchChanged else {
             coordinator.annotations = annotations
             return
         }
@@ -54,9 +58,23 @@ struct TextBlockView: UIViewRepresentable {
             }
         }
 
+        let searchColor = UIColor.systemYellow.withAlphaComponent(0.35)
+        for range in searchRanges {
+            if range.location + range.length <= mutableAttr.length {
+                mutableAttr.addAttribute(.backgroundColor, value: searchColor, range: range)
+            }
+        }
+        if let current = currentSearchRange,
+           current.location + current.length <= mutableAttr.length {
+            mutableAttr.addAttribute(.backgroundColor, value: UIColor.systemOrange, range: current)
+            mutableAttr.addAttribute(.foregroundColor, value: UIColor.black, range: current)
+        }
+
         textView.attributedText = mutableAttr
         coordinator.annotations = annotations
         coordinator.lastText = text
+        coordinator.lastSearchRanges = searchRanges
+        coordinator.lastCurrentSearchRange = currentSearchRange
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: UITextView, context: Context) -> CGSize? {
@@ -160,6 +178,8 @@ struct TextBlockView: UIViewRepresentable {
         var onDeleteAnnotation: (Annotation) -> Void
         var annotations: [Annotation]
         var lastText: String = ""
+        var lastSearchRanges: [NSRange] = []
+        var lastCurrentSearchRange: NSRange? = nil
         weak var presentedPopover: UIViewController?
 
         init(

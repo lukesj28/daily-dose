@@ -17,6 +17,10 @@ struct DailyView: View {
     @State private var pendingAnnotation: PendingAnnotation?
     @State private var editingAnnotation: Annotation?
 
+    @State private var searchQuery: String = ""
+    @State private var searchMatches: [SearchMatch] = []
+    @State private var currentMatchIndex: Int = 0
+
     struct PendingAnnotation {
         let paragraphIndex: Int
         let range: NSRange
@@ -98,27 +102,47 @@ struct DailyView: View {
     // MARK: - Article Reader
 
     private func articleReader(_ article: Article) -> some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                articleHeader(article)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    articleHeader(article)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 24)
 
-                Divider()
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                    Divider()
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
 
-                contentBlocks(article)
-                    .padding(.horizontal, 20)
+                    contentBlocks(article)
+                        .padding(.horizontal, 20)
+                }
+                .padding(.top, 16)
+                .padding(.bottom, 40)
             }
-            .padding(.top, 16)
-            .padding(.bottom, 40)
+            .refreshable {
+                await cacheManager.checkAndUpdateCache(context: modelContext, force: true)
+            }
+            .offset(x: dragOffset)
+            .gesture(saveSwipeGesture(article))
+            .overlay(alignment: .bottomTrailing) {
+                ArticleNavigator(
+                    article: article,
+                    scrollProxy: proxy,
+                    searchQuery: $searchQuery,
+                    searchMatches: $searchMatches,
+                    currentMatchIndex: $currentMatchIndex
+                )
+            }
+            .onChange(of: searchQuery) { _, newValue in
+                searchMatches = SearchMatch.compute(query: newValue, blocks: article.contentBlocks)
+                currentMatchIndex = 0
+            }
+            .onChange(of: article.id) { _, _ in
+                searchQuery = ""
+                searchMatches = []
+                currentMatchIndex = 0
+            }
         }
-        .refreshable {
-            await cacheManager.checkAndUpdateCache(context: modelContext, force: true)
-        }
-        .offset(x: dragOffset)
-        .gesture(saveSwipeGesture(article))
     }
 
     private func articleHeader(_ article: Article) -> some View {
@@ -128,15 +152,17 @@ struct DailyView: View {
     // MARK: - Content Blocks
 
     private func contentBlocks(_ article: Article) -> some View {
-        VStack(alignment: .leading, spacing: 16) {
+        let matchesByBlock = searchMatches.grouped()
+        return VStack(alignment: .leading, spacing: 16) {
             ForEach(article.contentBlocks) { block in
-                contentBlockView(block, article: article)
+                contentBlockView(block, article: article, matchesByBlock: matchesByBlock)
+                    .id(block.index)
             }
         }
     }
 
     @ViewBuilder
-    private func contentBlockView(_ block: ContentBlock, article: Article) -> some View {
+    private func contentBlockView(_ block: ContentBlock, article: Article, matchesByBlock: [Int: [NSRange]]) -> some View {
         switch block.type {
         case .heading:
             Text(block.text ?? "")
@@ -151,6 +177,8 @@ struct DailyView: View {
             TextBlockView(
                 text: block.text ?? "",
                 annotations: annotations,
+                searchRanges: matchesByBlock[block.index] ?? [],
+                currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
                 onAnnotate: { range in
                     pendingAnnotation = PendingAnnotation(
                         paragraphIndex: block.index,

@@ -10,26 +10,45 @@ struct ArticleReaderView: View {
     @State private var pendingAnnotation: PendingAnnotation?
     @State private var editingAnnotation: Annotation?
 
+    @State private var searchQuery: String = ""
+    @State private var searchMatches: [SearchMatch] = []
+    @State private var currentMatchIndex: Int = 0
+
     struct PendingAnnotation {
         let paragraphIndex: Int
         let range: NSRange
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                articleHeader
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    articleHeader
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 24)
 
-                Divider()
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                    Divider()
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
 
-                contentBlocks
-                    .padding(.horizontal, 20)
+                    contentBlocks
+                        .padding(.horizontal, 20)
+                }
+                .padding(.vertical, 16)
             }
-            .padding(.vertical, 16)
+            .overlay(alignment: .bottomTrailing) {
+                ArticleNavigator(
+                    article: article,
+                    scrollProxy: proxy,
+                    searchQuery: $searchQuery,
+                    searchMatches: $searchMatches,
+                    currentMatchIndex: $currentMatchIndex
+                )
+            }
+        }
+        .onChange(of: searchQuery) { _, newValue in
+            searchMatches = SearchMatch.compute(query: newValue, blocks: article.contentBlocks)
+            currentMatchIndex = 0
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -72,15 +91,17 @@ struct ArticleReaderView: View {
     // MARK: - Content Blocks
 
     private var contentBlocks: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        let matchesByBlock = searchMatches.grouped()
+        return VStack(alignment: .leading, spacing: 16) {
             ForEach(article.contentBlocks) { block in
-                contentBlockView(block)
+                contentBlockView(block, matchesByBlock: matchesByBlock)
+                    .id(block.index)
             }
         }
     }
 
     @ViewBuilder
-    private func contentBlockView(_ block: ContentBlock) -> some View {
+    private func contentBlockView(_ block: ContentBlock, matchesByBlock: [Int: [NSRange]]) -> some View {
         switch block.type {
         case .heading:
             Text(block.text ?? "")
@@ -95,6 +116,8 @@ struct ArticleReaderView: View {
             TextBlockView(
                 text: block.text ?? "",
                 annotations: annotations,
+                searchRanges: matchesByBlock[block.index] ?? [],
+                currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
                 onAnnotate: { range in
                     pendingAnnotation = PendingAnnotation(
                         paragraphIndex: block.index,
