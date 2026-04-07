@@ -18,7 +18,7 @@ NCBI_EMAIL = os.environ.get("NCBI_EMAIL", "")
 BASE_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 MAX_RETRIES = 5
 MAX_CHAR_COUNT = 50_000
-PMC_IMAGE_BASE = "https://www.ncbi.nlm.nih.gov/pmc/articles"
+PMC_ARTICLE_BASE = "https://pmc.ncbi.nlm.nih.gov/articles"
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "public" / "today.json"
 
 logging.basicConfig(
@@ -241,7 +241,38 @@ def _extract_journal(root: ET.Element) -> str:
     return ""
 
 
-def _parse_figure(fig_el: ET.Element, pmcid: str) -> dict | None:
+def _fetch_image_map(pmcid: str) -> dict[str, str]:
+    """Scrape the PMC article page to map image filename stems → CDN blob URLs.
+
+    The NLM JATS XML only gives us a short graphic id (e.g. "ao5c13251_0001"),
+    but PMC now serves images from cdn.ncbi.nlm.nih.gov/pmc/blobs/<hash>/... with
+    an opaque path we can't construct. The rendered HTML has the real src.
+    """
+    url = f"{PMC_ARTICLE_BASE}/{pmcid}/"
+    try:
+        resp = requests.get(
+            url,
+            timeout=30,
+            headers={"User-Agent": f"{TOOL_NAME}/1.0"},
+        )
+        resp.raise_for_status()
+    except requests.RequestException as exc:
+        log.warning("Failed to fetch PMC article page for image URLs: %s", exc)
+        return {}
+
+    mapping: dict[str, str] = {}
+    for match in re.finditer(
+        r'src="(https://cdn\.ncbi\.nlm\.nih\.gov/pmc/blobs/[^"]+)"', resp.text
+    ):
+        full_url = match.group(1)
+        filename = full_url.rsplit("/", 1)[-1]
+        stem = filename.rsplit(".", 1)[0]
+        mapping[stem] = full_url
+    log.info("Resolved %d image URLs from PMC page", len(mapping))
+    return mapping
+
+
+def _parse_figure(fig_el: ET.Element, image_map: dict[str, str]) -> dict | None:
     graphic = _find_deep(fig_el, "graphic")
     if graphic is None:
         return None
@@ -256,11 +287,11 @@ def _parse_figure(fig_el: ET.Element, pmcid: str) -> dict | None:
     if not href:
         return None
 
-    filename = href.split("/")[-1] if "/" in href else href
-    if "." not in filename:
-        filename = f"{filename}.jpg"
-
-    url = f"{PMC_IMAGE_BASE}/{pmcid}/bin/{filename}"
+    stem = href.rsplit("/", 1)[-1].rsplit(".", 1)[0]
+    url = image_map.get(stem)
+    if not url:
+        log.warning("No CDN URL found for figure %s", stem)
+        return None
 
     caption_parts: list[str] = []
     label = _find_deep(fig_el, "label")
@@ -303,7 +334,7 @@ def _parse_table(table_wrap: ET.Element) -> dict | None:
     return {"type": "table", "html": html, "caption": caption}
 
 
-def _parse_body(body: ET.Element, pmcid: str) -> list[dict]:
+def _parse_body(body: ET.Element, image_map: dict[str, str]) -> list[dict]:
     content: list[dict] = []
 
     def _walk_section(section: ET.Element):
@@ -321,7 +352,7 @@ def _parse_body(body: ET.Element, pmcid: str) -> list[dict]:
             elif tag == "sec":
                 _walk_section(child)
             elif tag == "fig":
-                fig_block = _parse_figure(child, pmcid)
+                fig_block = _parse_figure(child, image_map)
                 if fig_block:
                     content.append(fig_block)
             elif tag == "table-wrap":
@@ -365,7 +396,8 @@ def _parse_article(root: ET.Element, pmcid: str) -> dict | None:
         log.warning("No <body> element found")
         return None
 
-    content = _parse_body(body, pmcid)
+    image_map = _fetch_image_map(pmcid) if _find_deep(body, "fig") is not None else {}
+    content = _parse_body(body, image_map)
 
     return {
         "id": pmcid,
