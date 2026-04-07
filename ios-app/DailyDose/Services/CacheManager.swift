@@ -11,13 +11,13 @@ final class CacheManager {
     private let service = ArticleService()
 
     @MainActor
-    func checkAndUpdateCache(context: ModelContext) async {
+    func checkAndUpdateCache(context: ModelContext, force: Bool = false) async {
         guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
 
         do {
-            let payload = try await service.fetchTodayArticle()
+            let payload = try await service.fetchTodayArticle(ignoreCache: force)
             isOffline = false
 
             let fetchDate = payload.fetchDate
@@ -26,13 +26,11 @@ final class CacheManager {
             )
             let existing = try context.fetch(descriptor)
 
-            if existing.isEmpty {
+            if force || existing.isEmpty {
                 try purgeUnsavedDailyArticles(context: context)
 
-                let encoder = JSONEncoder()
-                let jsonData = try encoder.encode(payload)
-
-                let article = Article(
+                let contentJSON = try JSONEncoder().encode(payload)
+                context.insert(Article(
                     id: payload.id,
                     title: payload.title,
                     journal: payload.journal,
@@ -40,9 +38,8 @@ final class CacheManager {
                     publishDate: payload.publishDate,
                     authors: payload.authors,
                     abstract: payload.abstract,
-                    contentJSON: jsonData
-                )
-                context.insert(article)
+                    contentJSON: contentJSON
+                ))
                 try context.save()
             }
         } catch {

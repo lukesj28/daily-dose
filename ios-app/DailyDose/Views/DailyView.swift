@@ -147,6 +147,9 @@ struct DailyView: View {
             .padding(.top, 16)
             .padding(.bottom, 40)
         }
+        .refreshable {
+            await cacheManager.checkAndUpdateCache(context: modelContext, force: true)
+        }
         .offset(x: dragOffset)
         .gesture(saveSwipeGesture(article))
     }
