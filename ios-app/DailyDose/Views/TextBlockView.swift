@@ -5,7 +5,6 @@ struct TextBlockView: UIViewRepresentable {
     let text: String
     let annotations: [Annotation]
     let onAnnotate: (NSRange) -> Void
-    let onViewAnnotation: (Annotation) -> Void
     let onEditAnnotation: (Annotation) -> Void
     let onDeleteAnnotation: (Annotation) -> Void
 
@@ -17,6 +16,7 @@ struct TextBlockView: UIViewRepresentable {
         textView.textContainerInset = .zero
         textView.textContainer.lineFragmentPadding = 0
         textView.backgroundColor = .clear
+        textView.tintColor = .systemBlue
         textView.font = .preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -33,7 +33,6 @@ struct TextBlockView: UIViewRepresentable {
     func updateUIView(_ textView: UITextView, context: Context) {
         let coordinator = context.coordinator
         coordinator.onAnnotate = onAnnotate
-        coordinator.onViewAnnotation = onViewAnnotation
         coordinator.onEditAnnotation = onEditAnnotation
         coordinator.onDeleteAnnotation = onDeleteAnnotation
 
@@ -45,12 +44,13 @@ struct TextBlockView: UIViewRepresentable {
 
         let attributedText = parseMarkdown(text)
         let mutableAttr = NSMutableAttributedString(attributedString: attributedText)
-        let highlightColor = UIColor(red: 1.0, green: 0.98, blue: 0.8, alpha: 0.6)
+        let highlightColor = UIColor(red: 1.0, green: 0.93, blue: 0.27, alpha: 1.0)
 
         for annotation in annotations {
             let range = annotation.range
             if range.location + range.length <= mutableAttr.length {
                 mutableAttr.addAttribute(.backgroundColor, value: highlightColor, range: range)
+                mutableAttr.addAttribute(.foregroundColor, value: UIColor.black, range: range)
             }
         }
 
@@ -66,7 +66,7 @@ struct TextBlockView: UIViewRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(onAnnotate: onAnnotate, onViewAnnotation: onViewAnnotation, onEditAnnotation: onEditAnnotation, onDeleteAnnotation: onDeleteAnnotation, annotations: annotations)
+        Coordinator(onAnnotate: onAnnotate, onEditAnnotation: onEditAnnotation, onDeleteAnnotation: onDeleteAnnotation, annotations: annotations)
     }
 
     // MARK: - Markdown Parser
@@ -153,24 +153,22 @@ struct TextBlockView: UIViewRepresentable {
 
     // MARK: - Coordinator
 
-    class Coordinator: NSObject, UITextViewDelegate, UIGestureRecognizerDelegate {
+    class Coordinator: NSObject, UITextViewDelegate, UIGestureRecognizerDelegate, UIPopoverPresentationControllerDelegate {
         var textView: UITextView?
         var onAnnotate: (NSRange) -> Void
-        var onViewAnnotation: (Annotation) -> Void
         var onEditAnnotation: (Annotation) -> Void
         var onDeleteAnnotation: (Annotation) -> Void
         var annotations: [Annotation]
         var lastText: String = ""
+        weak var presentedPopover: UIViewController?
 
         init(
             onAnnotate: @escaping (NSRange) -> Void,
-            onViewAnnotation: @escaping (Annotation) -> Void,
             onEditAnnotation: @escaping (Annotation) -> Void,
             onDeleteAnnotation: @escaping (Annotation) -> Void,
             annotations: [Annotation]
         ) {
             self.onAnnotate = onAnnotate
-            self.onViewAnnotation = onViewAnnotation
             self.onEditAnnotation = onEditAnnotation
             self.onDeleteAnnotation = onDeleteAnnotation
             self.annotations = annotations
@@ -188,9 +186,65 @@ struct TextBlockView: UIViewRepresentable {
             guard let textView = textView else { return }
             let point = gesture.location(in: textView)
             let offset = characterOffset(in: textView, at: point)
-            if let annotation = annotationAtRange(NSRange(location: offset, length: 1)) {
-                onViewAnnotation(annotation)
+            guard let annotation = annotationAtRange(NSRange(location: offset, length: 1)) else { return }
+            presentAnnotationPopover(annotation, in: textView)
+        }
+
+        private func presentAnnotationPopover(_ annotation: Annotation, in textView: UITextView) {
+            let range = annotation.range
+            guard let start = textView.position(from: textView.beginningOfDocument, offset: range.location),
+                  let end = textView.position(from: start, offset: range.length),
+                  let textRange = textView.textRange(from: start, to: end) else { return }
+
+            let rects = textView.selectionRects(for: textRange)
+                .map { $0.rect }
+                .filter { $0.width > 0 && $0.height > 0 }
+            let sourceRect = rects.first ?? textView.firstRect(for: textRange)
+
+            let content = AnnotationPopoverView(
+                noteText: annotation.noteText,
+                onEdit: { [weak self] in
+                    self?.presentedPopover?.dismiss(animated: true)
+                    self?.presentedPopover = nil
+                    self?.onEditAnnotation(annotation)
+                },
+                onDelete: { [weak self] in
+                    self?.presentedPopover?.dismiss(animated: true)
+                    self?.presentedPopover = nil
+                    self?.onDeleteAnnotation(annotation)
+                }
+            )
+
+            let host = UIHostingController(rootView: content)
+            host.modalPresentationStyle = .popover
+            host.view.backgroundColor = .clear
+            let targetSize = host.sizeThatFits(in: CGSize(width: 280, height: CGFloat.greatestFiniteMagnitude))
+            host.preferredContentSize = CGSize(
+                width: 280,
+                height: min(max(targetSize.height, 60), 400)
+            )
+
+            if let popover = host.popoverPresentationController {
+                popover.sourceView = textView
+                popover.sourceRect = sourceRect
+                popover.permittedArrowDirections = [.up, .down]
+                popover.delegate = self
             }
+
+            var responder: UIResponder? = textView
+            while let current = responder {
+                if let vc = current as? UIViewController {
+                    let presenter = vc.presentedViewController ?? vc
+                    presenter.present(host, animated: true)
+                    presentedPopover = host
+                    return
+                }
+                responder = current.next
+            }
+        }
+
+        func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+            .none
         }
 
         private func characterOffset(in textView: UITextView, at point: CGPoint) -> Int {
@@ -199,20 +253,6 @@ struct TextBlockView: UIViewRepresentable {
         }
 
         func textView(_ textView: UITextView, editMenuForTextIn range: NSRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
-            if let annotation = annotationAtRange(range) {
-                let editAction = UIAction(title: "Edit Note", image: UIImage(systemName: "pencil")) { [weak self] _ in
-                    self?.onEditAnnotation(annotation)
-                }
-                let deleteAction = UIAction(
-                    title: "Delete Note",
-                    image: UIImage(systemName: "trash"),
-                    attributes: .destructive
-                ) { [weak self] _ in
-                    self?.onDeleteAnnotation(annotation)
-                }
-                return UIMenu(children: [editAction, deleteAction] + suggestedActions)
-            }
-
             if range.length > 0 {
                 let annotateAction = UIAction(
                     title: "Annotate",
@@ -235,5 +275,32 @@ struct TextBlockView: UIViewRepresentable {
             }
             return nil
         }
+    }
+}
+
+private struct AnnotationPopoverView: View {
+    let noteText: String
+    let onEdit: () -> Void
+    let onDelete: () -> Void
+
+    var body: some View {
+        Text(noteText)
+            .font(.body)
+            .foregroundStyle(.primary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(16)
+            .contextMenu {
+                Button {
+                    onEdit()
+                } label: {
+                    Label("Edit Note", systemImage: "pencil")
+                }
+                Button(role: .destructive) {
+                    onDelete()
+                } label: {
+                    Label("Delete Note", systemImage: "trash")
+                }
+            }
     }
 }
