@@ -119,11 +119,8 @@ struct DailyView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 40)
             }
-            .refreshable {
-                await cacheManager.checkAndUpdateCache(context: modelContext, force: true)
-            }
             .offset(x: dragOffset)
-            .gesture(saveSwipeGesture(article))
+            .simultaneousGesture(saveSwipeGesture(article))
             .overlay(alignment: .bottomTrailing) {
                 ArticleNavigator(
                     article: article,
@@ -142,6 +139,9 @@ struct DailyView: View {
                 searchMatches = []
                 currentMatchIndex = 0
             }
+        }
+        .refreshable {
+            await cacheManager.checkAndUpdateCache(context: modelContext, force: true)
         }
     }
 
@@ -233,6 +233,9 @@ struct DailyView: View {
             .onChanged { value in
                 guard !article.isSavedToLibrary else { return }
                 let horizontal = value.translation.width
+                let vertical = value.translation.height
+                // Axis guard: vertical drags belong to the scroll view's pull-to-refresh.
+                guard abs(horizontal) > abs(vertical) else { return }
                 if horizontal > 0 {
                     dragOffset = horizontal * 0.3
                 }
@@ -240,8 +243,10 @@ struct DailyView: View {
             .onEnded { value in
                 guard !article.isSavedToLibrary else { return }
                 let horizontal = value.translation.width
+                let vertical = value.translation.height
+                let isHorizontalDominant = abs(horizontal) > abs(vertical)
 
-                if horizontal > 100 {
+                if isHorizontalDominant && horizontal > 100 {
                     article.isSavedToLibrary = true
                     try? modelContext.save()
                     triggerNoteAnimation(from: value.location)

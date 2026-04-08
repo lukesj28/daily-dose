@@ -15,32 +15,23 @@ final class CacheManager {
         guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
+        defer { isLoading = false }
 
         do {
             let payload = try await service.fetchTodayArticle(ignoreCache: force)
             isOffline = false
 
-            let fetchDate = payload.fetchDate
-            let descriptor = FetchDescriptor<Article>(
-                predicate: #Predicate { $0.fetchDate == fetchDate }
-            )
-            let existing = try context.fetch(descriptor)
-
-            if force || existing.isEmpty {
-                try purgeUnsavedDailyArticles(context: context)
-
-                let contentJSON = try JSONEncoder().encode(payload)
-                context.insert(Article(
-                    id: payload.id,
-                    title: payload.title,
-                    journal: payload.journal,
-                    fetchDate: payload.fetchDate,
-                    publishDate: payload.publishDate,
-                    authors: payload.authors,
-                    abstract: payload.abstract,
-                    contentJSON: contentJSON
-                ))
-                try context.save()
+            if force {
+                try replaceDailyArticle(with: payload, context: context)
+            } else {
+                let fetchDate = payload.fetchDate
+                let descriptor = FetchDescriptor<Article>(
+                    predicate: #Predicate { $0.fetchDate == fetchDate }
+                )
+                let existing = try context.fetch(descriptor)
+                if existing.isEmpty {
+                    try replaceDailyArticle(with: payload, context: context)
+                }
             }
         } catch {
             let cachedCount = (try? context.fetchCount(FetchDescriptor<Article>())) ?? 0
@@ -49,8 +40,43 @@ final class CacheManager {
             }
             errorMessage = error.localizedDescription
         }
+    }
 
-        isLoading = false
+    @MainActor
+    private func replaceDailyArticle(
+        with payload: ArticlePayload,
+        context: ModelContext
+    ) throws {
+        let payloadId = payload.id
+        let idDescriptor = FetchDescriptor<Article>(
+            predicate: #Predicate { $0.id == payloadId }
+        )
+        let contentJSON = try JSONEncoder().encode(payload)
+
+        if let existing = try context.fetch(idDescriptor).first {
+            existing.title = payload.title
+            existing.journal = payload.journal
+            existing.fetchDate = payload.fetchDate
+            existing.publishDate = payload.publishDate
+            existing.authors = payload.authors
+            existing.abstract = payload.abstract
+            existing.contentJSON = contentJSON
+            try context.save()
+            return
+        }
+
+        try purgeUnsavedDailyArticles(context: context)
+        context.insert(Article(
+            id: payload.id,
+            title: payload.title,
+            journal: payload.journal,
+            fetchDate: payload.fetchDate,
+            publishDate: payload.publishDate,
+            authors: payload.authors,
+            abstract: payload.abstract,
+            contentJSON: contentJSON
+        ))
+        try context.save()
     }
 
     // Guard against midnight rollover: a daily article the user is mid-read must not be deleted.
@@ -63,7 +89,6 @@ final class CacheManager {
         for article in unsaved {
             context.delete(article)
         }
-        try context.save()
     }
 
     @MainActor
