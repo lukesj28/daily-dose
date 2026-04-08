@@ -8,7 +8,25 @@ final class CacheManager {
     var isOffline = false
     var errorMessage: String?
 
+    // Persisted to UserDefaults — avoids a SwiftData schema migration while
+    // still surviving relaunches.
+    private(set) var currentDailyId: String? {
+        didSet {
+            guard oldValue != currentDailyId else { return }
+            if let currentDailyId {
+                UserDefaults.standard.set(currentDailyId, forKey: Self.currentDailyIdKey)
+            } else {
+                UserDefaults.standard.removeObject(forKey: Self.currentDailyIdKey)
+            }
+        }
+    }
+
+    private static let currentDailyIdKey = "DailyDose.currentDailyArticleId"
     private let service = ArticleService()
+
+    init() {
+        currentDailyId = UserDefaults.standard.string(forKey: Self.currentDailyIdKey)
+    }
 
     @MainActor
     func checkAndUpdateCache(context: ModelContext, force: Bool = false) async {
@@ -20,19 +38,7 @@ final class CacheManager {
         do {
             let payload = try await service.fetchTodayArticle(ignoreCache: force)
             isOffline = false
-
-            if force {
-                try replaceDailyArticle(with: payload, context: context)
-            } else {
-                let fetchDate = payload.fetchDate
-                let descriptor = FetchDescriptor<Article>(
-                    predicate: #Predicate { $0.fetchDate == fetchDate }
-                )
-                let existing = try context.fetch(descriptor)
-                if existing.isEmpty {
-                    try replaceDailyArticle(with: payload, context: context)
-                }
-            }
+            try upsertDailyArticle(with: payload, context: context)
         } catch {
             let cachedCount = (try? context.fetchCount(FetchDescriptor<Article>())) ?? 0
             if cachedCount == 0 {
@@ -43,60 +49,46 @@ final class CacheManager {
     }
 
     @MainActor
-    private func replaceDailyArticle(
-        with payload: ArticlePayload,
-        context: ModelContext
-    ) throws {
+    private func upsertDailyArticle(with payload: ArticlePayload, context: ModelContext) throws {
         let payloadId = payload.id
+        let contentJSON = try JSONEncoder().encode(payload)
+
         let idDescriptor = FetchDescriptor<Article>(
             predicate: #Predicate { $0.id == payloadId }
         )
-        let contentJSON = try JSONEncoder().encode(payload)
 
         if let existing = try context.fetch(idDescriptor).first {
             existing.title = payload.title
             existing.journal = payload.journal
-            existing.fetchDate = payload.fetchDate
             existing.publishDate = payload.publishDate
             existing.authors = payload.authors
             existing.abstract = payload.abstract
             existing.contentJSON = contentJSON
-            try context.save()
-            return
+        } else {
+            try purgeUnsavedArticles(exceptId: payloadId, context: context)
+            context.insert(Article(
+                id: payload.id,
+                title: payload.title,
+                journal: payload.journal,
+                fetchDate: payload.fetchDate,
+                publishDate: payload.publishDate,
+                authors: payload.authors,
+                abstract: payload.abstract,
+                contentJSON: contentJSON
+            ))
         }
 
-        try purgeUnsavedDailyArticles(context: context)
-        context.insert(Article(
-            id: payload.id,
-            title: payload.title,
-            journal: payload.journal,
-            fetchDate: payload.fetchDate,
-            publishDate: payload.publishDate,
-            authors: payload.authors,
-            abstract: payload.abstract,
-            contentJSON: contentJSON
-        ))
         try context.save()
+        currentDailyId = payloadId
     }
 
-    // Guard against midnight rollover: a daily article the user is mid-read must not be deleted.
     @MainActor
-    private func purgeUnsavedDailyArticles(context: ModelContext) throws {
+    private func purgeUnsavedArticles(exceptId keepId: String, context: ModelContext) throws {
         let descriptor = FetchDescriptor<Article>(
-            predicate: #Predicate { $0.isSavedToLibrary == false }
+            predicate: #Predicate { $0.isSavedToLibrary == false && $0.id != keepId }
         )
-        let unsaved = try context.fetch(descriptor)
-        for article in unsaved {
+        for article in try context.fetch(descriptor) {
             context.delete(article)
         }
-    }
-
-    @MainActor
-    func currentDailyArticle(context: ModelContext) -> Article? {
-        var descriptor = FetchDescriptor<Article>(
-            sortBy: [SortDescriptor(\.fetchDate, order: .reverse)]
-        )
-        descriptor.fetchLimit = 1
-        return try? context.fetch(descriptor).first
     }
 }

@@ -7,6 +7,7 @@ struct TableBlockView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         config.dataDetectorTypes = []
+        config.defaultWebpagePreferences.allowsContentJavaScript = false
 
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.isOpaque = false

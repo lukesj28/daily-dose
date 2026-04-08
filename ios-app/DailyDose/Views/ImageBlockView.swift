@@ -5,7 +5,10 @@ struct ImageBlockView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let urlString = block.url, let url = URL(string: urlString) {
+            if let urlString = block.url,
+               let url = URL(string: urlString),
+               url.scheme == "https",
+               url.host?.hasSuffix("ncbi.nlm.nih.gov") == true {
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .success(let image):

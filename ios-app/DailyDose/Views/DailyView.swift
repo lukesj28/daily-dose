@@ -9,6 +9,7 @@ struct DailyView: View {
     @Query(sort: \Article.fetchDate, order: .reverse)
     private var allArticles: [Article]
 
+    @State private var hasAppeared = false
     @State private var noteIconOffset: CGFloat = 0
     @State private var noteIconOpacity: Double = 0
     @State private var noteIconY: CGFloat = 0
@@ -27,7 +28,10 @@ struct DailyView: View {
     }
 
     private var currentArticle: Article? {
-        allArticles.first
+        if let id = cacheManager.currentDailyId {
+            return allArticles.first(where: { $0.id == id })
+        }
+        return allArticles.first
     }
 
     var body: some View {
@@ -51,15 +55,15 @@ struct DailyView: View {
                 .offset(x: noteIconOffset, y: noteIconY)
                 .opacity(noteIconOpacity)
         }
-        .onChange(of: scenePhase) { oldPhase, newPhase in
-            if newPhase == .active {
-                Task {
-                    await cacheManager.checkAndUpdateCache(context: modelContext)
-                }
-            }
+        .onAppear {
+            guard !hasAppeared else { return }
+            hasAppeared = true
+            Task { await cacheManager.checkAndUpdateCache(context: modelContext) }
         }
-        .task {
-            await cacheManager.checkAndUpdateCache(context: modelContext)
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                Task { await cacheManager.checkAndUpdateCache(context: modelContext) }
+            }
         }
         .sheet(isPresented: $showAnnotationSheet) {
             AnnotationSheet(

@@ -9,7 +9,7 @@ import sys
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from xml.etree import ElementTree as ET
+import defusedxml.ElementTree as ET
 
 import requests
 
