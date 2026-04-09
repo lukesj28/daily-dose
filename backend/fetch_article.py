@@ -10,6 +10,7 @@ import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import defusedxml.ElementTree as ET
+from xml.etree.ElementTree import Element
 
 import latex2mathml.converter
 import requests
@@ -74,7 +75,7 @@ def _tex_to_mathml(expression: str, display: bool) -> str | None:
         return None
 
 
-def _element_to_markdown(element: ET.Element) -> str:
+def _element_to_markdown(element: Element) -> str:
     parts: list[str] = []
 
     if element.text:
@@ -195,7 +196,7 @@ def _search_random_id(count: int) -> str:
     return pmcid
 
 
-def _fetch_article_xml(pmcid: str) -> ET.Element:
+def _fetch_article_xml(pmcid: str) -> Element:
     numeric_id = pmcid.replace("PMC", "")
     params = {
         **_api_params(),
@@ -216,7 +217,7 @@ _BLOCKED_TAGS = {"script", "style", "object", "embed", "iframe", "frame", "link"
 _URL_ATTRS = {"href", "src", "action", "formaction", "data"}
 
 
-def _sanitize_element(element: ET.Element) -> None:
+def _sanitize_element(element: Element) -> None:
     for child in list(element):
         tag = _local_tag(child.tag).lower()
         if tag in _BLOCKED_TAGS:
@@ -237,24 +238,24 @@ def _sanitize_element(element: ET.Element) -> None:
 # --- XML Parsing ---
 
 
-def _extract_text(element: ET.Element | None) -> str:
+def _extract_text(element: Element | None) -> str:
     if element is None:
         return ""
     return "".join(element.itertext()).strip()
 
 
-def _find_deep(root: ET.Element, tag: str) -> ET.Element | None:
+def _find_deep(root: Element, tag: str) -> Element | None:
     for el in root.iter():
         if _local_tag(el.tag) == tag:
             return el
     return None
 
 
-def _find_all_deep(root: ET.Element, tag: str) -> list[ET.Element]:
+def _find_all_deep(root: Element, tag: str) -> list[Element]:
     return [el for el in root.iter() if _local_tag(el.tag) == tag]
 
 
-def _extract_authors(article_meta: ET.Element) -> list[str]:
+def _extract_authors(article_meta: Element) -> list[str]:
     authors: list[str] = []
     for contrib in _find_all_deep(article_meta, "contrib"):
         if contrib.get("contrib-type") != "author":
@@ -267,7 +268,7 @@ def _extract_authors(article_meta: ET.Element) -> list[str]:
     return authors
 
 
-def _extract_publish_date(article_meta: ET.Element) -> str:
+def _extract_publish_date(article_meta: Element) -> str:
     for pub_date in _find_all_deep(article_meta, "pub-date"):
         year = _extract_text(_find_deep(pub_date, "year"))
         month = _extract_text(_find_deep(pub_date, "month")) or "01"
@@ -277,7 +278,7 @@ def _extract_publish_date(article_meta: ET.Element) -> str:
     return ""
 
 
-def _extract_journal(root: ET.Element) -> str:
+def _extract_journal(root: Element) -> str:
     journal_title = _find_deep(root, "journal-title")
     if journal_title is not None:
         return _extract_text(journal_title)
@@ -319,7 +320,7 @@ def _fetch_image_map(pmcid: str) -> dict[str, str]:
     return mapping
 
 
-def _parse_figure(fig_el: ET.Element, image_map: dict[str, str]) -> dict | None:
+def _parse_figure(fig_el: Element, image_map: dict[str, str]) -> dict | None:
     graphic = _find_deep(fig_el, "graphic")
     if graphic is None:
         return None
@@ -358,7 +359,7 @@ def _parse_figure(fig_el: ET.Element, image_map: dict[str, str]) -> dict | None:
     return {"type": "image", "url": url, "caption": caption}
 
 
-def _parse_table(table_wrap: ET.Element) -> dict | None:
+def _parse_table(table_wrap: Element) -> dict | None:
     table_el = _find_deep(table_wrap, "table")
     if table_el is None:
         return None
@@ -381,10 +382,10 @@ def _parse_table(table_wrap: ET.Element) -> dict | None:
     return {"type": "table", "html": html, "caption": caption}
 
 
-def _parse_body(body: ET.Element, image_map: dict[str, str]) -> list[dict]:
+def _parse_body(body: Element, image_map: dict[str, str]) -> list[dict]:
     content: list[dict] = []
 
-    def _walk_section(section: ET.Element):
+    def _walk_section(section: Element):
         for child in section:
             tag = _local_tag(child.tag)
 
@@ -420,7 +421,7 @@ def _parse_body(body: ET.Element, image_map: dict[str, str]) -> list[dict]:
     return content
 
 
-def _parse_article(root: ET.Element, pmcid: str) -> dict | None:
+def _parse_article(root: Element, pmcid: str) -> dict | None:
     article = _find_deep(root, "article")
     if article is None:
         article = root
