@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import defusedxml.ElementTree as ET
 
+import latex2mathml.converter
 import requests
 
 TOOL_NAME = "DailyDose"
@@ -38,6 +39,41 @@ INLINE_TAG_MAP = {
 }
 
 
+# --- LaTeX / MathML helpers ---
+
+def _extract_tex_expression(raw: str) -> tuple[str, bool] | None:
+    doc_match = re.search(r'\\begin\{document\}(.*?)\\end\{document\}', raw, re.DOTALL)
+    content = doc_match.group(1).strip() if doc_match else raw.strip()
+
+    m = re.match(r'\$\$(.*?)\$\$', content, re.DOTALL)
+    if m:
+        return m.group(1).strip(), True
+
+    m = re.match(r'\\\[(.*?)\\\]', content, re.DOTALL)
+    if m:
+        return m.group(1).strip(), True
+
+    m = re.match(r'\$(.*?)\$', content, re.DOTALL)
+    if m:
+        return m.group(1).strip(), False
+
+    m = re.match(r'\\\((.*?)\\\)', content, re.DOTALL)
+    if m:
+        return m.group(1).strip(), False
+
+    return (content, True) if content else None
+
+
+def _tex_to_mathml(expression: str, display: bool) -> str | None:
+    try:
+        return latex2mathml.converter.convert(
+            expression, display="block" if display else "inline"
+        )
+    except Exception as exc:
+        log.warning("latex2mathml failed for %r: %s", expression[:80], exc)
+        return None
+
+
 def _element_to_markdown(element: ET.Element) -> str:
     parts: list[str] = []
 
@@ -48,6 +84,17 @@ def _element_to_markdown(element: ET.Element) -> str:
         tag = _local_tag(child.tag)
 
         if tag == "xref":
+            if child.tail:
+                parts.append(child.tail)
+            continue
+
+        if tag in ("inline-formula", "disp-formula"):
+            tex_el = _find_deep(child, "tex-math")
+            if tex_el is not None and tex_el.text:
+                result = _extract_tex_expression(tex_el.text)
+                if result:
+                    expr, _ = result
+                    parts.append(f" {expr} ")
             if child.tail:
                 parts.append(child.tail)
             continue
@@ -349,6 +396,15 @@ def _parse_body(body: ET.Element, image_map: dict[str, str]) -> list[dict]:
                 text = _element_to_markdown(child).strip()
                 if text:
                     content.append({"type": "paragraph", "text": text})
+            elif tag == "disp-formula":
+                tex_el = _find_deep(child, "tex-math")
+                if tex_el is not None and tex_el.text:
+                    result = _extract_tex_expression(tex_el.text)
+                    if result:
+                        expr, _ = result
+                        mathml = _tex_to_mathml(expr, display=True)
+                        if mathml:
+                            content.append({"type": "math", "mathml": mathml})
             elif tag == "sec":
                 _walk_section(child)
             elif tag == "fig":

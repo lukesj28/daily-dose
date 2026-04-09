@@ -10,10 +10,9 @@ struct DailyView: View {
     private var allArticles: [Article]
 
     @State private var hasAppeared = false
-    @State private var noteIconOffset: CGFloat = 0
+    @State private var noteIconX: CGFloat = 0
     @State private var noteIconOpacity: Double = 0
     @State private var noteIconY: CGFloat = 0
-    @State private var dragOffset: CGFloat = 0
     @State private var showAnnotationSheet = false
     @State private var pendingAnnotation: PendingAnnotation?
     @State private var editingAnnotation: Annotation?
@@ -49,10 +48,12 @@ struct DailyView: View {
                 emptyState
             }
 
-            Image(systemName: "note.text")
-                .font(.title2)
-                .foregroundStyle(.yellow)
-                .offset(x: noteIconOffset, y: noteIconY)
+            Image(systemName: "text.page")
+                .resizable()
+                .scaledToFit()
+                .foregroundStyle(Color.primary)
+                .frame(width: 56, height: 72)
+                .position(x: noteIconX, y: noteIconY)
                 .opacity(noteIconOpacity)
         }
         .onAppear {
@@ -123,7 +124,6 @@ struct DailyView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 40)
             }
-            .offset(x: dragOffset)
             .simultaneousGesture(saveSwipeGesture(article))
             .overlay(alignment: .bottomTrailing) {
                 ArticleNavigator(
@@ -202,6 +202,11 @@ struct DailyView: View {
                 }
             )
 
+        case .math:
+            if let mathml = block.mathml {
+                MathBlockView(mathml: mathml)
+            }
+
         case .image:
             ImageBlockView(block: block)
 
@@ -233,7 +238,7 @@ struct DailyView: View {
     // MARK: - Swipe to Save
 
     private func saveSwipeGesture(_ article: Article) -> some Gesture {
-        DragGesture(minimumDistance: 50)
+        DragGesture(minimumDistance: 50, coordinateSpace: .global)
             .onChanged { value in
                 guard !article.isSavedToLibrary else { return }
                 let horizontal = value.translation.width
@@ -241,7 +246,10 @@ struct DailyView: View {
                 // Axis guard: vertical drags belong to the scroll view's pull-to-refresh.
                 guard abs(horizontal) > abs(vertical) else { return }
                 if horizontal > 0 {
-                    dragOffset = horizontal * 0.3
+                    // Offset Y so the icon hovers above the finger and isn't obscured
+                    noteIconY = value.location.y - 60
+                    noteIconX = value.location.x
+                    noteIconOpacity = min(1.0, Double(horizontal) / 50.0)
                 }
             }
             .onEnded { value in
@@ -254,21 +262,21 @@ struct DailyView: View {
                     article.isSavedToLibrary = true
                     try? modelContext.save()
                     triggerNoteAnimation(from: value.location)
-                }
-
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                    dragOffset = 0
+                } else {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                        noteIconOpacity = 0
+                    }
                 }
             }
     }
 
     private func triggerNoteAnimation(from point: CGPoint) {
-        noteIconY = point.y - UIScreen.main.bounds.height / 2
-        noteIconOffset = point.x - UIScreen.main.bounds.width / 2
+        noteIconY = point.y - 60
+        noteIconX = point.x
         noteIconOpacity = 1
 
         withAnimation(.easeIn(duration: 0.5)) {
-            noteIconOffset = UIScreen.main.bounds.width / 2 + 40
+            noteIconX = UIScreen.main.bounds.width + 100
             noteIconOpacity = 0
         }
     }

@@ -137,6 +137,11 @@ struct ArticleReaderView: View {
                 }
             )
 
+        case .math:
+            if let mathml = block.mathml {
+                MathBlockView(mathml: mathml)
+            }
+
         case .image:
             ImageBlockView(block: block)
 
