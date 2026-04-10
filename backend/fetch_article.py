@@ -289,6 +289,48 @@ def _extract_journal(root: Element) -> str:
     return ""
 
 
+_CC_LICENSE_MAP: dict[str, str] = {
+    "creativecommons.org/licenses/by/4.0": "Creative Commons Attribution 4.0 International License (CC BY 4.0)",
+    "creativecommons.org/licenses/by/3.0": "Creative Commons Attribution 3.0 Unported License (CC BY 3.0)",
+    "creativecommons.org/licenses/by-nc/4.0": "Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)",
+    "creativecommons.org/licenses/by-nc-nd/4.0": "Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)",
+    "creativecommons.org/licenses/by-nc-sa/4.0": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)",
+    "creativecommons.org/licenses/by-sa/4.0": "Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)",
+    "creativecommons.org/licenses/by-nd/4.0": "Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0)",
+    "creativecommons.org/publicdomain/zero/1.0": "Public Domain (CC0 1.0)",
+}
+
+
+def _extract_license(article_meta: Element) -> str:
+    permissions = _find_deep(article_meta, "permissions")
+    if permissions is None:
+        return "Open Access"
+
+    license_el = _find_deep(permissions, "license")
+    if license_el is None:
+        return "Open Access"
+
+    href = None
+    for attr_key, attr_val in license_el.attrib.items():
+        if "href" in attr_key:
+            href = attr_val.rstrip("/")
+            break
+
+    if href:
+        normalized = re.sub(r"^https?://", "", href)
+        mapped = _CC_LICENSE_MAP.get(normalized)
+        if mapped:
+            return mapped
+
+    license_p = _find_deep(license_el, "license-p")
+    if license_p is not None:
+        text = _extract_text(license_p)
+        if text:
+            return text
+
+    return "Open Access"
+
+
 def _fetch_image_map(pmcid: str) -> dict[str, str]:
     """Scrape the PMC article page to map image filename stems → CDN blob URLs.
 
@@ -463,6 +505,8 @@ def _parse_article(root: Element, pmcid: str) -> dict | None:
         "fetch_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "publish_date": publish_date,
         "authors": authors,
+        "license": _extract_license(article_meta),
+        "source_url": f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmcid}/",
         "abstract": abstract,
         "content": content,
     }
