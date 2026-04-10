@@ -3,6 +3,7 @@ import WebKit
 
 struct TableBlockView: UIViewRepresentable {
     let html: String
+    @Binding var isScrolling: Bool
 
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
@@ -17,11 +18,15 @@ struct TableBlockView: UIViewRepresentable {
         webView.scrollView.showsHorizontalScrollIndicator = true
         webView.scrollView.bounces = false
         webView.navigationDelegate = context.coordinator
+        webView.scrollView.delegate = context.coordinator
 
         return webView
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
+        context.coordinator.onScrollBegan = { isScrolling = true }
+        context.coordinator.onScrollEnded = { isScrolling = false }
+
         guard html != context.coordinator.lastHTML else { return }
         context.coordinator.lastHTML = html
         webView.loadHTMLString(wrapInHTMLDocument(html), baseURL: nil)
@@ -76,8 +81,10 @@ struct TableBlockView: UIViewRepresentable {
     }
 
     // Block external navigation; only allow the initial HTML load
-    class Coordinator: NSObject, WKNavigationDelegate {
+    class Coordinator: NSObject, WKNavigationDelegate, UIScrollViewDelegate {
         var lastHTML: String = ""
+        var onScrollBegan: () -> Void = {}
+        var onScrollEnded: () -> Void = {}
 
         func webView(
             _ webView: WKWebView,
@@ -89,6 +96,18 @@ struct TableBlockView: UIViewRepresentable {
             } else {
                 decisionHandler(.cancel)
             }
+        }
+
+        func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+            onScrollBegan()
+        }
+
+        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+            if !decelerate { onScrollEnded() }
+        }
+
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            onScrollEnded()
         }
     }
 }

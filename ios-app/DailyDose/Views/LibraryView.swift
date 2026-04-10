@@ -3,6 +3,7 @@ import SwiftData
 
 struct LibraryView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(CacheManager.self) private var cacheManager
 
     @Query(
         filter: #Predicate<Article> { $0.isSavedToLibrary == true },
@@ -82,9 +83,15 @@ struct LibraryView: View {
     private func deleteArticles(at offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(savedArticles[index])
+                let article = savedArticles[index]
+                if article.id == cacheManager.currentDailyId {
+                    article.isSavedToLibrary = false
+                } else {
+                    modelContext.delete(article)
+                }
             }
         }
+        try? modelContext.save()
     }
 
     // MARK: - Empty State

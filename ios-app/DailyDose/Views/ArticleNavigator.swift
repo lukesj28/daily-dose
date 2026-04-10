@@ -184,7 +184,12 @@ struct ArticleNavigator: View {
     // MARK: - Annotations
 
     private var annotationsList: some View {
-        let annotations = article.annotations
+        let annotations = article.annotations.sorted {
+            if $0.paragraphIndex != $1.paragraphIndex {
+                return $0.paragraphIndex < $1.paragraphIndex
+            }
+            return $0.startIndex < $1.startIndex
+        }
         let blocks = article.contentBlocks
         return Group {
             if annotations.isEmpty {
@@ -197,19 +202,19 @@ struct ArticleNavigator: View {
                                 jumpTo(blockIndex: annotation.paragraphIndex)
                             } label: {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(annotation.noteText)
-                                        .font(.subheadline)
-                                        .fontWeight(.medium)
-                                        .foregroundStyle(.primary)
-                                        .lineLimit(2)
-                                        .multilineTextAlignment(.leading)
                                     if let snippet = snippet(for: annotation, in: blocks) {
                                         Text(snippet)
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
+                                            .font(.subheadline)
+                                            .fontWeight(.medium)
+                                            .foregroundStyle(.primary)
                                             .lineLimit(2)
                                             .multilineTextAlignment(.leading)
                                     }
+                                    Text(annotation.noteText)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .lineLimit(2)
+                                        .multilineTextAlignment(.leading)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.horizontal, 16)

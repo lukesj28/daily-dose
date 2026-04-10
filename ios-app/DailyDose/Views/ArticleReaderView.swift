@@ -162,7 +162,7 @@ struct ArticleReaderView: View {
             }
 
             if let html = block.html {
-                TableBlockView(html: html)
+                TableBlockView(html: html, isScrolling: .constant(false))
                     .frame(minHeight: 120)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
