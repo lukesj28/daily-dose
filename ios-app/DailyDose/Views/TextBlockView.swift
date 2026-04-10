@@ -6,6 +6,9 @@ struct TextBlockView: UIViewRepresentable {
     let annotations: [Annotation]
     var searchRanges: [NSRange] = []
     var currentSearchRange: NSRange? = nil
+    var highlightColorR: Double = 1.0
+    var highlightColorG: Double = 0.93
+    var highlightColorB: Double = 0.27
     let onAnnotate: (NSRange) -> Void
     let onEditAnnotation: (Annotation) -> Void
     let onDeleteAnnotation: (Annotation) -> Void
@@ -41,14 +44,17 @@ struct TextBlockView: UIViewRepresentable {
         let annotationsChanged = annotations.map(\.id) != coordinator.annotations.map(\.id)
         let searchChanged = searchRanges != coordinator.lastSearchRanges
                          || currentSearchRange != coordinator.lastCurrentSearchRange
-        guard text != coordinator.lastText || annotationsChanged || searchChanged else {
+        let colorChanged = highlightColorR != coordinator.lastHighlightR
+                        || highlightColorG != coordinator.lastHighlightG
+                        || highlightColorB != coordinator.lastHighlightB
+        guard text != coordinator.lastText || annotationsChanged || searchChanged || colorChanged else {
             coordinator.annotations = annotations
             return
         }
 
         let attributedText = parseMarkdown(text)
         let mutableAttr = NSMutableAttributedString(attributedString: attributedText)
-        let highlightColor = UIColor(red: 1.0, green: 0.93, blue: 0.27, alpha: 1.0)
+        let highlightColor = UIColor(red: highlightColorR, green: highlightColorG, blue: highlightColorB, alpha: 1.0)
 
         for annotation in annotations {
             let range = annotation.range
@@ -75,6 +81,9 @@ struct TextBlockView: UIViewRepresentable {
         coordinator.lastText = text
         coordinator.lastSearchRanges = searchRanges
         coordinator.lastCurrentSearchRange = currentSearchRange
+        coordinator.lastHighlightR = highlightColorR
+        coordinator.lastHighlightG = highlightColorG
+        coordinator.lastHighlightB = highlightColorB
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: UITextView, context: Context) -> CGSize? {
@@ -180,6 +189,9 @@ struct TextBlockView: UIViewRepresentable {
         var lastText: String = ""
         var lastSearchRanges: [NSRange] = []
         var lastCurrentSearchRange: NSRange? = nil
+        var lastHighlightR: Double = 1.0
+        var lastHighlightG: Double = 0.93
+        var lastHighlightB: Double = 0.27
         weak var presentedPopover: UIViewController?
 
         init(

@@ -25,21 +25,11 @@ struct ArticleFooterView: View {
 
             if let url = URL(string: article.sourceUrl) {
                 Link(destination: url) {
-                    Label("View original on PubMed Central", systemImage: "arrow.up.right.square")
-                        .font(.caption)
+                    Text(article.sourceUrl)
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                        .underline()
                 }
-            }
-
-            Divider()
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("This application utilizes data from the National Library of Medicine (NLM) PubMed Central® (PMC) database.")
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
-
-                Text("This application is not endorsed by, sponsored by, or affiliated with the NLM, NCBI, or the United States Government.")
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
             }
         }
         .padding(.top, 24)

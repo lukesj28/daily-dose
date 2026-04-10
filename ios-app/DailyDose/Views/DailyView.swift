@@ -19,10 +19,13 @@ struct DailyView: View {
     @State private var pendingAnnotation: PendingAnnotation?
     @State private var editingAnnotation: Annotation?
 
+    @AppStorage("highlightColorR") private var highlightR: Double = 1.0
+    @AppStorage("highlightColorG") private var highlightG: Double = 0.93
+    @AppStorage("highlightColorB") private var highlightB: Double = 0.27
+
     @State private var searchQuery: String = ""
     @State private var searchMatches: [SearchMatch] = []
     @State private var currentMatchIndex: Int = 0
-    @State private var showAbout = false
 
     struct PendingAnnotation {
         let paragraphIndex: Int
@@ -51,18 +54,6 @@ struct DailyView: View {
                 } else {
                     emptyState
                 }
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showAbout = true
-                    } label: {
-                        Image(systemName: "info.circle")
-                    }
-                }
-            }
-            .sheet(isPresented: $showAbout) {
-                AboutView()
             }
         }
         .onAppear {
@@ -196,6 +187,9 @@ struct DailyView: View {
                 annotations: annotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
+                highlightColorR: highlightR,
+                highlightColorG: highlightG,
+                highlightColorB: highlightB,
                 onAnnotate: { range in
                     pendingAnnotation = PendingAnnotation(
                         paragraphIndex: block.index,

@@ -4,6 +4,10 @@ import SwiftData
 struct ArticleReaderView: View {
     @Environment(\.modelContext) private var modelContext
 
+    @AppStorage("highlightColorR") private var highlightR: Double = 1.0
+    @AppStorage("highlightColorG") private var highlightG: Double = 0.93
+    @AppStorage("highlightColorB") private var highlightB: Double = 0.27
+
     let article: Article
 
     @State private var showAnnotationSheet = false
@@ -121,6 +125,9 @@ struct ArticleReaderView: View {
                 annotations: annotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
+                highlightColorR: highlightR,
+                highlightColorG: highlightG,
+                highlightColorB: highlightB,
                 onAnnotate: { range in
                     pendingAnnotation = PendingAnnotation(
                         paragraphIndex: block.index,

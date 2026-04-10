@@ -5,6 +5,12 @@ struct LibraryView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(CacheManager.self) private var cacheManager
 
+    @AppStorage("highlightColorR") private var highlightR: Double = 1.0
+    @AppStorage("highlightColorG") private var highlightG: Double = 0.93
+    @AppStorage("highlightColorB") private var highlightB: Double = 0.27
+
+    @State private var showSettings = false
+
     @Query(
         filter: #Predicate<Article> { $0.isSavedToLibrary == true },
         sort: \Article.fetchDate,
@@ -23,6 +29,18 @@ struct LibraryView: View {
             }
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
         }
     }
 
@@ -74,7 +92,7 @@ struct LibraryView: View {
                     Text("\(annotationCount) note\(annotationCount == 1 ? "" : "s")")
                         .font(.caption2)
                 }
-                .foregroundStyle(.yellow)
+                .foregroundStyle(Color(red: highlightR, green: highlightG, blue: highlightB))
             }
         }
         .padding(.vertical, 4)
