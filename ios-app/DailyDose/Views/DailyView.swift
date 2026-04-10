@@ -11,12 +11,7 @@ struct DailyView: View {
     private var allArticles: [Article]
 
     @State private var hasAppeared = false
-    @State private var noteIconX: CGFloat = 0
-    @State private var noteIconOpacity: Double = 0
-    @State private var noteIconY: CGFloat = 0
-    @State private var noteIconScale: CGFloat = 1.0
-    @State private var viewSize: CGSize = .zero
-    @State private var hapticTriggered = false
+    @State private var wasAboveThreshold = false
     @State private var iconIsVisible = false
     @State private var isTableScrolling = false
     @State private var dragCancelledByTable = false
@@ -55,26 +50,7 @@ struct DailyView: View {
                 emptyState
             }
 
-            ZStack {
-                Image(systemName: "text.page.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundStyle(.white)
-                Image(systemName: "text.page")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundStyle(Color.primary)
-            }
-            .frame(width: 56, height: 72)
-            .scaleEffect(noteIconScale)
-            .position(x: noteIconX, y: noteIconY)
-            .opacity(noteIconOpacity)
         }
-        .background(
-            GeometryReader { geo in
-                Color.clear.onAppear { viewSize = geo.size }
-            }
-        )
         .onAppear {
             guard !hasAppeared else { return }
             hasAppeared = true
@@ -143,6 +119,7 @@ struct DailyView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 40)
             }
+            .scrollDisabled(iconIsVisible)
             .simultaneousGesture(saveSwipeGesture(article))
             .overlay(alignment: .bottomTrailing) {
                 ArticleNavigator(
@@ -265,10 +242,10 @@ struct DailyView: View {
 
                 // Phase 2: icon already visible — track finger freely, no axis guard
                 if iconIsVisible {
-                    noteIconX = value.location.x
-                    noteIconY = value.location.y - 60
-                    if horizontal > 100 && !hapticTriggered {
-                        hapticTriggered = true
+                    saveNotifier.dragLocation = value.location
+                    let isAbove = horizontal > 100
+                    if isAbove != wasAboveThreshold {
+                        wasAboveThreshold = isAbove
                         UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     }
                     return
@@ -284,69 +261,35 @@ struct DailyView: View {
                 }
 
                 if horizontal > 50 {
-                    noteIconX = value.location.x
-                    // Offset Y so the icon hovers above the finger and isn't obscured
-                    noteIconY = value.location.y - 60
-                    noteIconOpacity = 1.0
+                    saveNotifier.dragLocation = value.location
                     iconIsVisible = true
                 }
 
-                if horizontal > 100 && !hapticTriggered {
-                    hapticTriggered = true
+                let isAbove = horizontal > 100
+                if isAbove != wasAboveThreshold {
+                    wasAboveThreshold = isAbove
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 }
             }
             .onEnded { value in
                 defer {
-                    hapticTriggered = false
+                    wasAboveThreshold = false
                     dragCancelledByTable = false
                     iconIsVisible = false
+                    saveNotifier.dragLocation = nil
                 }
 
                 guard iconIsVisible, !article.isSavedToLibrary else { return }
                 let horizontal = value.translation.width
 
-                guard !dragCancelledByTable && !isTableScrolling else {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                        noteIconOpacity = 0
-                    }
-                    return
-                }
+                guard !dragCancelledByTable && !isTableScrolling else { return }
 
                 if horizontal > 100 {
                     article.isSavedToLibrary = true
                     try? modelContext.save()
-                    triggerNoteAnimation(from: value.location)
-                } else {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                        noteIconOpacity = 0
-                    }
+                    saveNotifier.animationStart = value.location
                 }
             }
-    }
-
-    private func triggerNoteAnimation(from point: CGPoint) {
-        // Target is the Library tab icon center: right half of screen, just below the view's bottom edge
-        let targetX = viewSize.width * 0.75
-        let targetY = viewSize.height + 25  // 25pt into the tab bar = near icon center
-
-        noteIconX = point.x
-        noteIconY = point.y - 60
-        noteIconOpacity = 1
-        noteIconScale = 1.0
-
-        withAnimation(.easeIn(duration: 0.45), completionCriteria: .logicallyComplete) {
-            noteIconX = targetX
-            noteIconY = targetY
-            noteIconScale = 0.0
-        } completion: {
-            noteIconOpacity = 0
-            noteIconScale = 1.0
-            saveNotifier.didSave = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                saveNotifier.didSave = false
-            }
-        }
     }
 
     // MARK: - States
