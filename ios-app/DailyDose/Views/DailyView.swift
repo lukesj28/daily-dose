@@ -240,7 +240,6 @@ struct DailyView: View {
                 let horizontal = value.translation.width
                 let vertical = value.translation.height
 
-                // Phase 2: icon already visible — track finger freely, no axis guard
                 if iconIsVisible {
                     SaveIconAnimator.shared.move(to: value.location)
                     let isAbove = horizontal > 100
@@ -251,7 +250,6 @@ struct DailyView: View {
                     return
                 }
 
-                // Phase 1: icon not yet visible — axis guard + table check
                 // Axis guard: vertical drags belong to the scroll view's pull-to-refresh.
                 guard abs(horizontal) > abs(vertical) else { return }
 

@@ -33,19 +33,22 @@ final class SaveIconAnimator {
     func flyToLibrary(completion: @escaping () -> Void) {
         guard let window = keyWindow, let view = iconView else { return }
 
-        // Library tab (2nd of 2) centers at 75% width.
         // Tab bar icon sits ~24.5pt above the bottom safe area edge.
-        let targetX = window.bounds.width * 0.75
+        let targetX = window.bounds.width * 0.60
         let targetY = window.bounds.height - window.safeAreaInsets.bottom - 24.5
 
-        UIView.animate(withDuration: 0.45, delay: 0, options: .curveEaseIn) {
+        UIView.animate(withDuration: 0.45, delay: 0, options: .curveEaseOut) {
             view.center = CGPoint(x: targetX, y: targetY)
             view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-            view.alpha = 0
         } completion: { _ in
             view.removeFromSuperview()
             self.iconView = nil
             completion()
+        }
+
+        // Delayed so the icon stays visible for the full flight and fades only as it lands.
+        UIView.animate(withDuration: 0.15, delay: 0.3) {
+            view.alpha = 0
         }
     }
 
