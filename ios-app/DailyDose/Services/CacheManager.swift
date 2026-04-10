@@ -62,6 +62,8 @@ final class CacheManager {
             existing.journal = payload.journal
             existing.publishDate = payload.publishDate
             existing.authors = payload.authors
+            existing.license = payload.license
+            existing.sourceUrl = payload.sourceUrl
             existing.abstract = payload.abstract
             existing.contentJSON = contentJSON
         } else {
@@ -73,6 +75,8 @@ final class CacheManager {
                 fetchDate: payload.fetchDate,
                 publishDate: payload.publishDate,
                 authors: payload.authors,
+                license: payload.license,
+                sourceUrl: payload.sourceUrl,
                 abstract: payload.abstract,
                 contentJSON: contentJSON
             ))

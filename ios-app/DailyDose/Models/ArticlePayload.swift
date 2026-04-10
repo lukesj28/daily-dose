@@ -7,13 +7,16 @@ struct ArticlePayload: Codable {
     let fetchDate: String
     let publishDate: String
     let authors: [String]
+    let license: String
+    let sourceUrl: String
     let abstract: String
     let content: [ContentBlock]
 
     enum CodingKeys: String, CodingKey {
-        case id, title, journal, authors, abstract, content
+        case id, title, journal, authors, license, abstract, content
         case fetchDate = "fetch_date"
         case publishDate = "publish_date"
+        case sourceUrl = "source_url"
     }
 
     init(from decoder: Decoder) throws {
@@ -24,6 +27,8 @@ struct ArticlePayload: Codable {
         fetchDate = try container.decode(String.self, forKey: .fetchDate)
         publishDate = try container.decode(String.self, forKey: .publishDate)
         authors = try container.decode([String].self, forKey: .authors)
+        license = try container.decode(String.self, forKey: .license)
+        sourceUrl = try container.decode(String.self, forKey: .sourceUrl)
         abstract = try container.decode(String.self, forKey: .abstract)
 
         var rawContent = try container.decode([ContentBlock].self, forKey: .content)

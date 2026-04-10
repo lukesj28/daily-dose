@@ -5,12 +5,17 @@ import SwiftData
 struct DailyDoseApp: App {
     @State private var cacheManager = CacheManager()
     @State private var saveNotifier = SaveNotifier()
+    @AppStorage("hasAcceptedDisclaimer") private var hasAccepted = false
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(cacheManager)
-                .environment(saveNotifier)
+            if hasAccepted {
+                ContentView()
+                    .environment(cacheManager)
+                    .environment(saveNotifier)
+            } else {
+                DisclaimerView()
+            }
         }
         .modelContainer(for: [Article.self, Annotation.self])
     }

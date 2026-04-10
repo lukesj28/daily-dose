@@ -22,6 +22,7 @@ struct DailyView: View {
     @State private var searchQuery: String = ""
     @State private var searchMatches: [SearchMatch] = []
     @State private var currentMatchIndex: Int = 0
+    @State private var showAbout = false
 
     struct PendingAnnotation {
         let paragraphIndex: Int
@@ -36,20 +37,33 @@ struct DailyView: View {
     }
 
     var body: some View {
-        ZStack {
-            Color(.systemBackground)
-                .ignoresSafeArea()
+        NavigationStack {
+            ZStack {
+                Color(.systemBackground)
+                    .ignoresSafeArea()
 
-            if cacheManager.isLoading && currentArticle == nil {
-                loadingState
-            } else if cacheManager.isOffline && currentArticle == nil {
-                offlineState
-            } else if let article = currentArticle {
-                articleReader(article)
-            } else {
-                emptyState
+                if cacheManager.isLoading && currentArticle == nil {
+                    loadingState
+                } else if cacheManager.isOffline && currentArticle == nil {
+                    offlineState
+                } else if let article = currentArticle {
+                    articleReader(article)
+                } else {
+                    emptyState
+                }
             }
-
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showAbout = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+                }
+            }
+            .sheet(isPresented: $showAbout) {
+                AboutView()
+            }
         }
         .onAppear {
             guard !hasAppeared else { return }
@@ -114,6 +128,9 @@ struct DailyView: View {
                         .padding(.bottom, 20)
 
                     contentBlocks(article)
+                        .padding(.horizontal, 20)
+
+                    ArticleFooterView(article: article)
                         .padding(.horizontal, 20)
                 }
                 .padding(.top, 16)

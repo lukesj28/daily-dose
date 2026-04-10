@@ -33,6 +33,9 @@ struct ArticleReaderView: View {
 
                     contentBlocks
                         .padding(.horizontal, 20)
+
+                    ArticleFooterView(article: article)
+                        .padding(.horizontal, 20)
                 }
                 .padding(.vertical, 16)
             }

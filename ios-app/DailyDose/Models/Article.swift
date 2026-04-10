@@ -9,6 +9,8 @@ final class Article {
     var fetchDate: String
     var publishDate: String
     var authors: [String]
+    var license: String = ""
+    var sourceUrl: String = ""
     var abstract: String
     var contentJSON: Data
     var isSavedToLibrary: Bool = false
@@ -23,6 +25,8 @@ final class Article {
         fetchDate: String,
         publishDate: String,
         authors: [String],
+        license: String,
+        sourceUrl: String,
         abstract: String,
         contentJSON: Data,
         isSavedToLibrary: Bool = false
@@ -33,6 +37,8 @@ final class Article {
         self.fetchDate = fetchDate
         self.publishDate = publishDate
         self.authors = authors
+        self.license = license
+        self.sourceUrl = sourceUrl
         self.abstract = abstract
         self.contentJSON = contentJSON
         self.isSavedToLibrary = isSavedToLibrary
