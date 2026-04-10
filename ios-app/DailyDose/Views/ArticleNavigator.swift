@@ -8,7 +8,7 @@ struct SearchMatch: Equatable {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return [] }
         var matches: [SearchMatch] = []
-        for block in blocks where block.type == .paragraph {
+        for block in blocks where block.type == .paragraph || block.type == .heading {
             guard let text = block.text else { continue }
             let ns = text as NSString
             var searchRange = NSRange(location: 0, length: ns.length)
@@ -157,7 +157,7 @@ struct ArticleNavigator: View {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         ForEach(headings) { block in
                             Button {
-                                jumpTo(blockIndex: block.index)
+                                jumpTo(scrollID: "content_\(block.index)")
                             } label: {
                                 HStack {
                                     Text(block.text ?? "")
@@ -183,12 +183,15 @@ struct ArticleNavigator: View {
 
     // MARK: - Annotations
 
+    private static let annotationSectionOrder = [BlockSection.header: 0, BlockSection.content: 1, BlockSection.footer: 2]
+
     private var annotationsList: some View {
-        let annotations = article.annotations.sorted {
-            if $0.paragraphIndex != $1.paragraphIndex {
-                return $0.paragraphIndex < $1.paragraphIndex
-            }
-            return $0.startIndex < $1.startIndex
+        let annotations = article.annotations.sorted { a, b in
+            let aOrder = Self.annotationSectionOrder[a.blockSection] ?? 1
+            let bOrder = Self.annotationSectionOrder[b.blockSection] ?? 1
+            if aOrder != bOrder { return aOrder < bOrder }
+            if a.blockIndex != b.blockIndex { return a.blockIndex < b.blockIndex }
+            return a.startIndex < b.startIndex
         }
         let blocks = article.contentBlocks
         return Group {
@@ -199,7 +202,7 @@ struct ArticleNavigator: View {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         ForEach(annotations) { annotation in
                             Button {
-                                jumpTo(blockIndex: annotation.paragraphIndex)
+                                jumpTo(scrollID: annotation.scrollID)
                             } label: {
                                 VStack(alignment: .leading, spacing: 4) {
                                     if let snippet = snippet(for: annotation, in: blocks) {
@@ -229,10 +232,48 @@ struct ArticleNavigator: View {
     }
 
     private func snippet(for annotation: Annotation, in blocks: [ContentBlock]) -> String? {
-        guard let text = blocks.first(where: { $0.index == annotation.paragraphIndex })?.text else { return nil }
+        if annotation.isCellAnnotation {
+            return "Table cell (\(annotation.cellRow + 1), \(annotation.cellColumn + 1))"
+        }
+
+        if annotation.isEquationAnnotation {
+            return "Equation"
+        }
+
+        let sourceText: String?
+
+        switch annotation.blockSection {
+        case BlockSection.header:
+            switch annotation.blockIndex {
+            case 0: sourceText = article.journal
+            case 1: sourceText = article.title
+            case 2: sourceText = article.authors.joined(separator: ", ")
+            case 3: sourceText = article.formattedPublishDate
+            default: sourceText = nil
+            }
+
+        case BlockSection.footer:
+            switch annotation.blockIndex {
+            case 0: sourceText = article.authors.joined(separator: ", ")
+            case 1: sourceText = "\(article.journal) · \(article.formattedPublishDate)"
+            case 2: sourceText = article.license
+            default: sourceText = nil
+            }
+
+        default: // BlockSection.content
+            if let block = blocks.first(where: { $0.index == annotation.blockIndex }) {
+                sourceText = block.caption ?? block.text
+            } else {
+                sourceText = nil
+            }
+        }
+
+        guard let text = sourceText else { return nil }
         let ns = text as NSString
         let range = annotation.range
-        guard range.location + range.length <= ns.length else { return nil }
+        guard range.location >= 0,
+              range.location + range.length <= ns.length,
+              range.length > 0 else { return nil }
         var snippet = ns.substring(with: range)
         if snippet.count > 80 { snippet = String(snippet.prefix(80)) + "…" }
         return "\u{201C}" + snippet + "\u{201D}"
@@ -305,15 +346,15 @@ struct ArticleNavigator: View {
         currentMatchIndex = (currentMatchIndex + delta + count) % count
         let match = searchMatches[currentMatchIndex]
         withAnimation {
-            scrollProxy.scrollTo(match.blockIndex, anchor: .center)
+            scrollProxy.scrollTo("content_\(match.blockIndex)", anchor: .center)
         }
     }
 
     // MARK: - Helpers
 
-    private func jumpTo(blockIndex: Int) {
+    private func jumpTo(scrollID: String) {
         withAnimation {
-            scrollProxy.scrollTo(blockIndex, anchor: .top)
+            scrollProxy.scrollTo(scrollID, anchor: .top)
         }
         collapse()
     }

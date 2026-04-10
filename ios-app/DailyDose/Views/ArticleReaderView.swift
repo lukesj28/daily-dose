@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ArticleReaderView: View {
     @Environment(\.modelContext) private var modelContext
@@ -18,18 +19,21 @@ struct ArticleReaderView: View {
     @State private var searchMatches: [SearchMatch] = []
     @State private var currentMatchIndex: Int = 0
 
-    struct PendingAnnotation {
-        let paragraphIndex: Int
-        let range: NSRange
-    }
-
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    articleHeader
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 24)
+                    ArticleHeaderView(
+                        article: article,
+                        highlightColorR: highlightR,
+                        highlightColorG: highlightG,
+                        highlightColorB: highlightB,
+                        onAnnotate: handleAnnotate,
+                        onEditAnnotation: handleEdit,
+                        onDeleteAnnotation: handleDelete
+                    )
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 24)
 
                     Divider()
                         .padding(.horizontal, 20)
@@ -38,8 +42,16 @@ struct ArticleReaderView: View {
                     contentBlocks
                         .padding(.horizontal, 20)
 
-                    ArticleFooterView(article: article)
-                        .padding(.horizontal, 20)
+                    ArticleFooterView(
+                        article: article,
+                        highlightColorR: highlightR,
+                        highlightColorG: highlightG,
+                        highlightColorB: highlightB,
+                        onAnnotate: handleAnnotate,
+                        onEditAnnotation: handleEdit,
+                        onDeleteAnnotation: handleDelete
+                    )
+                    .padding(.horizontal, 20)
                 }
                 .padding(.vertical, 16)
             }
@@ -68,9 +80,12 @@ struct ArticleReaderView: View {
                         try? modelContext.save()
                     } else if let pending = pendingAnnotation {
                         let annotation = Annotation(
-                            paragraphIndex: pending.paragraphIndex,
+                            blockIndex: pending.blockIndex,
+                            blockSection: pending.blockSection,
                             startIndex: pending.range.location,
                             length: pending.range.length,
+                            cellRow: pending.cellRow,
+                            cellColumn: pending.cellColumn,
                             noteText: text,
                             article: article
                         )
@@ -89,12 +104,6 @@ struct ArticleReaderView: View {
         }
     }
 
-    // MARK: - Header
-
-    private var articleHeader: some View {
-        ArticleHeaderView(article: article)
-    }
-
     // MARK: - Content Blocks
 
     private var contentBlocks: some View {
@@ -102,7 +111,7 @@ struct ArticleReaderView: View {
         return VStack(alignment: .leading, spacing: 16) {
             ForEach(article.contentBlocks) { block in
                 contentBlockView(block, matchesByBlock: matchesByBlock)
-                    .id(block.index)
+                    .id("content_\(block.index)")
             }
         }
     }
@@ -111,14 +120,31 @@ struct ArticleReaderView: View {
     private func contentBlockView(_ block: ContentBlock, matchesByBlock: [Int: [NSRange]]) -> some View {
         switch block.type {
         case .heading:
-            Text(block.text ?? "")
-                .font(.title2)
-                .fontWeight(.bold)
-                .padding(.top, 12)
+            let annotations = article.annotations.filter {
+                $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
+            }
+            TextBlockView(
+                text: block.text ?? "",
+                annotations: annotations,
+                searchRanges: matchesByBlock[block.index] ?? [],
+                currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
+                highlightColorR: highlightR,
+                highlightColorG: highlightG,
+                highlightColorB: highlightB,
+                baseFont: UIFont.preferredFont(forTextStyle: .title2),
+                baseFontWeight: .bold,
+                enableMarkdown: false,
+                onAnnotate: { range in
+                    handleAnnotate(.text(section: BlockSection.content, index: block.index, range: range))
+                },
+                onEditAnnotation: handleEdit,
+                onDeleteAnnotation: handleDelete
+            )
+            .padding(.top, 12)
 
         case .paragraph:
             let annotations = article.annotations.filter {
-                $0.paragraphIndex == block.index
+                $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
             }
             TextBlockView(
                 text: block.text ?? "",
@@ -129,55 +155,138 @@ struct ArticleReaderView: View {
                 highlightColorG: highlightG,
                 highlightColorB: highlightB,
                 onAnnotate: { range in
-                    pendingAnnotation = PendingAnnotation(
-                        paragraphIndex: block.index,
-                        range: range
-                    )
-                    editingAnnotation = nil
-                    showAnnotationSheet = true
+                    handleAnnotate(.text(section: BlockSection.content, index: block.index, range: range))
                 },
-                onEditAnnotation: { annotation in
-                    editingAnnotation = annotation
-                    pendingAnnotation = nil
-                    showAnnotationSheet = true
-                },
-                onDeleteAnnotation: { annotation in
-                    modelContext.delete(annotation)
-                    try? modelContext.save()
-                }
+                onEditAnnotation: handleEdit,
+                onDeleteAnnotation: handleDelete
             )
 
         case .math:
             if let mathml = block.mathml {
-                MathBlockView(mathml: mathml)
+                let equationAnnotation = article.annotations.first {
+                    $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isEquationAnnotation
+                }
+                MathBlockView(
+                    mathml: mathml,
+                    annotation: equationAnnotation,
+                    highlightColorR: highlightR,
+                    highlightColorG: highlightG,
+                    highlightColorB: highlightB,
+                    onAnnotate: {
+                        handleAnnotate(.equation(index: block.index))
+                    },
+                    onEditAnnotation: handleEdit,
+                    onDeleteAnnotation: handleDelete
+                )
             }
 
         case .image:
-            ImageBlockView(block: block)
+            imageBlock(block)
 
         case .table:
             tableBlock(block)
         }
     }
 
-    // MARK: - Table Block
+    // MARK: - Image Block
 
-    private func tableBlock(_ block: ContentBlock) -> some View {
+    private func imageBlock(_ block: ContentBlock) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let caption = block.caption, !caption.isEmpty {
-                Text(caption)
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.secondary)
-            }
+            ImageBlockView(block: block)
 
-            if let html = block.html {
-                TableBlockView(html: html, isScrolling: .constant(false))
-                    .frame(minHeight: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+            if let caption = block.caption, !caption.isEmpty {
+                let captionAnnotations = article.annotations.filter {
+                    $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
+                }
+                TextBlockView(
+                    text: caption,
+                    annotations: captionAnnotations,
+                    highlightColorR: highlightR,
+                    highlightColorG: highlightG,
+                    highlightColorB: highlightB,
+                    baseFont: UIFont.preferredFont(forTextStyle: .caption1),
+                    textColor: .secondaryLabel,
+                    enableMarkdown: false,
+                    onAnnotate: { range in
+                        handleAnnotate(.text(section: BlockSection.content, index: block.index, range: range))
+                    },
+                    onEditAnnotation: handleEdit,
+                    onDeleteAnnotation: handleDelete
+                )
+                .padding(.horizontal, 4)
             }
         }
         .padding(.vertical, 8)
+    }
+
+    // MARK: - Table Block
+
+    private func tableBlock(_ block: ContentBlock) -> some View {
+        let captionAnnotations = article.annotations.filter {
+            $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
+        }
+        let cellAnnotations = article.annotations.filter {
+            $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isCellAnnotation
+        }
+
+        return VStack(alignment: .leading, spacing: 8) {
+            if let caption = block.caption, !caption.isEmpty {
+                TextBlockView(
+                    text: caption,
+                    annotations: captionAnnotations,
+                    highlightColorR: highlightR,
+                    highlightColorG: highlightG,
+                    highlightColorB: highlightB,
+                    baseFont: UIFont.preferredFont(forTextStyle: .caption1),
+                    baseFontWeight: .semibold,
+                    textColor: .secondaryLabel,
+                    enableMarkdown: false,
+                    onAnnotate: { range in
+                        handleAnnotate(.text(section: BlockSection.content, index: block.index, range: range))
+                    },
+                    onEditAnnotation: handleEdit,
+                    onDeleteAnnotation: handleDelete
+                )
+            }
+
+            if let html = block.html {
+                TableBlockView(
+                    html: html,
+                    isScrolling: .constant(false),
+                    annotations: cellAnnotations,
+                    highlightColorR: highlightR,
+                    highlightColorG: highlightG,
+                    highlightColorB: highlightB,
+                    onAnnotateCell: { row, col in
+                        handleAnnotate(.cell(index: block.index, row: row, col: col))
+                    },
+                    onEditAnnotation: handleEdit,
+                    onDeleteAnnotation: handleDelete
+                )
+                .frame(minHeight: 120)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+        }
+        .padding(.vertical, 8)
+    }
+
+    // MARK: - Annotation Helpers
+
+    private func handleAnnotate(_ pending: PendingAnnotation) {
+        pendingAnnotation = pending
+        editingAnnotation = nil
+        showAnnotationSheet = true
+    }
+
+    private func handleEdit(_ annotation: Annotation) {
+        editingAnnotation = annotation
+        pendingAnnotation = nil
+        showAnnotationSheet = true
+    }
+
+    private func handleDelete(_ annotation: Annotation) {
+        modelContext.delete(annotation)
+        try? modelContext.save()
     }
 
     private func resetAnnotationState() {

@@ -9,9 +9,22 @@ struct TextBlockView: UIViewRepresentable {
     var highlightColorR: Double = 1.0
     var highlightColorG: Double = 0.93
     var highlightColorB: Double = 0.27
+    var baseFont: UIFont? = nil
+    var baseFontWeight: UIFont.Weight? = nil
+    var textColor: UIColor = .label
+    var enableMarkdown: Bool = true
     let onAnnotate: (NSRange) -> Void
     let onEditAnnotation: (Annotation) -> Void
     let onDeleteAnnotation: (Annotation) -> Void
+
+    private func resolvedFont() -> UIFont {
+        let base = baseFont ?? UIFont.preferredFont(forTextStyle: .body)
+        guard let weight = baseFontWeight else { return base }
+        let descriptor = base.fontDescriptor.addingAttributes([
+            .traits: [UIFontDescriptor.TraitKey.weight: weight]
+        ])
+        return UIFont(descriptor: descriptor, size: 0)
+    }
 
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
@@ -22,7 +35,6 @@ struct TextBlockView: UIViewRepresentable {
         textView.textContainer.lineFragmentPadding = 0
         textView.backgroundColor = .clear
         textView.tintColor = .systemBlue
-        textView.font = .preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.delegate = context.coordinator
@@ -52,11 +64,12 @@ struct TextBlockView: UIViewRepresentable {
             return
         }
 
-        let attributedText = parseMarkdown(text)
+        let font = resolvedFont()
+        let attributedText = enableMarkdown ? parseMarkdown(text, font: font) : plainText(text, font: font)
         let mutableAttr = NSMutableAttributedString(attributedString: attributedText)
         let highlightColor = UIColor(red: highlightColorR, green: highlightColorG, blue: highlightColorB, alpha: 1.0)
 
-        for annotation in annotations {
+        for annotation in annotations where annotation.isTextAnnotation {
             let range = annotation.range
             if range.location + range.length <= mutableAttr.length {
                 mutableAttr.addAttribute(.backgroundColor, value: highlightColor, range: range)
@@ -96,18 +109,26 @@ struct TextBlockView: UIViewRepresentable {
         Coordinator(onAnnotate: onAnnotate, onEditAnnotation: onEditAnnotation, onDeleteAnnotation: onDeleteAnnotation, annotations: annotations)
     }
 
+    // MARK: - Text Building
+
+    private func plainText(_ input: String, font: UIFont) -> NSAttributedString {
+        NSAttributedString(string: input, attributes: [
+            .font: font,
+            .foregroundColor: textColor
+        ])
+    }
+
     // MARK: - Markdown Parser
 
-    private func parseMarkdown(_ input: String) -> NSAttributedString {
+    private func parseMarkdown(_ input: String, font: UIFont) -> NSAttributedString {
         let result = NSMutableAttributedString()
 
-        let bodyFont = UIFont.preferredFont(forTextStyle: .body)
-        let boldFont = UIFont.boldSystemFont(ofSize: bodyFont.pointSize)
-        let italicFont = UIFont.italicSystemFont(ofSize: bodyFont.pointSize)
+        let boldFont = UIFont.boldSystemFont(ofSize: font.pointSize)
+        let italicFont = UIFont.italicSystemFont(ofSize: font.pointSize)
 
         let baseAttributes: [NSAttributedString.Key: Any] = [
-            .font: bodyFont,
-            .foregroundColor: UIColor.label,
+            .font: font,
+            .foregroundColor: textColor,
         ]
 
         var remaining = input
@@ -149,8 +170,8 @@ struct TextBlockView: UIViewRepresentable {
                 let matched = String(remaining[supRange])
                 let supText = String(matched.dropFirst(2).dropLast(1))
                 var attrs = baseAttributes
-                attrs[.font] = UIFont.systemFont(ofSize: bodyFont.pointSize * 0.7)
-                attrs[.baselineOffset] = bodyFont.pointSize * 0.35
+                attrs[.font] = UIFont.systemFont(ofSize: font.pointSize * 0.7)
+                attrs[.baselineOffset] = font.pointSize * 0.35
                 result.append(NSAttributedString(string: supText, attributes: attrs))
                 remaining = String(remaining[supRange.upperBound...])
                 continue
@@ -164,8 +185,8 @@ struct TextBlockView: UIViewRepresentable {
                 let matched = String(remaining[subRange])
                 let subText = String(matched.dropFirst(2).dropLast(1))
                 var attrs = baseAttributes
-                attrs[.font] = UIFont.systemFont(ofSize: bodyFont.pointSize * 0.7)
-                attrs[.baselineOffset] = -(bodyFont.pointSize * 0.15)
+                attrs[.font] = UIFont.systemFont(ofSize: font.pointSize * 0.7)
+                attrs[.baselineOffset] = -(font.pointSize * 0.15)
                 result.append(NSAttributedString(string: subText, attributes: attrs))
                 remaining = String(remaining[subRange.upperBound...])
                 continue
@@ -206,7 +227,6 @@ struct TextBlockView: UIViewRepresentable {
             self.annotations = annotations
         }
 
-        // Without this guard the gesture swallows all taps, breaking text selection.
         func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
             guard let textView = textView else { return false }
             let point = gestureRecognizer.location(in: textView)
@@ -299,7 +319,7 @@ struct TextBlockView: UIViewRepresentable {
         }
 
         private func annotationAtRange(_ range: NSRange) -> Annotation? {
-            for annotation in annotations {
+            for annotation in annotations where annotation.isTextAnnotation {
                 let intersection = NSIntersectionRange(range, annotation.range)
                 if intersection.length > 0 {
                     return annotation
@@ -310,7 +330,7 @@ struct TextBlockView: UIViewRepresentable {
     }
 }
 
-private struct AnnotationPopoverView: View {
+struct AnnotationPopoverView: View {
     let noteText: String
     let onEdit: () -> Void
     let onDelete: () -> Void

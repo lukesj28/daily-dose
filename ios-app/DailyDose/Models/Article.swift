@@ -53,4 +53,22 @@ final class Article {
         }
         return payload.content
     }
+
+    var formattedPublishDate: String {
+        guard let date = Article.publishDateParser.date(from: publishDate) else { return publishDate }
+        return Article.publishDateDisplay.string(from: date)
+    }
+
+    private static let publishDateParser: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        f.locale = Locale(identifier: "en_US_POSIX")
+        return f
+    }()
+
+    private static let publishDateDisplay: DateFormatter = {
+        let f = DateFormatter()
+        f.dateStyle = .medium
+        return f
+    }()
 }

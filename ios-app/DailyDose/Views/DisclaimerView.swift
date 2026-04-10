@@ -29,11 +29,12 @@ struct DisclaimerView: View {
             } label: {
                 Text("I Understand")
                     .font(.headline)
+                    .foregroundStyle(Color(.systemBackground))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
             }
             .buttonStyle(.borderedProminent)
-            .tint(.primary)
+            .tint(Color(.label))
         }
         .padding(24)
     }
