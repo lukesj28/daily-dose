@@ -8,7 +8,7 @@ struct ArticleHeaderView: View {
             Text(article.journal)
                 .font(.caption)
                 .fontWeight(.bold)
-                .foregroundStyle(.white)
+                .foregroundStyle(Color(.systemBackground))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 4)
                 .background(Capsule().fill(.tint))

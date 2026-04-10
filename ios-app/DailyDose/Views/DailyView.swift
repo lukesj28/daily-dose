@@ -242,7 +242,7 @@ struct DailyView: View {
 
                 // Phase 2: icon already visible — track finger freely, no axis guard
                 if iconIsVisible {
-                    saveNotifier.dragLocation = value.location
+                    SaveIconAnimator.shared.move(to: value.location)
                     let isAbove = horizontal > 100
                     if isAbove != wasAboveThreshold {
                         wasAboveThreshold = isAbove
@@ -261,7 +261,7 @@ struct DailyView: View {
                 }
 
                 if horizontal > 50 {
-                    saveNotifier.dragLocation = value.location
+                    SaveIconAnimator.shared.show(at: value.location)
                     iconIsVisible = true
                 }
 
@@ -276,18 +276,27 @@ struct DailyView: View {
                     wasAboveThreshold = false
                     dragCancelledByTable = false
                     iconIsVisible = false
-                    saveNotifier.dragLocation = nil
                 }
 
                 guard iconIsVisible, !article.isSavedToLibrary else { return }
                 let horizontal = value.translation.width
 
-                guard !dragCancelledByTable && !isTableScrolling else { return }
+                guard !dragCancelledByTable && !isTableScrolling else {
+                    SaveIconAnimator.shared.hide()
+                    return
+                }
 
                 if horizontal > 100 {
                     article.isSavedToLibrary = true
                     try? modelContext.save()
-                    saveNotifier.animationStart = value.location
+                    SaveIconAnimator.shared.flyToLibrary {
+                        saveNotifier.didSave = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            saveNotifier.didSave = false
+                        }
+                    }
+                } else {
+                    SaveIconAnimator.shared.hide()
                 }
             }
     }
