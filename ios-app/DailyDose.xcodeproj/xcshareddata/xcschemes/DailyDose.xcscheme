@@ -55,7 +55,7 @@
          <EnvironmentVariable
             key = "DAILY_DOSE_ARTICLE"
             value = "test.json"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>

@@ -44,8 +44,6 @@ struct DailyView: View {
 
                 if cacheManager.isLoading && currentArticle == nil {
                     loadingState
-                } else if cacheManager.isOffline && currentArticle == nil {
-                    offlineState
                 } else if let article = currentArticle {
                     articleReader(article)
                 } else {
@@ -431,35 +429,26 @@ struct DailyView: View {
         }
     }
 
-    private var offlineState: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "wifi.slash")
-                .font(.system(size: 48))
-                .foregroundStyle(.secondary)
-            Text("No Connection")
-                .font(.title2)
-                .fontWeight(.bold)
-            Text("Check your connection or read\nsaved articles in your Library.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .padding()
-    }
-
     private var emptyState: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "newspaper")
-                .font(.system(size: 48))
-                .foregroundStyle(.secondary)
-            Text("No article yet")
-                .font(.title2)
-                .fontWeight(.bold)
-            Text("Pull down to refresh, or wait\nfor tomorrow's delivery.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+        ScrollView {
+            VStack(spacing: 16) {
+                Image(systemName: "newspaper")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.secondary)
+                Text("No article yet")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Text("Pull down to refresh, or wait\nfor tomorrow's delivery.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .containerRelativeFrame(.vertical)
         }
-        .padding()
+        .refreshable {
+            await cacheManager.checkAndUpdateCache(context: modelContext, force: true)
+        }
     }
 }
