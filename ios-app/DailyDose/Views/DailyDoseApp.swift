@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import WebKit
 
 @main
 struct DailyDoseApp: App {
@@ -7,6 +8,19 @@ struct DailyDoseApp: App {
     @State private var saveNotifier = SaveNotifier()
     @AppStorage("hasAcceptedDisclaimer") private var hasAccepted = false
     @AppStorage("displayMode") private var displayMode: Int = 0
+
+    private let container: ModelContainer
+
+    init() {
+        do {
+            container = try ModelContainer(for: Article.self, Annotation.self)
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error)")
+        }
+        DispatchQueue.main.async {
+            _ = WKWebView(frame: .zero)
+        }
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -21,6 +35,6 @@ struct DailyDoseApp: App {
             }
             .preferredColorScheme(DisplayMode(rawValue: displayMode)?.colorScheme)
         }
-        .modelContainer(for: [Article.self, Annotation.self])
+        .modelContainer(container)
     }
 }

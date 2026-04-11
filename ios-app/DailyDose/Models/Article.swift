@@ -18,6 +18,9 @@ final class Article {
     @Relationship(deleteRule: .cascade, inverse: \Annotation.article)
     var annotations: [Annotation] = []
 
+    @Transient private var _cachedContentBlocks: [ContentBlock]?
+    @Transient private var _cachedContentJSONHash: Int?
+
     init(
         id: String,
         title: String,
@@ -44,13 +47,19 @@ final class Article {
         self.isSavedToLibrary = isSavedToLibrary
     }
 
-    // CodingKeys in ArticlePayload already handle snake_case mapping.
-    // Do NOT use .convertFromSnakeCase here — it double-converts and breaks decoding.
     var contentBlocks: [ContentBlock] {
+        let currentHash = contentJSON.hashValue
+        if let cached = _cachedContentBlocks, _cachedContentJSONHash == currentHash {
+            return cached
+        }
         guard !contentJSON.isEmpty,
               let payload = try? JSONDecoder().decode(ArticlePayload.self, from: contentJSON) else {
+            _cachedContentBlocks = []
+            _cachedContentJSONHash = currentHash
             return []
         }
+        _cachedContentBlocks = payload.content
+        _cachedContentJSONHash = currentHash
         return payload.content
     }
 

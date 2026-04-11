@@ -16,6 +16,7 @@ struct DailyView: View {
     @State private var iconIsVisible = false
     @State private var isTableScrolling = false
     @State private var dragCancelledByTable = false
+    @State private var haptic = UIImpactFeedbackGenerator(style: .light)
     @State private var showAnnotationSheet = false
     @State private var pendingAnnotation: PendingAnnotation?
     @State private var editingAnnotation: Annotation?
@@ -191,24 +192,37 @@ struct DailyView: View {
 
     private func contentBlocks(_ article: Article) -> some View {
         let matchesByBlock = searchMatches.grouped()
+        let contentAnnotations = article.annotations.filter { $0.blockSection == BlockSection.content }
+        let textByIndex = Dictionary(grouping: contentAnnotations.filter(\.isTextAnnotation), by: \.blockIndex)
+        let cellByIndex = Dictionary(grouping: contentAnnotations.filter(\.isCellAnnotation), by: \.blockIndex)
+        let eqByIndex = Dictionary(grouping: contentAnnotations.filter(\.isEquationAnnotation), by: \.blockIndex)
         return VStack(alignment: .leading, spacing: 16) {
             ForEach(article.contentBlocks) { block in
-                contentBlockView(block, article: article, matchesByBlock: matchesByBlock)
-                    .id("content_\(block.index)")
+                contentBlockView(
+                    block,
+                    matchesByBlock: matchesByBlock,
+                    textAnnotations: textByIndex[block.index, default: []],
+                    cellAnnotations: cellByIndex[block.index, default: []],
+                    equationAnnotation: eqByIndex[block.index]?.first
+                )
+                .id("content_\(block.index)")
             }
         }
     }
 
     @ViewBuilder
-    private func contentBlockView(_ block: ContentBlock, article: Article, matchesByBlock: [Int: [NSRange]]) -> some View {
+    private func contentBlockView(
+        _ block: ContentBlock,
+        matchesByBlock: [Int: [NSRange]],
+        textAnnotations: [Annotation],
+        cellAnnotations: [Annotation],
+        equationAnnotation: Annotation?
+    ) -> some View {
         switch block.type {
         case .heading:
-            let annotations = article.annotations.filter {
-                $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
-            }
             TextBlockView(
                 text: block.text ?? "",
-                annotations: annotations,
+                annotations: textAnnotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
                 highlightColorR: highlightR,
@@ -226,12 +240,9 @@ struct DailyView: View {
             .padding(.top, 12)
 
         case .paragraph:
-            let annotations = article.annotations.filter {
-                $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
-            }
             TextBlockView(
                 text: block.text ?? "",
-                annotations: annotations,
+                annotations: textAnnotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
                 highlightColorR: highlightR,
@@ -246,9 +257,6 @@ struct DailyView: View {
 
         case .math:
             if let mathml = block.mathml {
-                let equationAnnotation = article.annotations.first {
-                    $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isEquationAnnotation
-                }
                 MathBlockView(
                     mathml: mathml,
                     annotation: equationAnnotation,
@@ -264,26 +272,23 @@ struct DailyView: View {
             }
 
         case .image:
-            imageBlock(block, article: article)
+            imageBlock(block, textAnnotations: textAnnotations)
 
         case .table:
-            tableBlock(block, article: article)
+            tableBlock(block, textAnnotations: textAnnotations, cellAnnotations: cellAnnotations)
         }
     }
 
     // MARK: - Image Block
 
-    private func imageBlock(_ block: ContentBlock, article: Article) -> some View {
+    private func imageBlock(_ block: ContentBlock, textAnnotations: [Annotation]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             ImageBlockView(block: block)
 
             if let caption = block.caption, !caption.isEmpty {
-                let captionAnnotations = article.annotations.filter {
-                    $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
-                }
                 TextBlockView(
                     text: caption,
-                    annotations: captionAnnotations,
+                    annotations: textAnnotations,
                     highlightColorR: highlightR,
                     highlightColorG: highlightG,
                     highlightColorB: highlightB,
@@ -304,19 +309,12 @@ struct DailyView: View {
 
     // MARK: - Table Block
 
-    private func tableBlock(_ block: ContentBlock, article: Article) -> some View {
-        let captionAnnotations = article.annotations.filter {
-            $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
-        }
-        let cellAnnotations = article.annotations.filter {
-            $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isCellAnnotation
-        }
-
-        return VStack(alignment: .leading, spacing: 8) {
+    private func tableBlock(_ block: ContentBlock, textAnnotations: [Annotation], cellAnnotations: [Annotation]) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
             if let caption = block.caption, !caption.isEmpty {
                 TextBlockView(
                     text: caption,
-                    annotations: captionAnnotations,
+                    annotations: textAnnotations,
                     highlightColorR: highlightR,
                     highlightColorG: highlightG,
                     highlightColorB: highlightB,
@@ -367,7 +365,7 @@ struct DailyView: View {
                     let isAbove = horizontal > 100
                     if isAbove != wasAboveThreshold {
                         wasAboveThreshold = isAbove
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        haptic.impactOccurred()
                     }
                     return
                 }
@@ -382,12 +380,13 @@ struct DailyView: View {
                 if horizontal > 50 {
                     SaveIconAnimator.shared.show(at: value.location)
                     iconIsVisible = true
+                    haptic.prepare()
                 }
 
                 let isAbove = horizontal > 100
                 if isAbove != wasAboveThreshold {
                     wasAboveThreshold = isAbove
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    haptic.impactOccurred()
                 }
             }
             .onEnded { value in

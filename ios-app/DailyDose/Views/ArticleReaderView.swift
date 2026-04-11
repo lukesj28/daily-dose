@@ -108,24 +108,37 @@ struct ArticleReaderView: View {
 
     private var contentBlocks: some View {
         let matchesByBlock = searchMatches.grouped()
+        let contentAnnotations = article.annotations.filter { $0.blockSection == BlockSection.content }
+        let textByIndex = Dictionary(grouping: contentAnnotations.filter(\.isTextAnnotation), by: \.blockIndex)
+        let cellByIndex = Dictionary(grouping: contentAnnotations.filter(\.isCellAnnotation), by: \.blockIndex)
+        let eqByIndex = Dictionary(grouping: contentAnnotations.filter(\.isEquationAnnotation), by: \.blockIndex)
         return VStack(alignment: .leading, spacing: 16) {
             ForEach(article.contentBlocks) { block in
-                contentBlockView(block, matchesByBlock: matchesByBlock)
-                    .id("content_\(block.index)")
+                contentBlockView(
+                    block,
+                    matchesByBlock: matchesByBlock,
+                    textAnnotations: textByIndex[block.index, default: []],
+                    cellAnnotations: cellByIndex[block.index, default: []],
+                    equationAnnotation: eqByIndex[block.index]?.first
+                )
+                .id("content_\(block.index)")
             }
         }
     }
 
     @ViewBuilder
-    private func contentBlockView(_ block: ContentBlock, matchesByBlock: [Int: [NSRange]]) -> some View {
+    private func contentBlockView(
+        _ block: ContentBlock,
+        matchesByBlock: [Int: [NSRange]],
+        textAnnotations: [Annotation],
+        cellAnnotations: [Annotation],
+        equationAnnotation: Annotation?
+    ) -> some View {
         switch block.type {
         case .heading:
-            let annotations = article.annotations.filter {
-                $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
-            }
             TextBlockView(
                 text: block.text ?? "",
-                annotations: annotations,
+                annotations: textAnnotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
                 highlightColorR: highlightR,
@@ -143,12 +156,9 @@ struct ArticleReaderView: View {
             .padding(.top, 12)
 
         case .paragraph:
-            let annotations = article.annotations.filter {
-                $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
-            }
             TextBlockView(
                 text: block.text ?? "",
-                annotations: annotations,
+                annotations: textAnnotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
                 highlightColorR: highlightR,
@@ -163,9 +173,6 @@ struct ArticleReaderView: View {
 
         case .math:
             if let mathml = block.mathml {
-                let equationAnnotation = article.annotations.first {
-                    $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isEquationAnnotation
-                }
                 MathBlockView(
                     mathml: mathml,
                     annotation: equationAnnotation,
@@ -181,26 +188,23 @@ struct ArticleReaderView: View {
             }
 
         case .image:
-            imageBlock(block)
+            imageBlock(block, textAnnotations: textAnnotations)
 
         case .table:
-            tableBlock(block)
+            tableBlock(block, textAnnotations: textAnnotations, cellAnnotations: cellAnnotations)
         }
     }
 
     // MARK: - Image Block
 
-    private func imageBlock(_ block: ContentBlock) -> some View {
+    private func imageBlock(_ block: ContentBlock, textAnnotations: [Annotation]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             ImageBlockView(block: block)
 
             if let caption = block.caption, !caption.isEmpty {
-                let captionAnnotations = article.annotations.filter {
-                    $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
-                }
                 TextBlockView(
                     text: caption,
-                    annotations: captionAnnotations,
+                    annotations: textAnnotations,
                     highlightColorR: highlightR,
                     highlightColorG: highlightG,
                     highlightColorB: highlightB,
@@ -221,19 +225,12 @@ struct ArticleReaderView: View {
 
     // MARK: - Table Block
 
-    private func tableBlock(_ block: ContentBlock) -> some View {
-        let captionAnnotations = article.annotations.filter {
-            $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isTextAnnotation
-        }
-        let cellAnnotations = article.annotations.filter {
-            $0.blockSection == BlockSection.content && $0.blockIndex == block.index && $0.isCellAnnotation
-        }
-
-        return VStack(alignment: .leading, spacing: 8) {
+    private func tableBlock(_ block: ContentBlock, textAnnotations: [Annotation], cellAnnotations: [Annotation]) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
             if let caption = block.caption, !caption.isEmpty {
                 TextBlockView(
                     text: caption,
-                    annotations: captionAnnotations,
+                    annotations: textAnnotations,
                     highlightColorR: highlightR,
                     highlightColorG: highlightG,
                     highlightColorB: highlightB,
