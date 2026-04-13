@@ -19,7 +19,7 @@ struct ArticlePayload: Codable {
         case sourceUrl = "source_url"
     }
 
-    init(from decoder: Decoder) throws {
+    nonisolated init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         title = try container.decode(String.self, forKey: .title)
