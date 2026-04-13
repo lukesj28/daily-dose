@@ -28,6 +28,7 @@ struct DailyView: View {
     @State private var searchQuery: String = ""
     @State private var searchMatches: [SearchMatch] = []
     @State private var currentMatchIndex: Int = 0
+    @State private var isFABRelocating = false
 
     private var currentArticle: Article? {
         if let id = cacheManager.currentDailyId {
@@ -160,15 +161,16 @@ struct DailyView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 40)
             }
-            .scrollDisabled(iconIsVisible)
+            .scrollDisabled(iconIsVisible || isFABRelocating)
             .simultaneousGesture(saveSwipeGesture(article))
-            .overlay(alignment: .bottomTrailing) {
+            .overlay {
                 ArticleNavigator(
                     article: article,
                     scrollProxy: proxy,
                     searchQuery: $searchQuery,
                     searchMatches: $searchMatches,
-                    currentMatchIndex: $currentMatchIndex
+                    currentMatchIndex: $currentMatchIndex,
+                    isRelocating: $isFABRelocating
                 )
             }
             .onChange(of: searchQuery) { _, newValue in
@@ -342,7 +344,7 @@ struct DailyView: View {
                     onEditAnnotation: handleEdit,
                     onDeleteAnnotation: handleDelete
                 )
-                .frame(minHeight: 120)
+                .frame(minHeight: 156)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }

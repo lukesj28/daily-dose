@@ -1,4 +1,47 @@
 import SwiftUI
+import UIKit
+
+enum FABPosition: String, Codable {
+    case topLeft, topRight, bottomLeft, bottomRight
+
+    var alignment: Alignment {
+        switch self {
+        case .topLeft: return .topLeading
+        case .topRight: return .topTrailing
+        case .bottomLeft: return .bottomLeading
+        case .bottomRight: return .bottomTrailing
+        }
+    }
+
+    var vStackAlignment: HorizontalAlignment {
+        switch self {
+        case .topLeft, .bottomLeft: return .leading
+        case .topRight, .bottomRight: return .trailing
+        }
+    }
+
+    var edgeInsets: EdgeInsets {
+        switch self {
+        case .topLeft: return EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 0)
+        case .topRight: return EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 16)
+        case .bottomLeft: return EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 0)
+        case .bottomRight: return EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 16)
+        }
+    }
+
+    var transitionAnchor: UnitPoint {
+        switch self {
+        case .topLeft: return .topLeading
+        case .topRight: return .topTrailing
+        case .bottomLeft: return .bottomLeading
+        case .bottomRight: return .bottomTrailing
+        }
+    }
+
+    var isTopAligned: Bool {
+        self == .topLeft || self == .topRight
+    }
+}
 
 struct SearchMatch: Equatable {
     let blockIndex: Int
@@ -42,10 +85,16 @@ struct ArticleNavigator: View {
     @Binding var searchQuery: String
     @Binding var searchMatches: [SearchMatch]
     @Binding var currentMatchIndex: Int
+    @Binding var isRelocating: Bool
 
     @State private var isExpanded = false
     @State private var mode: Mode = .sections
     @FocusState private var searchFocused: Bool
+    @AppStorage("fabPosition") private var fabPosition: FABPosition = .bottomRight
+    @State private var dragOffset: CGSize = .zero
+    @State private var isInDragPhase = false
+    @State private var suppressNextTap = false
+    @State private var haptic = UIImpactFeedbackGenerator(style: .medium)
 
     enum Mode: String, CaseIterable, Identifiable {
         case sections, annotations, search
@@ -67,38 +116,33 @@ struct ArticleNavigator: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            if isExpanded {
-                Color.black.opacity(0.0001)
-                    .ignoresSafeArea()
-                    .contentShape(Rectangle())
-                    .onTapGesture { collapse() }
-            }
-
-            VStack(alignment: .trailing, spacing: 12) {
+        GeometryReader { geo in
+            ZStack(alignment: fabPosition.alignment) {
                 if isExpanded {
-                    panel
-                        .frame(width: 320)
-                        .frame(maxHeight: 440)
-                        .transition(.scale(scale: 0.85, anchor: .bottomTrailing).combined(with: .opacity))
+                    Color.black.opacity(0.0001)
+                        .ignoresSafeArea()
+                        .contentShape(Rectangle())
+                        .onTapGesture { collapse() }
                 }
-                fab
+
+                VStack(alignment: fabPosition.vStackAlignment, spacing: 12) {
+                    if fabPosition.isTopAligned { fabView(geo: geo) }
+                    if isExpanded { expandedPanel }
+                    if !fabPosition.isTopAligned { fabView(geo: geo) }
+                }
+                .padding(fabPosition.edgeInsets)
             }
-            .padding(.trailing, 16)
-            .padding(.bottom, 16)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: fabPosition.alignment)
         }
         .animation(.spring(response: 0.35, dampingFraction: 0.82), value: isExpanded)
     }
 
     // MARK: - FAB
 
-    private var fab: some View {
+    private func fabView(geo: GeometryProxy) -> some View {
         Button {
-            if isExpanded {
-                collapse()
-            } else {
-                withAnimation { isExpanded = true }
-            }
+            if suppressNextTap { suppressNextTap = false; return }
+            if isExpanded { collapse() } else { withAnimation { isExpanded = true } }
         } label: {
             Image(systemName: isExpanded ? "xmark" : "list.bullet")
                 .font(.system(size: 20, weight: .semibold))
@@ -106,9 +150,66 @@ struct ArticleNavigator: View {
                 .frame(width: 56, height: 56)
         }
         .glassEffect(.regular.interactive(), in: .circle)
+        .offset(dragOffset)
+        .onAppear { haptic.prepare() }
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.3)
+                .sequenced(before: DragGesture(coordinateSpace: .global))
+                .onChanged { value in
+                    switch value {
+                    case .second(true, let drag):
+                        if !isInDragPhase {
+                            isInDragPhase = true
+                            isRelocating = true
+                            suppressNextTap = true
+                            collapse()
+                            haptic.impactOccurred()
+                            haptic.prepare()
+                        }
+                        guard let drag = drag else { return }
+                        dragOffset = drag.translation
+                    default:
+                        break
+                    }
+                }
+                .onEnded { value in
+                    isInDragPhase = false
+                    isRelocating = false
+                    switch value {
+                    case .second(true, let drag):
+                        guard let drag = drag else { return }
+                        updatePosition(dropLocation: drag.location, geo: geo)
+                    default:
+                        dragOffset = .zero
+                    }
+                }
+        )
+    }
+
+    private func updatePosition(dropLocation: CGPoint, geo: GeometryProxy) {
+        let frame = geo.frame(in: .global)
+        let isLeft = dropLocation.x < frame.midX
+        let isTop = dropLocation.y < frame.midY
+
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+            switch (isTop, isLeft) {
+            case (true, true): fabPosition = .topLeft
+            case (true, false): fabPosition = .topRight
+            case (false, true): fabPosition = .bottomLeft
+            case (false, false): fabPosition = .bottomRight
+            }
+            dragOffset = .zero
+        }
     }
 
     // MARK: - Panel
+
+    private var expandedPanel: some View {
+        panel
+            .frame(width: 320)
+            .frame(maxHeight: 440)
+            .transition(.scale(scale: 0.85, anchor: fabPosition.transitionAnchor).combined(with: .opacity))
+    }
 
     private var panel: some View {
         GlassEffectContainer {

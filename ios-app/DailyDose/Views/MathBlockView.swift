@@ -51,6 +51,7 @@ private struct MathWebView: UIViewRepresentable {
         webView.scrollView.backgroundColor = .clear
         webView.scrollView.isScrollEnabled = false
         webView.scrollView.bounces = false
+        webView.scrollView.maximumZoomScale = 1.0
         webView.navigationDelegate = context.coordinator
 
         let longPress = UILongPressGestureRecognizer(
@@ -99,7 +100,7 @@ private struct MathWebView: UIViewRepresentable {
         <!DOCTYPE html>
         <html>
         <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline';">
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }

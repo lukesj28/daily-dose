@@ -18,6 +18,7 @@ struct ArticleReaderView: View {
     @State private var searchQuery: String = ""
     @State private var searchMatches: [SearchMatch] = []
     @State private var currentMatchIndex: Int = 0
+    @State private var isFABRelocating = false
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -55,13 +56,15 @@ struct ArticleReaderView: View {
                 }
                 .padding(.vertical, 16)
             }
-            .overlay(alignment: .bottomTrailing) {
+            .scrollDisabled(isFABRelocating)
+            .overlay {
                 ArticleNavigator(
                     article: article,
                     scrollProxy: proxy,
                     searchQuery: $searchQuery,
                     searchMatches: $searchMatches,
-                    currentMatchIndex: $currentMatchIndex
+                    currentMatchIndex: $currentMatchIndex,
+                    isRelocating: $isFABRelocating
                 )
             }
         }
@@ -260,7 +263,7 @@ struct ArticleReaderView: View {
                     onEditAnnotation: handleEdit,
                     onDeleteAnnotation: handleDelete
                 )
-                .frame(minHeight: 120)
+                .frame(minHeight: 156)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }

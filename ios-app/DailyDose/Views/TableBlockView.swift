@@ -24,6 +24,7 @@ struct TableBlockView: UIViewRepresentable {
         webView.scrollView.isScrollEnabled = true
         webView.scrollView.showsHorizontalScrollIndicator = true
         webView.scrollView.bounces = false
+        webView.scrollView.maximumZoomScale = 1.0
         webView.navigationDelegate = context.coordinator
         webView.scrollView.delegate = context.coordinator
 
@@ -77,7 +78,7 @@ struct TableBlockView: UIViewRepresentable {
         <!DOCTYPE html>
         <html>
         <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
@@ -90,8 +91,8 @@ struct TableBlockView: UIViewRepresentable {
             @media (prefers-color-scheme: dark) {
                 :root {
                     --text: #f5f5f7;
-                    --border: #3a3a3c;
-                    --header-bg: #2c2c2e;
+                    --border: #545458;
+                    --header-bg: #3a3a3c;
                     --row-alt: #1c1c1e;
                 }
             }
@@ -103,9 +104,9 @@ struct TableBlockView: UIViewRepresentable {
                     --row-alt: #fafafa;
                 }
             }
-            table { border-collapse: collapse; width: 100%; min-width: fit-content; }
+            table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: fit-content; }
             th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; white-space: nowrap; }
-            th { background: var(--header-bg); font-weight: 600; font-size: 13px; }
+            th { background-color: var(--header-bg); font-weight: 600; font-size: 13px; position: sticky; top: 0; z-index: 1; border-bottom: 2px solid var(--border); will-change: transform; }
             tr:nth-child(even) td { background: var(--row-alt); }
         </style>
         </head>
