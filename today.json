@@ -1,0 +1,190 @@
+{
+  "id": "PMC13097371",
+  "title": "May–Thurner Syndrome: An Under‐Recognized Etiology of Deep Vein Thrombosis (DVT)",
+  "journal": "Health Science Reports",
+  "fetch_date": "2026-04-28",
+  "publish_date": "2026-03-24",
+  "authors": [
+    "Abdul Rehman Shahid Khan",
+    "Yashika Gupta",
+    "Betsy Samuel",
+    "Yeshwini Murali Krishna",
+    "Muhammad Husnain Ahmad",
+    "Haseeb Ahmad",
+    "Iqra Nasir",
+    "Masab Ali",
+    "Danish Ali Chohan",
+    "Muhammad Umar Nadeem",
+    "Ahmad Zia",
+    "Ali Gohar"
+  ],
+  "license": "This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13097371/",
+  "abstract": "May–Thurner Syndrome (MTS) is a rare vascular condition characterized by the compression of the left iliac vein by the overlying right iliac artery. This anatomical anomaly predisposes patients, especially young to middle‐aged women, to deep vein thrombosis (DVT), which when it persists, leads to complications such as pulmonary embolism and chronic venous insufficiency. Despite its clinical significance, there is a lack of standardized guidelines for diagnosis and management. This review aims to summarize current knowledge on the epidemiology, pathophysiology, diagnostic approaches, and therapeutic strategies for MTS while highlighting challenges in establishing a consistent clinical framework. A comprehensive literature search was conducted using PubMed and Google Scholar, focusing on English‐language studies involving human subjects. Sources included case reports, case series, clinical trials, systematic reviews, and expert consensus guidelines. Additional literature on iliac vein pathophysiology and venous thromboembolism management was reviewed to provide broader clinical context. Reference lists of key publications were manually examined for additional relevant studies. The final literature search was completed on April 5, 2025. Common diagnostic methods for MTS include duplex ultrasound, CT venography, and MR venography, with intravascular ultrasound showing the highest sensitivity (> 98%). Endovascular stenting, often combined with catheter‐directed thrombolysis, provides significant symptom relief and reduces post‐thrombotic syndrome. In contrast, angioplasty alone was linked to higher recurrence rates. Long‐term patency rates following stenting ranged from 79% to 100%. However, the absence of standardized diagnostic and treatment protocols contributes to variability in clinical outcomes. MTS remains an underrecognized cause of DVT, especially among young women. Although advances in diagnostic imaging and minimally invasive interventions have improved management, the lack of evidence‐based guidelines continues to interfere with optimal care. Early diagnosis and individualized treatment plans are crucial, and further research is needed to establish evidence‐based protocols for consistent management of MTS.",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Introduction"
+    },
+    {
+      "type": "paragraph",
+      "text": "Deep Vein Thrombosis (DVT) is a venous vascular disorder that can cause severe complications including life threatening pulmonary embolism. There are several risk factors for DVT including hypercoagulation syndromes (Factor V Leiden mutation, Protein C and S deficiency), prolonged immobilization, pregnancy, smoking, oral contraceptives intake and postsurgical status of the patient []. An important yet under‐appreciated cause of DVT is anatomical abnormalities of lower extremity venous system."
+    },
+    {
+      "type": "paragraph",
+      "text": "May–Thurner syndrome (MTS) is a venous vascular disorder caused by compression of left common iliac vein against the lumbar spine by the right common iliac artery []. In 1851, Rudolf Virchow first documented the compression of the left iliofemoral vein by the right iliac artery, following cadaveric examinations of patients with left iliofemoral thrombosis []. May and Thurner were the first to identify intraluminal fibrous tissue obstructions called “Spurs” within the left iliofemoral veins, caused by compression from the right iliac artery, in 1957 []. However, cases of right‐sided iliac vein compressions leading to right sided May–Thurner syndrome have also been reported in the literature []. Despite the recent advances, a streamline diagnostic and treatment approach are missing for optimal management of this rare yet clinically significant syndrome."
+    },
+    {
+      "type": "paragraph",
+      "text": "This literature review aims to summarize the current knowledge regarding epidemiology, pathophysiology, clinical presentation, diagnosis, management, complications and recent advances and challenges of May–Thurner syndrome."
+    },
+    {
+      "type": "heading",
+      "text": "Epidemiology"
+    },
+    {
+      "type": "paragraph",
+      "text": "The exact incidence and prevalence of this syndrome are not exactly known and assumed to be underdiagnosed. Its prevalence majorly depends upon the population being studied. One cohort study reported a prevalence of 14.8% in patients with chronic venous insufficiency of left sided lower extremity []. Females are at higher risk for developing this syndrome than males, with a female‐to‐male ratio of approximately 2:1 []. It classically affects young women between the ages of 20 and 30 who experience long‐lasting swelling in their left leg."
+    },
+    {
+      "type": "heading",
+      "text": "Pathophysiology"
+    },
+    {
+      "type": "paragraph",
+      "text": "Under the consideration of the anatomy of lower extremity venous system, the left iliac vein's position makes it more vulnerable to compression by the right iliac artery []. Unlike the right iliac vein, which runs more vertically, the left vein runs horizontally, increasing its chance of being squeezed by the overlying artery []. Arterial pulsations and mechanical compression cause endothelial damage and lead to the formation of fibrous “spurs” in veins. The vein's inner lining becomes inflamed and thickens, forming scar tissue and abnormal growths within the vessel [] leading to the obstruction of the vein. A blood clot can form either due to changes in blood flow within the vein itself or because a clot from a smaller vein has traveled and become lodged there."
+    },
+    {
+      "type": "heading",
+      "text": "Clinical Presentation"
+    },
+    {
+      "type": "paragraph",
+      "text": "The majority of patients with MTS are asymptomatic. If symptomatic, the clinical manifestations usually range from sudden onset of left lower extremity swelling with DVT to less dramatic presentations of chronic venous disease including edema, pain, varicose veins, pigment changes, ulcers, or other stigmata of post thrombotic syndrome (PTS). Patients may present with acute episodic heaviness and swelling of left lower limb or venous claudication which is relieved with rest and leg elevation []."
+    },
+    {
+      "type": "paragraph",
+      "text": "The most prevalent finding and clinically significant manifestation of MTS is DVT that can potentially leads to pulmonary embolism []. If DVT is not treated in a timely manner, the occlusion can worsen, potentially leading to symptoms such as skin discoloration and pigmentation of the leg. Over time, these changes may result in venous ulcers, primarily due to the onset of chronic venous insufficiency []."
+    },
+    {
+      "type": "paragraph",
+      "text": "Majority of the patients are investigated for iliac vein compression especially when the conventional treatments of varicose vein fail [], the extensive investigation after treatment failure for varicose veins ultimately reveals MTS."
+    },
+    {
+      "type": "heading",
+      "text": "Diagnosis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Usually, physicians often suspect MTS based on a patient's symptoms and initial tests including clinical assessment of DVT probability using tools such as the Wells score and non‐invasive venous Duplex ultrasound (USG) []. Definite confirmation of MTS requires visualization of the stenotic venous lesion in its parent location. Patients at moderate to high risk for DVT undergo a venous duplex ultrasound, the gold standard for diagnosing proximal DVT, which shows deep venous reflux on Valsalva maneuver in case of MTS []."
+    },
+    {
+      "type": "paragraph",
+      "text": "If no thrombus is found in the venous system on ultrasound but the clinical suspicion is high, further diagnostic studies are recommended as only 47% of the common iliac vein visualization was estimated using doppler USG. Although the Doppler ultrasound is inexpensive and readily available but highly dependent on the operator and it possesses limitations like body habitus (obesity) and the deep location of iliac veins in the pelvis [, , , ]."
+    },
+    {
+      "type": "paragraph",
+      "text": "Further diagnostic modalities include CT venography, MR venography, intravascular ultrasonography, and catheter venography. Studies show CT venography and MR venography has a high success rate, with over 95% sensitivity and specificity for detecting iliac vein compression and other vascular issues [, , , ]. CT venography can clearly visualize the narrowing of the left iliac vein caused by the right iliac artery (compression), other potential problems with blood vessels in that area (vascular abnormalities) and blood clots within the veins (thrombosed veins) [, ], which typically appear wider than healthy veins."
+    },
+    {
+      "type": "paragraph",
+      "text": "Another essential diagnostic tool in diagnosing MTS is Magnetic Resonance Venography (MRV). MRV has shown outstanding sensitivity and specificity (95%) in identifying DVT that result in MTS because of its high accuracy, comprehensive imaging and capability to distinguish old and new clots [, , , ]. Although non‐invasive imaging modalities such as duplex USG, CT venography, and MRV are crucial in investigating MTS and detecting DVT, but they have certain limitations that can make it difficult to rule out total occlusion of the iliac vein. Similar to iodinated contrast media, MR contrast agents have a significant disadvantage in that they impose a limited imaging time frame and may require repeat contrast administration if the first imaging results are considered poor []."
+    },
+    {
+      "type": "paragraph",
+      "text": "This perceived limitation can be effectively addressed through the utilization of blood‐pool contrast agents (BPCA), which have the capacity to persist in circulation for extended durations, enabling a more dependable and comprehensive examination []. Notably, Gadofosveset trisodium (Ablavar, Lantheus Medical Imaging, North Billerica, MA) stands out as the predominant BPCA employed for venous imaging and has exhibited notable efficacy in the diagnostic assessment of MTS []."
+    },
+    {
+      "type": "paragraph",
+      "text": "Invasive procedures such as conventional catheter venography and intravascular ultrasound (IVUS) play a vital role in achieving a definitive diagnosis and formulating effective treatment plans. The evolution of IVUS has notably superseded traditional catheter venography procedures, particularly in cases where noninvasive diagnostic methods fall short. The drawbacks associated with catheter venography, which include the use of contrast agents, exposure to radiation, lengthy procedural durations, and risks of bleeding, position it as a suboptimal modality for diagnostic purposes. IVUS stands out for its exceptional sensitivity, surpassing 98%, in detecting iliac vein compression. Additionally, it precisely characterizes the specific location and severity of conditions such as fibrosis, stenosis, and thrombus formation within the vascular system []. Moreover, IVUS is the only preferred imaging technique that can detect and measure subtle changes in blood vessels []. It provides information regarding thrombus age and duration, easing treatment decisions, such as the option to pursue clot lysis []. Although intravascular ultrasonography does not require contrast agents, it is invasive and not widely available. Moreover, it cannot provide detailed information regarding the nearby anatomical structures."
+    },
+    {
+      "type": "heading",
+      "text": "Management"
+    },
+    {
+      "type": "paragraph",
+      "text": "To date, no specialized or gold standard guidelines are available for effective management of MTS. Additionally, the latest guidelines for managing venous thromboembolism advise against the prolonged use of thrombolytic therapy for treating acute DVT. Hence the MTS management has not been considered separately. The treatment options outlined in the literature include balloon angioplasty, endovascular stenting, catheter‐directed thrombolysis, pharmaco‐mechanical thrombolysis, and certain surgical procedures such as thrombectomy and vein decompression []. Numerous retrospective studies and articles have emphasized the effectiveness of minimally invasive techniques, as they offer symptomatic relief while maintaining a favorable safety profile. However, when angioplasty is done without placing a stent, the chances of the treated artery closing up again are higher, leading to lower long‐term success rates []. A recurrence rate of 73% was appreciated in patients suffering with acute left‐sided ilio‐femoral DVT when they were managed without placing a stent []."
+    },
+    {
+      "type": "paragraph",
+      "text": "Angioplasty with stent placement have become widely used in recent years, with most patients experiencing good results, as the arteries remain patent 79%–100% of the time for up to one to 2 years after the procedure []."
+    },
+    {
+      "type": "paragraph",
+      "text": "Catheter‐directed thrombolysis is more effective than anticoagulation therapy at removing the thrombus and alleviating adverse symptoms []. CAVENT, a prospective randomized controlled trial, highlighted that patients with ileo‐femoral DVT who were managed with combination of both catheter‐directed therapy and anticoagulation had lower incidence of PTS when compared to the management with anticoagulation alone []. The study showed an absolute risk reduction (ARR) of 14.4% []. Endovascular physicians generally agree that failing to treat a known iliac vein obstruction in a patient undergoing catheter‐directed thrombolysis for DVT puts the patient at a higher risk of re‐thrombosis []."
+    },
+    {
+      "type": "paragraph",
+      "text": "Catheter‐directed thrombolysis in combination with stent placement has become a preferred intervention in the patients with acute iliofemoral venous thrombosis. Three randomized controlled trials that assessed the benefit of catheter‐directed thrombolysis along with stent placement and anticoagulation for the treatment of extensive DVT found that combining these interventions led to better results in preventing PTS and flow across the valves as compared to management with anticoagulation alone [, ]."
+    },
+    {
+      "type": "heading",
+      "text": "Complications"
+    },
+    {
+      "type": "paragraph",
+      "text": "While the gold standard management of MTS is yet to be figured out, the inadequate treatment of MTS leads to deleterious complications including PTS [], re‐thrombosis, valvular reflux, chronic venous insufficiency [], phlegmasia cerulea dolens [], phlegmasia alba dolens and life‐threatening pulmonary embolism []."
+    },
+    {
+      "type": "heading",
+      "text": "Recent Advances and Challenges"
+    },
+    {
+      "type": "paragraph",
+      "text": "As mentioned above in management strategies, stents were shown to reduce the post‐operative complications and recurrence of DVT, as the arteries remain almost patent for nearly one to 2 years post procedurally [], when compared to the anticoagulation therapy in absence of stent placement. Moreover, the studies including the CAVENT trial [] as mentioned previously, suggest that while stents can be used, their role is limited and should be considered with caution through careful case‐by‐case evaluation."
+    },
+    {
+      "type": "paragraph",
+      "text": "This highlights the ongoing need for guidelines and expert consensus. Given the complexity of the situation, additional research is necessary to establish a standardized, evidence‐based approach to managing MTS, one that minimizes the risk of both immediate and long‐term complications."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusion"
+    },
+    {
+      "type": "paragraph",
+      "text": "In view of the above, May–Thurner Syndrome, despite being a clinically significant cause of DVT, especially in middle‐aged women, is still undertreated and mismanaged. Advances in imaging modalities, including MR venography and intravascular ultrasound, have enhanced diagnostic precision, though challenges persist regarding accessibility and procedural invasiveness. Therapeutic approaches such as catheter‐directed thrombolysis and endovascular stenting have yielded favorable outcomes, but the lack of standardized treatment protocols remains a persistent concern. As clinical awareness of MTS expands, ongoing research and expert consensus are essential for developing evidence‐based guidelines that optimize care, minimize complications, and improve long‐term prognosis. Timely diagnosis, interdisciplinary collaboration, and tailored treatment strategies remain fundamental to the effective management of this frequently overlooked vascular disorder."
+    },
+    {
+      "type": "heading",
+      "text": "Author Contributions"
+    },
+    {
+      "type": "paragraph",
+      "text": "**Abdul Rehman Shahid Khan:** conceptualization, literature review, writing – original draft, and supervision. **Yashika Gupta:** writing – review and editing, visualization, and project administration. **Ali Gohar:** methodology, validation, and data curation. **Danish Ali Chohan:** investigation, formal analysis, writing – review and editing. **Betsy Samuel:** resources, literature review, and writing – original draft. **Yeshwini Murali Krishna:** visualization, writing – review and editing, and data curation. **Haseeb Ahmad:** methodology, investigation, writing – review and editing. **Muhammad Husnain Ahmad:** literature review, validation, writing – review and editing. **Masab Ali:** supervision, project administration, conceptualization, and final approval. **Muhammad Umar Nadeem:** formal analysis, data curation, and writing – original draft. **Ahmad Zia:** resources, validation, writing – review and editing. **Iqra Nasir:** literature review, writing – review and editing, and visualization."
+    },
+    {
+      "type": "heading",
+      "text": "Funding"
+    },
+    {
+      "type": "paragraph",
+      "text": "The authors received no specific funding for this work."
+    },
+    {
+      "type": "heading",
+      "text": "Ethics Statement"
+    },
+    {
+      "type": "paragraph",
+      "text": "The authors have nothing to report."
+    },
+    {
+      "type": "heading",
+      "text": "Conflicts of Interest"
+    },
+    {
+      "type": "paragraph",
+      "text": "The authors declare no conflicts of interest."
+    },
+    {
+      "type": "heading",
+      "text": "Transparency Statement"
+    },
+    {
+      "type": "paragraph",
+      "text": "The corresponding author, Muhammad Husnain Ahmad, affirms that this manuscript is an honest, accurate, and transparent account of the study being reported; that no important aspects of the study have been omitted; and that any discrepancies from the study as planned (and, if relevant, registered) have been explained."
+    }
+  ]
+}
