@@ -1,0 +1,335 @@
+{
+  "id": "PMC13133393",
+  "title": "Network toxicology and bioinformatic investigation of the association between Bisphenol A and endometrial cancer",
+  "journal": "Scientific Reports",
+  "fetch_date": "2026-05-05",
+  "publish_date": "2026-03-18",
+  "authors": [
+    "Yihan Yang",
+    "Xuesong Zhang",
+    "Meng Xue",
+    "Xujin Wu",
+    "Mingyue Kong",
+    "Tianjiao Li",
+    "Ziqi Dai",
+    "Yue Xu",
+    "Xin Chen"
+  ],
+  "license": "Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13133393/",
+  "abstract": "The role of Bisphenol A (BPA) in endometrial cancer (EC) remains uncertain. In this study, we integrated toxicological prediction, network toxicology, gene expression profiling, survival analysis, and molecular docking to explore potential BPA-associated molecular features in EC. Toxicological predictions from ADMETLAB 3.0 and ProTox-3 suggested a potential affinity of BPA for estrogen receptor α (ERα), along with possible involvement in oxidative stress and mitochondrial dysfunction. Integrative database analysis identified 129 putative BPA–EC–related genes, and GO/KEGG enrichment analyses indicated enrichment in angiogenesis-related processes and dysregulation of EGFR, MAPK, and FoxO signaling pathways. Analysis of TCGA-UCEC data identified 48 differentially expressed genes, among which five genes (ESR1, NOTCH1, GABARAP, B4GALT1, and PAN3) showed significant associations with overall survival in univariate Cox regression analyses. Kaplan–Meier analysis indicated that higher expression of GABARAP and NOTCH1 was associated with poorer survival, whereas higher expression of ESR1 and B4GALT1 was associated with more favorable outcomes. External validation using the GEO dataset GSE17025 supported differential expression patterns and prognostic relevance for ESR1, PAN3, B4GALT1, and NOTCH1. Molecular docking analyses indicated theoretical structural interaction feasibility between BPA and several key proteins, based on in silico simulations. Collectively, these findings provide bioinformatic and toxicogenomic evidence suggesting potential associations between BPA exposure and EC-related molecular pathways. This study is hypothesis-generating and may help prioritize candidate genes and pathways for future experimental validation and mechanistic investigation. The online version contains supplementary material available at 10.1038/s41598-026-44589-z.",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Introduction"
+    },
+    {
+      "type": "paragraph",
+      "text": "Bisphenol A (BPA) is widely present in everyday life and is extensively used in the manufacture of polycarbonate plastics and epoxy resins due to its cross-linking properties. Due to its significant advantages in heat resistance and elasticity, the use of BPA has been increasing globally and is widely applied in many everyday items such as plastic bags, bottles, can coatings, dental sealants, paints, and CD-ROMs. This substance is a colorless solid that is soluble in organic solvents but difficult to dissolve in water. Under conditions of high-temperature heating or pH changes, it can leach out of plastic products and enter the human body through food or drinking water, where it accumulates.Previous studies have shown that even at low doses and environmentally relevant concentrations, BPA exposure can affect the brain, liver, intestines, adipose tissue, breasts, and reproductive system, and is associated with various health issues such as obesity, diabetes, cardiovascular disease, polycystic ovary syndrome, and reduced male fertility."
+    },
+    {
+      "type": "paragraph",
+      "text": "In recent years, increasing evidence suggests that BPA may be involved in the development of endometrial cancer (EC). Animal studies have found that long-term low-dose BPA exposure can disrupt the estrogen cycle and induce estrogen-like pathological changes in uterine tissue. BPA can also promote abnormal proliferation of endometrial epithelial cells by activating fibroblast growth factor receptors and the ERK1/2 signaling pathway, inhibiting the expression of the tumor suppressor gene HAND2, and disrupting the balance between estrogen and progesterone signaling. In vitro experiments also showed that BPA can promote EC cell proliferation and epithelial-mesenchymal transition (EMT) through estrogen-related receptor γ (ERRγ) nuclear translocation, activation of EGF-dependent or EGF-independent pathways, and COX-2 overexpression. Additionally, its epigenetic effects are gradually becoming evident, such as the downregulation of miR-149 and upregulation of miR-107, which respectively promote cell cycle imbalance and proliferation."
+    },
+    {
+      "type": "paragraph",
+      "text": "EC is one of the most common gynecological malignancies among women in developed countries and represents a hormonally regulated tumor characterized by complex interactions between endocrine signaling and intracellular oncogenic pathways. Recent studies have highlighted the importance of hormone receptor–mediated mechanisms and aberrant activation of key signaling cascades, including PI3K/AKT and MAPK/ERK pathways, in EC progression and therapeutic response^(,). Moreover, accumulating evidence indicates that exogenous compounds and bioactive molecules can modulate these molecular pathways in gynecological cancers, underscoring the potential influence of environmental and chemical exposures on tumor development and progression."
+    },
+    {
+      "type": "paragraph",
+      "text": "Globally, EC ranks among the most prevalent malignancies affecting women and is the sixth most common female cancer worldwide. Over the past 30 years, its incidence has increased by 132%, with 420,242 new cases and 97,704 deaths reported worldwide in 2022. Although existing studies have revealed multiple potential mechanisms of BPA’s role in the development of EC in cellular and animal models, including estrogen-like effects, abnormal activation of key signaling pathways, and epigenetic regulation, most studies have limited sample sizes and lack systematic integration analysis based on large-scale human transcriptomic data. To date, the systematic association between BPA-related differentially expressed genes and EC prognosis has not been fully validated, providing the rationale and necessity for this study."
+    },
+    {
+      "type": "paragraph",
+      "text": "This study employs a combination of toxicity prediction, network toxicology, differential expression analysis, survival analysis, and molecular docking to explore the key genes and potential mechanisms underlying BPA exposure and EC development at the molecular level, and to assess its clinical prognostic value, thereby providing theoretical support for the prevention and control of environmental carcinogens and early intervention in EC."
+    },
+    {
+      "type": "heading",
+      "text": "Methods"
+    },
+    {
+      "type": "heading",
+      "text": "Identification of Bisphenol A toxicity"
+    },
+    {
+      "type": "paragraph",
+      "text": "The chemical structure and molecular information of BPA were obtained from PubChem (https://pubchem.ncbi.nlm.nih.gov*).* Using ADMETLAB 3.0 (https://admetlab3.scbdd.com*)* and ProTox3, its toxicity characteristics were analyzed via SMILES notation to assess safety and potential risks."
+    },
+    {
+      "type": "heading",
+      "text": "Collection of Bisphenol A target genes"
+    },
+    {
+      "type": "paragraph",
+      "text": "Potential BPA targets were retrieved from the ChEMBL database (https://www.ebi.ac.uk/chembl/*)* using SMILES information obtained from PubChem, with the organism restricted to Homo sapiens. Target gene names were standardized according to the UniProt database, and a BPA target gene dataset was established."
+    },
+    {
+      "type": "heading",
+      "text": "Endometrial cancer-related gene set"
+    },
+    {
+      "type": "paragraph",
+      "text": "Endometrial cancer (EC)–related genes were identified by querying two publicly available disease–gene databases, GeneCards (https://www.genecards.org/*)* and OMIM (https://www.omim.org/*)*, using the keyword “endometrial cancer.” To construct a comprehensive candidate gene set at the hypothesis-generation stage, no strict relevance score or evidence-level threshold was applied during gene retrieval. The gene lists obtained from the two databases were merged, and duplicate entries were removed to generate the EC-related gene set."
+    },
+    {
+      "type": "heading",
+      "text": "Core target screening and protein interaction network construction"
+    },
+    {
+      "type": "paragraph",
+      "text": "The intersection of BPA targets and EC-related targets was obtained, and the resulting intersection targets were input into the STRING database (https://cn.string-db.org/*)* to construct a protein-protein interaction network. Visualization analysis was performed using Cytoscape v3.10.0 (https://cytoscape.org/)."
+    },
+    {
+      "type": "heading",
+      "text": "GO/KEGG enrichment analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "The DAVID online tool (https://davidbioinformatics.nih.gov/*)* was used for Gene Ontology (GO) analysis and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway analysis to identify functional annotations and pathway enrichment associated with potential genes^(,). Visualization analysis was performed on MicroBioInfo (https://www.bioinformatics.com.cn/*)* and the Maiwei Cloud Platform (https://cloud.metware.cn/*).*"
+    },
+    {
+      "type": "heading",
+      "text": "Acquisition of TCGA-UCEC gene expression data"
+    },
+    {
+      "type": "paragraph",
+      "text": "RNA-seq count data and corresponding clinical information were downloaded from the TCGA-UCEC project via the Genomic Data Commons portal (https://portal.gdc.cancer.gov/*)* for subsequent analyses."
+    },
+    {
+      "type": "heading",
+      "text": "Screening and analysis of differentially expressed genes"
+    },
+    {
+      "type": "paragraph",
+      "text": "Differential expression analysis was performed using the “DESeq2” R package, with screening criteria set as padj < 0.05 and |log₂FoldChange| ≥ 1."
+    },
+    {
+      "type": "heading",
+      "text": "GO/KEGG enrichment analysis of differentially expressed genes"
+    },
+    {
+      "type": "paragraph",
+      "text": "GO and KEGG pathway enrichment analyses were performed on differentially expressed genes using the human genome annotation package (*org.Hs.eg.db*) as the reference background. Statistical significance was defined as P-value < 0.05, with adjusted P-values applied for multiple testing correction. Enrichment results were visualized accordingly."
+    },
+    {
+      "type": "heading",
+      "text": "Univariate Cox regression and survival analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Univariate Cox regression analysis was performed on all differentially expressed genes to identify prognostic genes significantly associated with overall survival (OS) in EC patients. Cox analysis was conducted using the “survival” R package, with a selection criterion of *P* < 0.05. Forest plots were created for the selected key genes, and further Kaplan-Meier survival analysis was performed using the “survminer” package for visualization. Patients were divided into high-expression and low-expression groups based on median expression values, and the statistical significance of survival differences was assessed using the Log-rank test. All analyses were performed in RStudio."
+    },
+    {
+      "type": "heading",
+      "text": "Univariate and multivariate Cox analysis of clinical variables"
+    },
+    {
+      "type": "paragraph",
+      "text": "Univariate Cox analysis was performed on clinical variables of UCEC patients, and significant variables were included in the multivariate model. The variance inflation factor (VIF) was calculated, and the results were expressed as hazard ratios (HR) and 95% confidence intervals (CI)."
+    },
+    {
+      "type": "heading",
+      "text": "Association analysis of Bisphenol A"
+    },
+    {
+      "type": "paragraph",
+      "text": "The Comparative Toxicogenomics Database (CTD)(https://ctdbase.org/*)* was used to retrieve interaction information between candidate genes and BPA. Interaction types and the number of supporting literature references were extracted. The retrieved data were annotated and organized to evaluate the potential involvement of BPA in EC-related biological processes^(,)."
+    },
+    {
+      "type": "heading",
+      "text": "GEO dataset validation"
+    },
+    {
+      "type": "paragraph",
+      "text": "Gene expression validation was conducted using GEO datasets. GSE17025 was used as the primary validation cohort. Expression data and sample annotations were processed in R, and samples were classified as tumor or normal endometrium based on GEO annotations. Probe sets were mapped to gene symbols using platform information, and gene-level expression values were obtained by averaging probes mapping to the same gene. An additional GEO dataset, GSE36389, was analyzed using the same preprocessing strategy."
+    },
+    {
+      "type": "heading",
+      "text": "Diagnostic performance and clinical staging expression analysis of key genes"
+    },
+    {
+      "type": "paragraph",
+      "text": "Receiver operating characteristic (ROC) curves were generated using the “pROC” R package, and the area under the curve (AUC) was calculated to evaluate diagnostic performance. FIGO staging information from the TCGA dataset was incorporated to analyze gene expression differences across clinical stages. Box plots were generated using the “ggplot2” package."
+    },
+    {
+      "type": "heading",
+      "text": "Molecular docking"
+    },
+    {
+      "type": "paragraph",
+      "text": "Protein crystal structures were downloaded from the RCSB Protein Data Bank (https://www.rcsb.org/*)*. Ligands and water molecules were removed using PyMOL. The three-dimensional structure of BPA was obtained from PubChem. Molecular docking simulations were performed using AutoDock Tools 1.5.6. Binding energies were recorded, and docking conformations were visualized using PyMOL."
+    },
+    {
+      "type": "heading",
+      "text": "Results"
+    },
+    {
+      "type": "heading",
+      "text": "Toxicological profile of BPA relevant to endometrial cancer"
+    },
+    {
+      "type": "paragraph",
+      "text": "To preliminarily assess the potential biological relevance of BPA to EC, toxicity predictions were conducted using two online platforms: ADMETLAB 3.0 and ProTox3. ProTox analysis indicated a high binding probability (1.0) for estrogen receptor alpha (ERα) and its ligand-binding domain (ER-LBD), suggesting estrogen-like activity. In addition, BPA showed a high probability of affecting mitochondrial membrane potential, implying a potential association with oxidative stress and mitochondrial dysfunction. BPA was also predicted to inhibit CYP2C9, which may interfere with estrogen metabolism and clearance. ADMETLAB 3.0 further suggested potential cytotoxicity and hERG blockade, indicating that BPA exposure may exert multiple cellular effects relevant to hormone-dependent tumor biology (Tables  and )."
+    },
+    {
+      "type": "paragraph",
+      "text": "Table 1PROTox -prediction of toxicity of chemicals.ClassificationTargetPredictionProbabilityTox21-Nuclear receptor signalling pathwaysEstrogen Receptor Alpha (ER)Active1.0Tox21-Nuclear receptor signalling pathwaysEstrogen Receptor Ligand Binding Domain (ER-LBD)Active1.0Tox21-Stress response pathwaysMitochondrial Membrane Potential (MMP)Active1.0MetabolismCytochrome CYP2C9Active0.77"
+    },
+    {
+      "type": "paragraph",
+      "text": "Table 2ADMETLAB 3.0 -prediction of toxicity of chemicals.ClassificationProbabilityEye Irritation0.998Skin Sensitization0.846Eye Corrosion0.843hERG Blockers (10 μm)0.837Hek293 Cytotoxicity0.785Drug-induced Neurotoxicity0.742A549 Cytotoxicity0.701"
+    },
+    {
+      "type": "heading",
+      "text": "Identification of BPA–EC candidate genes through integrative target intersection"
+    },
+    {
+      "type": "paragraph",
+      "text": "By cross-referencing BPA-related targets with EC-associated genes curated in public disease databases, we identified a set of candidate genes potentially linking BPA exposure to EC. A search of the CHEMBL database yielded 851 potential BPA target genes; after restricting the Organism to “Homo sapiens” and performing standardization and deduplication, 226 genes remained. Concurrently, searching “Endometrial cancer” in GeneCards and OMIM using a broad inclusion strategy yielded 12,661 related genes. The intersection of these two gene sets identified 129 shared genes, considered potential BPA–EC candidate genes (Fig. a)."
+    },
+    {
+      "type": "heading",
+      "text": "Network-based prioritization and functional characterization of BPA–EC candidate genes"
+    },
+    {
+      "type": "paragraph",
+      "text": "The 129 candidate genes were imported into the STRING database for protein-protein interaction (PPI) analysis. Visualization was performed using Cytoscape v3.10.0, and core genes were identified via the Degree algorithm of the CytoHubba plugin. Network topology analysis revealed several highly connected nodes, suggesting potential functional significance within the interaction network (Fig. b). GO enrichment analysis indicated that these genes were enriched in biological processes such as angiogenesis, EGFR signaling, and protein autophosphorylation. Cellular component analysis highlighted enrichment in protein complexes, cytoplasm, and extracellular matrix, while molecular function terms were primarily associated with kinase and metalloproteinase activities (Fig. c). KEGG pathway analysis further revealed enrichment in MAPK signaling pathways, FoxO signaling pathways, endocrine resistance, and cancer-related pathways(Fig. d), suggesting that BPA-associated genes may participate in multiple signaling processes relevant to EC."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fig. 1(**a**) Shows a Venn diagram illustrating the overlap between Bisphenol A-related target genes and endometrial cancer-related genes. The diagram indicates that there are 129 common target points, highlighting the overlap between Bisphenol A-related target genes and endometrial cancer-related genes, (**b**) Visualization analysis of the PPI network using Cytoscape v3.10.0, with nodes colored and sized according to their degree values, where darker colors and larger circles indicate stronger interactions, (**c**) GO enrichment analysis of Bisphenol A-endometrial cancer target genes, (**d**) KEGG enrichment analysis of Bisphenol A-endometrial cancer target genes, the KEGG pathway map was adapted from KEGG database(www.kegg.jp/kegg/kegg1.html)."
+    },
+    {
+      "type": "heading",
+      "text": "Acquisition of TCGA-UCEC gene expression data"
+    },
+    {
+      "type": "paragraph",
+      "text": "The RNA-seq counts matrix and clinical information from the TCGA-UCEC project were downloaded from the TCGA database, encompassing 553 primary tumor samples and 35 normal samples. Gene information from the RNA-seq counts matrix was intersected with 129 BPA–EC candidate genes. Differential expression analysis was performed using the “DESeq2” package, with selection criteria set as padj < 0.05 and |log₂FoldChange| ≥ 1. A total of 48 differentially expressed genes were identified, comprising 24 upregulated and 24 downregulated genes. A volcano plot (Fig. a) displayed the significant genes, while a heatmap (Fig. b) showed that tumor tissues highly expressed CDKN2A, NEK2, NR5A1, LTF, etc., whereas normal tissues highly expressed PSD, SNCA, HGF, PDGFRA, etc. GO and KEGG enrichment analyses of the differentially expressed genes revealed a more focused functional profile compared to the broader set of BPA–EC candidate genes. BP enrichment highlighted signal transduction regulation, including PI3K/AKT signaling, EGFR-related signaling, protein autophosphorylation, and cellular stress responses; CC enrichment highlighted extracellular matrix-associated structures, vesicular compartments, and platelet α-granules, suggesting potential involvement in tumor microenvironment organization and intercellular communication. MF enrichment primarily focused on nuclear receptor activity, transcription factor binding, and serine/threonine kinase activity, indicating a predominance of regulatory rather than structural functions (Fig. c). KEGG analysis (Fig. d) revealed significant pathways including Focal adhesion, FoxO signaling, EGFR tyrosine kinase inhibitor tolerance, and NOD-like receptor signaling. Specific enrichment in complement cascade, tumor dysregulation, and autophagy suggests these pathways may exert more direct regulatory roles in BPA-mediated EC pathophysiology."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fig. 2(**a**) Volcano plot of TCGA-UCEC transcriptomic data differential expression analysis, with red indicating upregulation and blue indicating downregulation. The top 10 most significantly upregulated and downregulated genes are marked in the figure, (**b**) Heatmap of differential expression analysis of TCGA-UCEC transcriptomic data, selecting the top 15 up-regulated and down-regulated genes, (**c**) GO enrichment analysis of differentially expressed genes, (**d**) KEGG enrichment analysis of differentially expressed genes, the KEGG pathway map was adapted from KEGG database(www.kegg.jp/kegg/kegg1.html)."
+    },
+    {
+      "type": "heading",
+      "text": "Prognostic relevance of BPA-associated genes in endometrial cancer"
+    },
+    {
+      "type": "paragraph",
+      "text": "Univariate Cox regression analysis identified five genes associated with overall survival (OS) in endometrial carcinoma: ESR1, NOTCH1, GABARAP, B4GALT1, and PAN3 **(**Fig. a**)**. To account for multiple testing among genes, P values were corrected using the Benjamini–Hochberg false discovery rate (BH-FDR) method, and all five genes remained statistically significant (FDR < 0.05). KM analysis revealed that high expression of GABARAP and NOTCH1 was associated with poorer prognosis, while high expression of ESR1 and B4GALT1 was linked to more favorable outcomes. Notably, PAN3 exhibited crossing survival curves. Landmark Cox regression analysis indicated that PAN3 expression was not significantly associated with survival in the early follow-up period but showed a significant association with worse prognosis during late follow-up, suggesting a potential time-dependent prognostic effect **(**Fig. b–f**)**."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fig. 3(**a**) Univariate Cox regression forest plot of five candidate genes, (**b**) Kaplan-Meier survival curve of GABARAP, (**c**) Kaplan-Meier survival curve of NOTCH1, (**d**) Kaplan-Meier survival curve of ESR1, (**e**) Kaplan-Meier survival curve of B4GALT1. (**f**) Kaplan-Meier survival curve of PAN3. P values in the forest plot represent raw P values; BH-FDR–adjusted q values are reported in the main text."
+    },
+    {
+      "type": "heading",
+      "text": "Clinical determinants of overall survival in UCEC"
+    },
+    {
+      "type": "paragraph",
+      "text": "Univariate and multivariate Cox regression analyses were performed on clinical variables of UCEC patients to evaluate their association with overall survival (OS). Univariate Cox regression analysis revealed that tumor grade, histological differentiation, FIGO stage, and age were significantly associated with overall survival (OS) (Fig. a). Higher tumor grades were progressively associated with increased mortality risk. Patients with advanced FIGO stages (II-IV) demonstrated significantly poorer OS compared to stage I patients, with the most pronounced difference observed between stages III and IV. Age was also significantly associated with OS, with older patients exhibiting higher mortality risk. In multivariate Cox regression analysis, tumor grade, FIGO stage, and age remained independent predictors of OS after adjusting for other clinical variables (Fig. b), indicating these factors represent strong clinical determinants of prognosis in UCEC."
+    },
+    {
+      "type": "heading",
+      "text": "BPA-associated evidence from CTD"
+    },
+    {
+      "type": "paragraph",
+      "text": "Using the Comparative Toxicogenomics Database (CTD), we validated interaction evidence for five prognostic genes (Fig. c). Results showed that all five genes had documented associations with BPA exposure in the literature. Among them, ESR1 exhibited the strongest evidence with the most curated records, while the remaining genes were also supported by multiple literature references. The overall findings support the possibility that BPA may interfere with the expression and function of these prognosis-related genes through multiple pathways, suggesting that this environmental exposure factor may hold significant biological relevance in the initiation and progression of endometrial cancer."
+    },
+    {
+      "type": "heading",
+      "text": "External validation and clinical relevance of prognostic genes"
+    },
+    {
+      "type": "paragraph",
+      "text": "To assess the reproducibility and clinical relevance of the identified prognostic genes, their expression patterns were evaluated in independent GEO datasets, and their diagnostic performance and stage-associated expression were further examined."
+    },
+    {
+      "type": "paragraph",
+      "text": "In the GSE17025 cohort, ESR1 and PAN3 were significantly downregulated in tumor tissues, whereas B4GALT1 and NOTCH1 showed mild upregulation; GABARAP did not exhibit a significant difference between tumor and normal samples (Fig. d). Analysis of an additional independent dataset (GSE36389) revealed generally consistent expression trends for the evaluated genes, although statistical significance was not achieved, likely due to limited normal sample size and platform differences. These results are shown in Supplementary Figure ."
+    },
+    {
+      "type": "paragraph",
+      "text": "ROC analysis results (Fig. e) showed that the AUC values for PAN3, ESR1, and B4GALT1 were 0.752, 0.739, and 0.743, respectively, indicating good diagnostic value. The AUC value for NOTCH1 was 0.625, suggesting relatively weaker diagnostic efficacy. Analysis of key gene expression levels across different clinical stages of EC (Fig. f) revealed significantly higher expression of ESR1 and B4GALT1 in early stages, with decreasing expression as the disease progressed. This suggests these genes may play crucial regulatory roles in tumor initiation and hold potential protective value. PAN3 exhibited a trend of high expression in early-stage EC patients and significant downregulation in advanced stages, with low expression correlated with poorer prognosis, suggesting its potential as a molecular biomarker for disease progression and prognostic assessment. NOTCH1 showed no significant differences across stages but emerged as an adverse prognostic factor."
+    },
+    {
+      "type": "paragraph",
+      "text": "Given the crossing survival curves observed for PAN3, a landmark Cox regression analysis was performed by splitting follow-up time at 12 months. In the early follow-up period, low PAN3 expression was not significantly associated with overall survival (HR = 1.75, 95% CI: 0.51–5.97). In contrast, during the late follow-up period, low PAN3 expression was significantly associated with worse survival outcomes (HR = 5.41, 95% CI: 1.21–24.20). These findings suggest that the prognostic impact of PAN3 is more pronounced in the later stages of disease progression, which may partly explain the observed crossing of survival curves."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fig. 4(**a**) Univariate Cox analysis forest plot of clinical variables, (**b**) Multivariate Cox analysis forest plot of clinical variables, (**c**) Validation of evidence of interaction between five genes and BPA, (**d**) Validation of expression differences of five genes in the GSE17025 dataset, (**e**) ROC curves for key genes, f Box plots of key gene expression in different clinical stages."
+    },
+    {
+      "type": "heading",
+      "text": "Molecular docking analysis of BPA with key proteins"
+    },
+    {
+      "type": "paragraph",
+      "text": "Molecular docking analysis was performed between BPA and the four proteins PAN3, ESR1, B4GALT1, and NOTCH1 (Fig. ). The docking results indicated that BPA could stably bind to the active pocket regions of the four proteins, with binding energies all below − 6.0 kcal/mol, among which B4GALT1 had the lowest binding energy of −7.0 kcal/mol. Upon examining the docking sites, it was observed that BPA molecules form stable compounds with key amino acid residues in each protein structure through hydrogen bonds or hydrophobic interactions, potentially affecting their structural stability or downstream functional execution. Overall, the docking analysis supports the binding feasibility between BPA and the examined proteins at a structural level. However, these in silico findings do not demonstrate functional modulation and require further experimental validation."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fig. 5Molecular docking of four BPA proteins."
+    },
+    {
+      "type": "heading",
+      "text": "Discussion"
+    },
+    {
+      "type": "paragraph",
+      "text": "BPA is a widely used environmental endocrine disruptor that can mimic or interfere with hormonal signaling due to its structural similarity to estrogen, and has been implicated in a range of hormone-dependent disorders. Accumulating experimental and epidemiological studies suggest that long-term BPA exposure may be associated with endometrial carcinogenesis through mechanisms involving estrogen receptor signaling, oxidative stress, and disruption of cellular homeostasis^(,). However, the precise molecular features linking BPA exposure to EC, particularly at the level of gene regulation and clinical prognosis, remain incompletely understood. In this context, the present study integrated toxicological prediction, network toxicology, transcriptomic analysis, survival analysis, and molecular docking to prioritize candidate genes potentially associated with BPA exposure and EC prognosis. Through this integrative bioinformatics framework, four genes—ESR1, PAN3, B4GALT1, and NOTCH1—emerged as candidates of interest, providing hypothesis-generating insights into potential molecular pathways linking BPA exposure and EC."
+    },
+    {
+      "type": "paragraph",
+      "text": "In this study, BPA-related targets were obtained from ChEMBL, which primarily catalogues experimentally validated ligand–protein interactions. In contrast, differentially expressed genes derived from TCGA represent tumor-associated transcriptional alterations. Therefore, the overlapping genes identified here should be interpreted as systems-level convergence nodes between BPA-associated molecular networks and EC-related transcriptional signatures, rather than definitive direct molecular targets of BPA in vivo. Accordingly, these genes represent candidate points of molecular intersection that warrant further functional investigation."
+    },
+    {
+      "type": "paragraph",
+      "text": "ESR1 encodes ERα, a central mediator of estrogen signaling in endometrial tissue. In this study, higher ESR1 expression was observed predominantly in early-stage EC and was associated with more favorable overall survival, suggesting a potential protective association in early tumor development^(,). These findings are consistent with previous reports indicating that loss or attenuation of ERα signaling may accompany disease progression. Given that ESR1 is a well-recognized molecular target of BPA, it is plausible that altered ESR1 expression may influence estrogen signaling balance in the presence of environmental endocrine disruptors^(,). However, the extent to which BPA exposure modulates ESR1 expression or ERα activity in EC remains to be experimentally determined, and the present results should be interpreted as associative rather than causative."
+    },
+    {
+      "type": "paragraph",
+      "text": "PAN3 is an important regulatory subunit of the mRNA degradation-related complex. Although studies on EC are limited, this research found that patients with high PAN3 expression exhibited poorer short-term follow-up outcomes, while long-term differences tended to disappear, suggesting it may regulate post-transcriptional stress responses in the early stages of the disease. Molecular docking analysis indicates potential structural binding feasibility between BPA and PAN3 at the computational simulation level. While this observation suggests possible interactions, the docking results alone do not prove functional regulation. Further experimental studies are needed to determine whether BPA exposure affects PAN3-mediated mRNA regulation in endometrial carcinoma."
+    },
+    {
+      "type": "paragraph",
+      "text": "B4GALT1 is a member of the β−1,4-galactosyltransferase family and plays an important role in protein glycosylation and cell–cell interactions. In this study, higher B4GALT1 expression was associated with favorable prognosis and was more frequently observed in early-stage EC^(,). It may exert protective effects through mechanisms such as maintaining intercellular adhesion and inhibiting extracellular matrix dissociation^(,). Docking analysis suggested that BPA may exhibit binding feasibility with B4GALT1 at a structural level. Although this finding raises the possibility that BPA exposure could be linked to glycosylation-related pathways, the biological relevance of this interaction remains speculative and requires functional validation^(,)."
+    },
+    {
+      "type": "paragraph",
+      "text": "NOTCH1 is a key component of the Notch signaling pathway, which regulates cell differentiation, proliferation, and cellular plasticity^(,). Dysregulation of Notch signaling has been implicated in treatment resistance and disease progression in several hormone-related malignancies. In EC, altered NOTCH1 activity may be associated with compensatory activation of alternative signaling pathways, such as PI3K/AKT and MAPK, potentially influencing tumor behavior. In the present study, NOTCH1 expression was associated with poorer survival outcomes, and in silico docking suggested a potential structural interaction between BPA and NOTCH1. These observations support a possible association between BPA exposure and Notch-related signaling pathways, although direct functional effects cannot be inferred without experimental validation."
+    },
+    {
+      "type": "paragraph",
+      "text": "The strengths of this study lie in its integration of multiple computational and bioinformatics approaches to explore, at a systems level, potential molecular pathways through which BPA-associated networks may intersect with EC pathogenesis. This integrative framework provides hypothesis-generating insights linking environmental exposure-related molecular signatures with tumor prognosis."
+    },
+    {
+      "type": "paragraph",
+      "text": "Nevertheless, several limitations of this study should be acknowledged. First, this study is based entirely on publicly available transcriptomic datasets, toxicogenomic databases, and in silico prediction platforms. The absence of experimental validation limits mechanistic interpretation and precludes causal inference. Second, individual-level BPA exposure data (e.g., serum or urinary concentrations) were not available in the analyzed cohorts, preventing direct exposure–response assessment. Third, the external validation cohort (GSE36389) contained a limited number of normal tissue samples, substantially reducing statistical power and potentially contributing to the lack of statistical significance observed. Larger independent cohorts are required to confirm the robustness of these candidate biomarkers. Fourth, detailed clinical information regarding endocrine therapy, hormone replacement therapy, or environmental co-exposures was unavailable in the TCGA-UCEC dataset, and thus could not be incorporated as covariates in survival models. Finally, molecular docking analyses were conducted as computational simulations to explore potential structural interaction feasibility. These results represent theoretical interaction patterns and require further experimental investigation to determine their functional relevance."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusion"
+    },
+    {
+      "type": "paragraph",
+      "text": "This study explored the potential molecular characteristics linking BPA exposure to EC by integrating multiple approaches including toxicity prediction, network toxicology, differential expression analysis, survival analysis, and molecular docking. The findings reveal that four key genes—ESR1, PAN3, B4GALT1, and NOTCH1—exhibit expression patterns correlated with prognosis and disease staging. These discoveries provide hypothesis-generating insights into potential molecular pathways linking environmental endocrine disruptors to endometrial cancer. Although derived from computational analysis and requiring experimental validation, these results offer a basis for prioritizing candidate genes and pathways in future mechanistic and translational research."
+    },
+    {
+      "type": "heading",
+      "text": "Supplementary Information"
+    },
+    {
+      "type": "paragraph",
+      "text": "Below is the link to the electronic supplementary material."
+    },
+    {
+      "type": "paragraph",
+      "text": "Supplementary Material 1"
+    }
+  ]
+}
