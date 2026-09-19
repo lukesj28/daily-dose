@@ -1,0 +1,227 @@
+{
+  "id": "PMC13585177",
+  "title": "Interface-Engineered\nHafnia–MoS2 Ferroelectric Field-Effect Transistors\nEnabling a Nearly Ideal Memory\nWindow with Back-End-of-Line Compatibility",
+  "journal": "ACS Nano",
+  "fetch_date": "2026-09-19",
+  "publish_date": "2026-08-30",
+  "authors": [
+    "Jaeho Lee",
+    "Jihoon Jeon",
+    "Jeonglyul Kim",
+    "Beomjun Kim",
+    "Sihun Kim",
+    "Donghui Kang",
+    "Junghoon Kang",
+    "Yeon Ho Kim",
+    "Jaehyung Shim",
+    "Tae Hyun Yoon",
+    "Sungmin Park",
+    "Jin Yong An",
+    "Hyojun Choi",
+    "Bong Gi Lim",
+    "Hyobin Yoo",
+    "Seong Keun Kim",
+    "Chul-Ho Lee"
+  ],
+  "license": "This article is licensed under CC-BY-NC-ND 4.0",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13585177/",
+  "abstract": "Two-dimensional (2D) semiconductors, with their atomically\nthin\ngeometry and excellent electrostatic control, are promising channel\nmaterials for ferroelectric field-effect transistors (FeFETs). However,\nintegrating high-quality ferroelectric gate stacks onto these ultrathin\nchannels in a manner compatible with modern semiconductor manufacturing,\nparticularly under back-end-of-line (BEOL) constraints, remains a\nmajor challenge primarily due to interfacial instability. Here, we\ndemonstrate interface-engineered top-gated 2D FeFETs based on monolayer\nmolybdenum disulfide (MoS_(2)) integrated with ferroelectric\nhafnium–zirconium oxide (HZO) via atomic layer deposition.\nAn ultrathin high-κ yttrium oxide (Y_(2)O_(3)) interfacial layer serves as both a nucleation and protection layer,\nenabling conformal HZO growth while preserving a sharp van der Waals\ninterface. All fabrication steps were conducted below 300 °C,\nfully satisfying BEOL thermal budgets. The resulting devices exhibit\nintrinsic polarization-driven switching rather than trap-dominant\nbehavior. Notably, they achieve a nearly ideal memory window of 3.6\nV, corresponding to ∼90% of the theoretical maximum, under\na low operating voltage of ±3.5 V, along with distinguishable\nnonvolatile switching characteristics. These results establish a CMOS\nand BEOL-compatible interface engineering strategy for integrating\nhigh-performance 2D FeFETs, providing a scalable pathway toward monolithic\n3D systems for future embedded memory and logic-in-memory applications.",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "The exponential growth of data-centric\nand edge computing has exposed the energy and latency bottlenecks\nof conventional semiconductor devices and computing architectures.\nAs a result, there is an increasing demand for next-generation device\nsolutions that simultaneously offer low power consumption, fast switching\nspeed, and integrated memory–logic functionality.\n−\n\n\n\n Ferroelectric field-effect transistors (FeFETs) have emerged as\npromising candidates by combining nonvolatility, ultrafast switching,\nand a compact one-transistor (1T) footprint, making them ideally suited\nfor embedded memory and in-memory computing.\n−\n\n Among various\nFeFET platforms, hafnium–zirconium oxide (HZO)-based FeFETs\nhave attracted particular attention due to their robust ferroelectricity\nat nanometer-scale thicknesses, scalability to advanced nodes, and\nseamless compatibility with complementary metal–oxide–semiconductor\n(CMOS) processes.\n,−\n\n\n To enable their deployment in\nsystem-level architectures, particularly monolithic three-dimensional\n(M3D) integration, it is essential that both the ferroelectric and\nchannel layers be fabricated under back-end-of-line (BEOL) constraints\nbelow 400 °C without compromising interface quality.\n,−"
+    },
+    {
+      "type": "paragraph",
+      "text": "In this context, two-dimensional (2D) semiconductors, especially\ntransition-metal dichalcogenides (TMDCs), have emerged as highly promising\nBEOL-compatible channel materials. In addition to recent reports of\nsub-400 °C synthesis, their atomically thin bodies provide excellent\nelectrostatic gate control and maximize gate efficiency.\n−\n\n\n Furthermore, ultrathin geometry helps suppress depolarization fields,\nwhich is critical for stabilizing ferroelectric polarization in ultrascaled\ndevices. The absence of dangling bonds also yields chemically inert\nsurfaces, suppressing interfacial reactions, minimizing charge traps,\nand preventing parasitic oxide formation (e.g., native SiO_(2) in silicon-based systems). These attributes collectively enable\nlow-voltage operation, large memory windows, and improved reliability\nin FeFETs.\n−"
+    },
+    {
+      "type": "paragraph",
+      "text": "Despite these advantages, the realization of CMOS-compatible\n2D\nFeFETs and the integration of high-quality ferroelectric gate stacks\nonto atomically thin van der Waals (vdW) channels under BEOL-compatible\nconditions remain major challenges, particularly for top-gated architectures.\n−\n\n\n The chemically inert nature of vdW surfaces significantly hinders\nuniform nucleation during atomic layer deposition (ALD). While recent\nadvances in 2D MOSFETs have demonstrated that this limitation can\nbe partially overcome by introducing seed layers, 2D FeFETs with top\nHZO gate stacks impose stricter requirements.\n,−\n\n Specifically, the seed layer must be ultrathin and\npossess a high dielectric constant to ensure efficient gate coupling\nwhile minimizing interfacial traps. Moreover, unlike nonferroelectric\ndielectrics, ferroelectric HZO typically requires postdeposition crystallization,\ntypically achieved by rapid thermal annealing, to stabilize the orthorhombic\nphase responsible for polarization switching. Such high-temperature processes, however, can degrade the structural\nand electrical properties of 2D channels, leading to interfacial damage\nand defect formation. These interfacial defect states often induce\ntrap-dominated switching, rather than intrinsic ferroelectric-driven\nswitching, ultimately reducing the memory window and degrading the\noverall device reliability. Consequently, most prior demonstrations\nof 2D FeFETs have relied on back-gated architectures or metal–ferroelectric–metal–insulator–semiconductor\n(MFMIS) capacitive stacks, which are inherently less scalable and\nunsuitable for practical system-level integration.\n,,,,"
+    },
+    {
+      "type": "paragraph",
+      "text": "In this work, we demonstrate a monolayer MoS_(2) FeFET\nwith a top-gated architecture, fabricated entirely under BEOL-compatible\nconditions (<300 °C) using an ultrathin high-κ yttrium\noxide (Y_(2)O_(3)) interfacial layer and annealing-free\nHZO. This integration strategy enables conformal ALD growth while\npreserving a well-defined vdW interface. The fabricated FeFETs exhibit\nintrinsic polarization-dominated switching with a large memory window\n(3.6 V at gate voltage sweep of ±3.5 V), nonvolatile characteristics,\nand state-of-the-art normalized memory performance among BEOL-compatible\n2D FeFETs. These results represent a key advance toward scalable,\nlow-power, and CMOS-compatible FeFETs."
+    },
+    {
+      "type": "heading",
+      "text": "Results and Discussion"
+    },
+    {
+      "type": "heading",
+      "text": "Design of a Monolayer MoS_(2) FeFET with a Top HZO Gate\nStack"
+    },
+    {
+      "type": "paragraph",
+      "text": "To realize a high-performance, HZO-top-gated FeFET\nwith an atomically thin MoS_(2) channel, it is essential to\nachieve conformal deposition of ferroelectric HZO onto the MoS_(2) surface, while preserving the pristine vdW interface and\nminimizing interface trap formation. To this end, an ultrathin high-κ\nY_(2)O_(3) interfacial layer is introduced, serving\nboth as a seed layer for HZO growth and as a protection layer for\nthe 2D channel during ALD (a). The effective dielectric constant of the Y_(2)O_(3) interfacial layer is estimated to be approximately\n12.6 from separate capacitance measurements of metal–insulator–metal\n(MIM) capacitors (Figure S1). Equally important\nis the stabilization of the orthorhombic ferroelectric phase at low\ntemperatures (≤300 °C) without any postdeposition annealing,\nwhich could otherwise induce interface trap states and/or damage the\ndelicate MoS_(2) channel. Detailed fabrication procedures\nare provided in the  section."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/7671/13585177/6ec2ababba45/nn6c08339_0001.webp",
+      "caption": "1 Atomically\nthin MoS_(2) FeFET with a HZO top-gate stack.\n(a) Schematic of a top-gated HZO/Y_(2)O_(3)/MoS_(2) FeFET featuring a van der Waals gap at the interface between\nthe monolayer MoS_(2) channel and the gate dielectric stack.\n(b) Representative transfer characteristics of the monolayer MoS_(2) FeFET. The red-shaded region indicates the ideal memory window\nestimated from the ferroelectric coercive field. (c) PFM phase mapping\nimage of the HZO layer. The blue lines indicate the line profile of\nthe PFM phase data. (d) The *J*–*E* hysteresis loop of the as-deposited HZO layer measured at 2 kHz\nusing a PUND (positive-up–negative-down) measurement (top),\nand the corresponding *P*–*E* characteristics (bottom) of the MFIM capacitor structure. (e) GI-XRD\npatterns of the as-deposited HZO films. The HZO/Y_(2)O_(3)/MoS_(2) stack (blue) and the HZO/Y_(2)O_(3) sample (red) show distinct diffraction peaks."
+    },
+    {
+      "type": "paragraph",
+      "text": "The fabricated monolayer MoS_(2) FeFETs\nexhibit a counterclockwise\nhysteresis loop, a clear signature of ferroelectric-polarization-driven\nswitching behavior (b). The memory window reaches 3.6 V, corresponding to approximately\n90% of the theoretical maximum value (2*E*\n_(c)·*t*) derived from coercive field (*E*\n_(c)) and film thickness (*t*), indicating\nnear-ideal utilization of the ferroelectric switching window. In addition,\nthe devices show a high on/off ratio exceeding 10^(7) and\na low gate leakage current of 10^(–6) A cm^(–2) (Figure S2). These representative results\ndemonstrate that our ferroelectric gate stacks, combined with careful\ninterface engineering, enable high-performance 2D FeFET operation."
+    },
+    {
+      "type": "paragraph",
+      "text": "To verify the ferroelectricity of as-deposited HZO, piezoresponse\nforce microscopy (PFM) measurements were performed on the HZO film\ngrown on a Y_(2)O_(3)/SiO_(2)/*p*-Si substrate (c). The phase image clearly reveals stable up- and down-polarized\ndomains with a phase contrast of ∼190°, indicating reliable\npolarization switching. This behavior is further corroborated by characteristic\nbutterfly-shaped dielectric hysteresis observed over a broad frequency\nrange (10 kHz to 1 MHz; Figure S3). Consistently,\npositive-up–negative-down (PUND) measurements using the metal–ferroelectric–insulator–metal\n(MFIM) capacitor structure show well-defined *J*–*E* and *P*–*E* hysteresis\nloops at 2 kHz (d), demonstrating robust remanent polarization and reproducible switching\nbehavior. Furthermore, independently fabricated MFIM capacitors exhibit\nhighly consistent *P*–*E* hysteresis\ncharacteristics (Figure S4), confirming\nminimal device-to-device variation in the ferroelectric response of\nthe HZO/Y_(2)O_(3) stack."
+    },
+    {
+      "type": "paragraph",
+      "text": "For further structural\nanalysis, grazing incidence X-ray diffraction\n(GI-XRD) measurements (e) confirm the crystallographic phases of HZO films deposited\non the Y_(2)O_(3)/MoS_(2) stack. Prominent\ndiffraction peaks around 30–31°, corresponding to the\northorhombic (111) and tetragonal (011) orientations, are clearly\nobserved, while no peaks associated with the monoclinic phase are\ndetected. This indicates that the ferroelectric orthorhombic phase\nis partially stabilized in the as-deposited HZO films, effectively\nsuppressing the nonferroelectric monoclinic phase. The comparable\nphase composition observed in both reference and MoS_(2) samples\nfurther confirms that the presence of MoS_(2) does not interfere\nwith the desired crystallization behavior."
+    },
+    {
+      "type": "heading",
+      "text": "Ferroelectric Gate Stack Integration Enabled by a Y_(2)O_(3) Interfacial Layer"
+    },
+    {
+      "type": "paragraph",
+      "text": "To enable reliable ferroelectric\nintegration directly onto the 2D channel, an ultrathin Y_(2)O_(3) interfacial layer plays critical dual roles: it acts\nas a nucleation-promoting seed for HZO and simultaneously protects\nthe MoS_(2) surface from ALD-induced damage. A subnanometer-thick\nmetallic yttrium (Y) layer was deposited and spontaneously oxidized\nunder ambient conditions, forming Y_(2)O_(3) due to\nits high oxygen reactivity. This room-temperature process minimizes\nthe thermal stress and prevents undesired chemical reactions at the\nMoS_(2) interface."
+    },
+    {
+      "type": "paragraph",
+      "text": "The morphological uniformity of the\noxidized Y_(2)O_(3) seed layer was characterized by\natomic force microscopy (AFM). The root-mean-square surface roughness\nof the Y_(2)O_(3)/MoS_(2) surface remains\nas low as 0.17 nm (a), comparable to that of pristine MoS_(2), indicating\nconformal coverage without inducing mechanical damage to the 2D surface.\nThe corresponding height distribution curves further support the preservation\nof the underlying MoS_(2) morphology after Y_(2)O_(3) formation­(b)."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/7671/13585177/b75396580d98/nn6c08339_0002.webp",
+      "caption": "2 Ferroelectric HZO gate stack integrated on MoS_(2) via\na high-κ Y_(2)O_(3). (a) AFM image of the Y_(2)O_(3)/MoS_(2) surface, with an RMS roughness\nof 0.17 nm. Scale bar, 0.5 μm. (b) Height histograms of the\nMoS_(2) (red) and Y_(2)O_(3)/MoS_(2) (blue) surfaces. (c) Raman spectra of the MoS_(2) (red)\nand Y_(2)O_(3)/MoS_(2) (blue). (d) Back-gated\ntransfer characteristics of the monolayer MoS_(2) device before\n(red) and after (blue) Y_(2)O_(3) deposition. (e,\nf) Cross-sectional HAADF-STEM images of the HZO/Y_(2)O_(3)/MoS_(2) stack. (e) HZO formed on monolayer MoS_(2) exhibits a crystalline structure, as confirmed by the FFT\npattern (inset) extracted from the blue dashed region of the HZO layer,\nrevealing the orthorhombic phase along the [001] zone axis. Scale\nbar, 3 nm. (f) A vdW gap of 3.3 Å is clearly observed at the\ninterface between the gate stack (HZO/Y_(2)O_(3))\nand the MoS_(2) channel, using a multilayer MoS_(2) sample specifically prepared to enhance interfacial visibility.\nScale bar, 2 nm. (g) STEM–EDS elemental maps of Mo, Y, Zr,\nand Hf obtained from (f). The right panel shows EDS line profiles\nof Mo (green), Y (blue), and Hf/Zr (red), with the inset showing the\nenlarged Y (blue) distribution."
+    },
+    {
+      "type": "paragraph",
+      "text": "To assess possible structural and chemical damage,\nRaman spectroscopy\nwas performed before and after seed layer formation. The E^(1)\n_(2g) and A^(1)\n_(g) phonon modes of MoS_(2) remain clearly identifiable with negligible shifts in peak\npositions and intensity ratios (c), suggesting the Y_(2)O_(3) seeding\nprocess does not introduce significant structural disorder. Corroborating\nthis observation, X-ray photoelectron spectroscopy (XPS) confirms\nthe chemical integrity of the interface. Specifically, the S 2p core-level\nspectrum remains well-preserved without noticeable spectral broadening\nor binding energy shifts, indicating that the outermost sulfur atoms\ndid not undergo significant chemical reactions during the seed layer\nformation (Figure S5). Further, photoluminescence\n(PL) spectra reveal a dominant A-exciton peak at ∼1.84 eV with\na preserved spectral line shape (Figure S6). While a slight decrease in PL intensity is observed, it may be\nattributed to the dielectric screening by the high-κ overlayer\nrather than any process-induced damage."
+    },
+    {
+      "type": "paragraph",
+      "text": "Complementary transfer\ncharacteristics measured from the same device\nusing a 90 nm SiO_(2) back-gate further verify the preservation\nof electronic performance (d). The key device parameters extracted from the bidirectional\ntransfer characteristics, including the on-state current, field-effect\nmobility, and subthreshold swing, remain essentially unchanged before\nand after Y_(2)O_(3) deposition (Figure S7). Consistent results are obtained from additional\nMoS_(2) FETs with channel lengths ranging from 200 to 800\nnm, measured at *V*\n_(DS) = 0.1 V, further confirming\nthat the ultrathin Y_(2)O_(3) seed layer does not\nappreciably degrade channel transport (Figure S8)."
+    },
+    {
+      "type": "paragraph",
+      "text": "After subsequent HZO ALD, devices incorporating\nthe Y_(2)O_(3) seed layer exhibit well-preserved transport\ncharacteristics\nwith substantially suppressed hysteresis, whereas devices without\nY_(2)O_(3) show pronounced back-gate hysteresis and\nseverely degraded field-effect mobility and a near-complete loss of\ntop-gate electrostatic control (Figure S9). The hysteresis-associated effective trap density is reduced by\napproximately 90.5% in the presence of the Y_(2)O_(3) seed layer (Figure S10), supporting its\nrole in suppressing ALD-induced interfacial and near-interfacial trap\nformation."
+    },
+    {
+      "type": "paragraph",
+      "text": "Collectively, these results demonstrate that the\nultrathin Y_(2)O_(3) layer effectively preserves the\nstructural,\nchemical, and electrical integrity of the MoS_(2) channel\nduring HZO deposition while maintaining the efficient electrostatic\ncoupling required for high-performance FeFET operation. Furthermore,\nferroelectric characterization of HZO films with different Y_(2)O_(3) thicknesses (Figure S11)\nconfirms that maintaining the interfacial layer in the subnanometer\nregime is essential for preserving the ferroelectric response of HZO,\nwith a nominal Y thickness of 0.3 nm providing the optimal balance\nbetween effective MoS_(2) surface protection and efficient\nferroelectric gate coupling."
+    },
+    {
+      "type": "paragraph",
+      "text": "Following the ALD process, the\ncross-sectional structure of the\nfull HZO/Y_(2)O_(3)/MoS_(2) gate stack was\nanalyzed using high-angle annular dark-field scanning transmission\nelectron microscopy (HAADF-STEM). Fast Fourier transform (FFT) analysis\nof the HZO layer on MoS_(2) reveals diffraction spots corresponding\nto the orthorhombic phase along the [001] zone axis (e), indicating successful ferroelectric\nphase formation at low temperature, in agreement with GI-XRD analysis.\nA well-defined interface with a preserved vdW gap of ∼3.3 Å\nis clearly observed between the crystallized HZO and the underlying\nMoS_(2) (f), suggesting minimal disruption at the interface during HZO deposition.\nNote that a multilayer MoS_(2) was intentionally used for\ncross-sectional TEM analyses to reduce surface roughness and enhance\nimage contrast. Importantly, the structural integrity is also maintained\neven in the monolayer MoS_(2) channel, as confirmed by supporting\nSTEM imaging (Figure S11a). This supports\nthat the findings from multilayer observations are representative\nof the monolayer devices used for all electrical measurements in this\nstudy."
+    },
+    {
+      "type": "paragraph",
+      "text": "Elemental mapping by scanning transmission electron microscopy–energy\ndispersive X-ray spectroscopy (STEM–EDS) further reveals a\nvertically resolved composition profile across the gate stack. Sharp\nelemental boundaries are observed between the channel (Mo) and dielectric\nlayers (Hf and Zr), with a spatially localized Y distribution near\nthe interface. Although the Y signal is relatively weak due to the\nultrathin nature of the interfacial layer, it remains clearly detectable,\nsupporting its effective role as a seed layer (g)."
+    },
+    {
+      "type": "heading",
+      "text": "Electrical Performance of HZO-Top-Gated MoS_(2) FeFETs"
+    },
+    {
+      "type": "paragraph",
+      "text": "To systematically analyze the characteristics of the HZO-top-gated\nMoS_(2) FeFET fabricated through this integration scheme,\nthe transfer characteristics (*I*\n_(DS)–*V*\n_(TG) curves) were measured under various top-gate\nvoltage (*V*\n_(TG)) sweep ranges from ±1\nV to ±3.5 V. All transfer curves, plotted on a semilogarithmic\nscale, exhibit clear counterclockwise hysteresis loops, indicative\nof ferroelectric-polarization-driven switching behavior (a). The consistent\nshape and direction of the hysteresis across all *V*\n_(TG) sweep amplitudes further verify robust polarization\nreversal in the HZO layer. Furthermore, the linear *I*\n_(DS)–*V*\n_(DS) characteristics\nat various back-gate (*V*\n_(BG)) and top-gate\n(*V*\n_(TG)) voltages confirm the formation of\nOhmic contacts between the MoS_(2) channel and source/drain\nelectrodes and effective electrostatic modulation by both the global\nback gate and the HZO/Y_(2)O_(3) top-gate stack (a inset and Figure S12)."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/7671/13585177/6e81cd2adf0f/nn6c08339_0003.webp",
+      "caption": "3 Electrical performance of a HZO-top-gated\nmonolayer MoS_(2) FeFET. Transfer characteristics of the device\nmeasured with various\ngate voltage sweep ranges. (a) Semilogarithmic plot with the inset\nshowing the output characteristics under different back-gate biases.\n(b) Linear-scale plot highlighting the memory window. The inset shows\nthe extracted memory window versus sweep range. (c) Benchmarking of\n2D FeFETs in terms of on-state sheet conductance and normalized memory\nwindow.\n,,,−\n\n\n\n\n\n\n\n (d) Transfer characteristics measured during cyclic testing over\n35 cycles with a sweep range of ±3.5 V. (e) Endurance characteristics\nmeasured with ±5 V, 1 ms pulses up to 10^(5) program/erase\ncycles. (f) Retention characteristics measured after applying ±3.5\nV, 1 s pulses."
+    },
+    {
+      "type": "paragraph",
+      "text": "To quantify the memory window (MW), the values\nare extracted from\nthe threshold voltage difference between the forward and reverse sweeps\nin the linear-scale transfer curves using linear extrapolation (b). As the sweep\nrange increases from ±1 V to ±3.5 V, the MWs widen proportionally.\nA linear relationship is observed between the sweep range and the\nMW, with a slope of ∼1.1 (inset of b), indicating proportional ferroelectric\nswitching behavior. This relatively large MW-to-sweep-range ratio\nimplies efficient electrostatic coupling through the gate stack into\nthe HZO layer, enabling effective polarization switching. Taken together,\nthese results confirm that the observed hysteresis originates from\nintrinsic ferroelectric polarization reversal rather than extrinsic\neffects such as charge trapping or interface state modulation."
+    },
+    {
+      "type": "paragraph",
+      "text": "To benchmark the performance of the monolayer MoS_(2) FeFET,\nwe compared the normalized MW (V nm^(–1)) and on-state\nsheet conductance (μS) with those of previously reported 2D-channel\nFeFETs using various ferroelectric materials (c). Since each study employed different ferroelectric\nlayer thicknesses, device geometries (e.g., channel width and length),\nand drain bias conditions, these two parameters serve as geometry-\nand bias-independent performance metrics for fair comparison. Our\nmonolayer MoS_(2) device demonstrates an on-state sheet conductance\nof 118 μS and a normalized memory window of 0.31 V nm^(–1), which collectively represent state-of-the-art performance among\n2D-channel FeFETs.\n,,,−\n\n\n\n\n\n\n\n This highlights the effectiveness of the proposed integration scheme\nand interface engineering strategy for BEOL-compatible FeFETs."
+    },
+    {
+      "type": "paragraph",
+      "text": "To further evaluate the reliability of devices, we performed a\nseries of tests, including cyclic transfer sweeps, endurance, and\nretention measurements. As a first step, the device demonstrates robust\nand stable ferroelectric switching behavior, under repeated DC *V*\n_(TG) sweeps up to ±3.5 V, showing negligible\nvariation in MW and subthreshold characteristics across multiple consecutive\ntransfer measurements (d). It also maintains stable switching during repeated program/erase\noperations using ±5 V, 1 ms *V*\n_(TG) pulses\nup to 10^(5) cycles, with minimal degradation in the current\nlevels between the high- and low-resistance states (HRS and LRS) (e). Consistently,\nthe extracted MW remains nearly constant at approximately 2.1–2.2\nV throughout the endurance measurement (Figure S13), confirming stable switching over the tested cycling range.\nFinally, the retention characteristics of HRS and LRS, initialized\nby applying ±3.5 V, 1 s *V*\n_(TG) pulses,\nare evaluated over time (f). The two states remain clearly distinguishable for\nover 10^(4) s under the present measurement conditions. However,\ngradual reduction in the read margin is observed, indicating that\nfurther improvement is required to achieve embedded-NVM-level retention.\nWe attribute this limitation primarily to the relatively modest switchable\npolarization of the annealing-free HZO film. Although the ultrathin\nY_(2)O_(3) interfacial layer and atomically thin MoS_(2) channel enable efficient electrostatic coupling and a large\ninitial MW, further optimization of the annealing-free HZO ferroelectric\nproperties will be required to improve long-term retention."
+    },
+    {
+      "type": "heading",
+      "text": "Benchmarking of MoS_(2) FeFETs"
+    },
+    {
+      "type": "paragraph",
+      "text": "To assess the\ncompetitiveness of our device within the broader landscape of ferroelectric-based\ndevice technologies, we conducted a comprehensive benchmarking analysis\nthat includes various FeFETs based on 2D materials, oxide semiconductors,\nand silicon channels while explicitly excluding MFMIS-based architectures. a presents the normalized\nMW as a function of operation voltage, comparing hafnia-based (green),\nAlScN-based (blue), and our HZO-based (red) FeFETs across both top-gated\nand bottom-gated architectures.\n,,,,−"
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/7671/13585177/03dceb85bb4b/nn6c08339_0004.webp",
+      "caption": "4 Benchmarking\nfor CMOS- and BEOL-compatible FeFETs. (a) Normalized\nMW of FeFETs as a function of operation voltage, categorized by ferroelectric\nmaterials: this work (HZO/Y_(2)O_(3)/MoS_(2), red), hafnia-based FeFETs (green), and AlScN-based FeFETs (blue).\nSquares, circles, and triangles represent FeFETs with 2D material,\noxide semiconductor, and silicon channels, respectively.\n,,,,−\n\n\n\n\n\n\n\n\n\n Open and filled symbols correspond to back-gate and top-gate structures,\nrespectively. The dashed line at 3 V marks the preferred operation\nvoltage for memory devices defined by the IRDS roadmap. (b) Benchmarking\nof BEOL-compatible FeFETs based on the memory window to *V*\n_(MAX) ratio and process temperature.\n,,,,,,"
+    },
+    {
+      "type": "paragraph",
+      "text": "Our monolayer MoS_(2) device consistently\ndemonstrates\na large normalized MW at low operation voltages, clearly outperforming\npreviously reported 2D-channel FeFETs and even rivaling or surpassing\nsilicon-based counterparts. Notably, the operation voltage achieved\nhere satisfies the International Roadmap for Devices and Systems (IRDS)\ntarget for low-voltage FeFETs (≤3 V), underscoring both CMOS\ncompatibility and energy efficiency of our integration approach. This\nsuperior performance arises from the synergistic combination of an\natomically thin MoS_(2) channel, an ultrathin, high-κ\nY_(2)O_(3) interfacial layer, and a low-temperature-crystallized\nHZO film. Together, these components enable efficient electrostatic\ncoupling, suppress interfacial trap formation, and facilitate robust\nferroelectric switching, even at reduced voltages."
+    },
+    {
+      "type": "paragraph",
+      "text": "In terms\nof BEOL process compatibility, furthermore, our device\noffers a remarkable advantage; it achieves the highest reported MW-to-maximum\nvoltage (MW/*V*\n_(MAX)) ratio to date among\nall BEOL-compatible FeFETs. Notably, this exceptional performance\nis achieved despite the entire device fabrication process being conducted\nbelow 300 °C, well within the industry-standard thermal budget\nof 400 °C (b).\n,,,,,,\n This benchmarking analysis highlights\nthe strong promise of our integration strategy for next-generation\nferroelectric-based devices and their monolithic 3D integration, by\ncombining excellent normalized performance with full compliance to\nBEOL and IRDS requirements."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusions"
+    },
+    {
+      "type": "paragraph",
+      "text": "We demonstrated a BEOL-compatible 2D FeFET\nby integrating an annealing-free\nHZO ferroelectric layer on monolayer MoS_(2), enabled by an\nultrathin high-κ Y_(2)O_(3) interfacial layer\nthat facilitates conformal ALD. The resulting device exhibits a large\nmemory window of 3.6 V at ±3.5 V, corresponding to ∼90%\nof the theoretical maximum, together with a high on/off ratio of 10^(7), retention exceeding 10^(4) s, and endurance over\n10^(5) cycles. Comprehensive benchmarking confirms our monolayer\nMoS_(2) device not only outperforms previously reported FeFETs\nbased on diverse channel materials in normalized performance metrics\nbut also satisfies the IRDS low-voltage operation guideline despite\nbeing fabricated entirely within BEOL thermal constraints. These results\nhighlight the potential of our integration strategy for next-generation\nlow-power memory and logic-in-memory devices, particularly in monolithic\n3D integration platforms."
+    },
+    {
+      "type": "heading",
+      "text": "Methods"
+    },
+    {
+      "type": "heading",
+      "text": "Device Fabrication"
+    },
+    {
+      "type": "paragraph",
+      "text": "Devices were fabricated on *p*-Si substrates with a 90 nm SiO_(2) dielectric\nlayer. To ensure a clean channel interface, bottom contact electrodes\nwere defined prior to channel transfer. Electron-beam lithography\n(EBL) was performed using a bilayer polymethyl methacrylate (PMMA)\nresist stack (495 K A4 and 950 K C4, MicroChem), spin-coated at 4000\nrpm for 45 s and baked at 180 °C for 2 min each. After e-beam\nexposure, the resist was developed in a 1:3 mixture of methyl isobutyl\nketone (MIBK) and isopropanol (IPA) for 3 min and rinsed in IPA for\n1 min to stop development. Subsequently, Ti/Au (2/15 nm) bottom electrodes\nwere deposited by electron-beam evaporation at a rate of 1 Å\ns^(–1), followed by lift-off in acetone overnight with\nmild sonication. As the channel material, monolayer single-crystalline\nMoS_(2) flakes (HQ Graphene) were mechanically exfoliated\nonto 285 nm SiO_(2)/*p*-Si substrates that\nhad been cleaned by O_(2) plasma (100 W, 10 min; FemtoSci.)\nprior to exfoliation. Selected flakes were picked up using a conventional\nwet-transfer method with a polypropylene carbonate (PPC) layer supported\non a polydimethylsiloxane (PDMS) stamp and were precisely aligned\nonto the prepatterned bottom electrodes using a micromanipulator-equipped\nprobe station. The stack was then brought into contact at 60 °C\nfor 1 min to facilitate release of the MoS_(2). The residual\nPPC layer was removed by sequential soaking in acetone at 60 °C\nfor 1 h followed by *N*-methyl-2-pyrrolidone (NMP)\nat 80 °C for at least 2 h. A sub-nm-thick Y layer was deposited\nby thermal evaporation at a slow rate of 0.05–0.1 Å s^(–1) to ensure smooth morphology and precise thickness\ncontrol. No additional oxidation was performed. The inherently high\nreactivity of Y led to its spontaneous oxidation upon exposure to\nambient air. The HZO was then deposited by ALD at 300 °C using\nalternating cycles of tetrakis­(ethylmethylamino)­zirconium\n(TEMA-Zr) and tetrakis­(ethylmethylamino)­hafnium (TEMA-Hf),\nwith H_(2)O as the reactant. No postdeposition annealing was\nconducted. Top-gate electrodes were patterned using the same EBL process\ndescribed above. Tungsten (W, 30 nm) was deposited by room-temperature\nDC sputtering, followed by lift-off in acetone at room temperature\nfor more than 1 h with mild sonication."
+    },
+    {
+      "type": "heading",
+      "text": "Electrical Measurements"
+    },
+    {
+      "type": "paragraph",
+      "text": "All electrical measurements\nwere carried out under ambient conditions (room temperature and atmospheric\npressure). DC current–voltage (*I*–*V*) characteristics of the FeFETs were measured using a Keysight\nE5270B precision measurement system. For pulsed measurements of both\nFeFETs and metal–ferroelectric–insulator–metal\n(MFIM) capacitor structures, a Keithley 4200A semiconductor parameter\nanalyzer equipped with a waveform generator/fast measurement unit\n(WGFMU) was employed."
+    },
+    {
+      "type": "heading",
+      "text": "Ferroelectric Characterization"
+    },
+    {
+      "type": "paragraph",
+      "text": "To assess the ferroelectric\nbehavior of HZO films without thermal annealing, CR-PFM was performed.\nMeasurements were conducted on a Park Systems NX10 atomic force microscope\nequipped with a high-frequency actuation module (NOST) and a conductive\nCr/Pt-coated probe (ElectriMulti75-G; nominal tip radius ∼25\nnm). A high-frequency AC voltage (>100 kHz) was applied to the\nAFM\ntip to excite mechanical vibrations near its contact resonance, and\nthe out-of-plane cantilever motion was detected using an optical beam\ndeflection system. The structural characteristics of the annealing-free\nHZO films were examined by GI-XRD (X’Pert PRO, PANalytical)\nusing a Cu Kα source (λ = 1.5406 Å) and a point detector\nat a fixed incidence angle of ∼0.5°, with a scan rate\nof 1° min^(–1) in 2θ."
+    },
+    {
+      "type": "heading",
+      "text": "Optical Spectroscopy"
+    },
+    {
+      "type": "paragraph",
+      "text": "Raman and PL measurements were\nperformed using a micro-optical setup comprising a 532 nm continuous-wave\nlaser (power: 120 μW) and a grating monochromator (Andor 303i).\nA 300 grooves mm^(–1) grating was used for PL spectroscopy\nto capture a broad emission range, while Raman spectra were recorded\nwith a high-resolution 1800 grooves mm^(–1) grating\nto accurately resolve the distinct vibrational modes."
+    },
+    {
+      "type": "heading",
+      "text": "Surface Characterization"
+    },
+    {
+      "type": "paragraph",
+      "text": "AFM was employed primarily\nto quantify the surface roughness of MoS_(2) channels before\nand after Y_(2)O_(3) deposition, with additional thickness\nprofiling to verify the monolayer nature of MoS_(2). Measurements\nwere performed on an NX10 system (Park Systems) using PPP-NCHR silicon\ncantilevers (Nanosensors) operated in noncontact mode. Topography\ndata were preprocessed by first-order plane leveling and line-by-line\nflattening prior to analysis."
+    },
+    {
+      "type": "heading",
+      "text": "TEM Imaging and Analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cross-sectional TEM specimens\nwere prepared by focused ion beam (FIB) milling using a Helios Nanolab\n600 system (FEI). The crystallinity and elemental distribution of\nthe HZO films were examined by HAADF-STEM and STEM-EDS using a Titan\n80-300 microscope (FEI) operated at an accelerating voltage of 300\nkV in STEM mode."
+    },
+    {
+      "type": "heading",
+      "text": "Supplementary Material"
+    }
+  ]
+}
