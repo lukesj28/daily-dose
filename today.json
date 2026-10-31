@@ -1,0 +1,314 @@
+{
+  "id": "PMC13711587",
+  "title": "SIRPA drives T cell apoptosis to promote immune evasion in hepatocellular carcinoma",
+  "journal": "Journal for Immunotherapy of Cancer",
+  "fetch_date": "2026-10-31",
+  "publish_date": "2026-01-01",
+  "authors": [
+    "Xue Zhang",
+    "Liying Ren",
+    "Pu Chen",
+    "Kangjian Deng",
+    "Xingwang Xie",
+    "Placide Sesonga",
+    "Shaoping She",
+    "Xu Cong",
+    "Ran Fei",
+    "Weijia Liao",
+    "Hongsong Chen",
+    "Dongbo Chen"
+  ],
+  "license": "This is an open access article distributed in accordance with the Creative Commons Attribution Non Commercial (CC BY-NC 4.0) license, which permits others to distribute, remix, adapt, build upon this work non-commercially, and license their derivative works on different terms, provided the original work is properly cited, appropriate credit is given, any changes made indicated, and the use is non-commercial. See https://creativecommons.org/licenses/by-nc/4.0/.",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13711587/",
+  "abstract": "Immune checkpoint inhibitors provide limited clinical benefit in advanced hepatocellular carcinoma (HCC), highlighting the need to identify additional mechanisms of tumor immune evasion. We performed genome-scale CRISPR-Cas9 knockout library screening to identify genes associated with T cell apoptosis and identified differentially expressed genes in tumor-infiltrating lymphocytes from HCC patients following high-dose interleukin 2 stimulation. Integrative analysis identified signal regulatory protein alpha (SIRPA) as a candidate regulator of T cell apoptosis. SIRPA was functionally validated *in vivo* and *in vitro* using *Sirpα^(-/-)* mice and primary human T cells. *In vitro*, SIRPA deficiency significantly reduced apoptosis in both human and murine T cells, whereas SIRPA overexpression promoted apoptosis. *In vivo*, T cell-intrinsic loss of *Sirpα* markedly suppressed tumor growth, and even haploinsufficiency was sufficient to confer a notable antitumor effect. Following macrophage depletion, *Sirpα^(-/-)* mice exhibited increased frequencies of functional CD8^(+) T cells in peripheral blood and tumor tissues, accompanied by elevated granzyme B expression, indicating that *Sirpα* deficiency confers resistance to apoptosis in T cells. Functionally, SIRPA overexpression impaired the cytotoxic activity of TCR-engineered T cells, whereas adoptive transfer of *Sirpα-*deficient T cells enhanced tumor control. Mechanistically, SIRPA overexpression activated SHP1, leading to inhibition of the PI3K/AKT/FOXO1 signaling pathway, and upregulation of EGR4. Elevated EGR4 interacted with FOXO1 to regulate the Bim/Bcl-2/Bax axis, thereby promoting T cell apoptosis and facilitating tumor immune evasion. SIRPA functions as a previously unrecognized intrinsic regulator of T cell apoptosis in HCC. Targeting SIRPA may enhance anti-tumor immunity by preventing T cell apoptosis, representing a promising immunotherapeutic strategy.",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Introduction"
+    },
+    {
+      "type": "paragraph",
+      "text": "Hepatocellular carcinoma (HCC) is one of the most prevalent malignant tumors and the third leading cause of cancer-related deaths worldwide. Although early-stage HCC can be effectively managed by surgical resection, the disease is often diagnosed at intermediate or advanced stages due to its insidious onset. Consequently, most patients are ineligible for curative treatment, and even among those undergoing resection, recurrence rates remain as high as 70%. Immune checkpoint blockade (ICB), particularly therapies targeting PD-1/PD-L1, has demonstrated clinical efficacy and is now a first-line treatment for advanced HCC. However, only approximately 20% of HCC patients exhibit durable responses, underscoring the presence of additional mechanisms of immune evasion."
+    },
+    {
+      "type": "paragraph",
+      "text": "According to the cancer immunoediting framework—comprising elimination, equilibrium, and escape—tumors ultimately escape immune surveillance through multiple strategies. Among these, apoptosis of tumor-infiltrating T cells represents a critical yet underexplored mechanism contributing to immune escape. T cell persistence and functional competence are essential for effective antitumor immunity. In the tumor microenvironment (TME), chronic antigen stimulation can drive T cells toward dysfunctional states and, in parallel, promote activation-induced cell death (AICD), thereby limiting T cell survival and facilitating immune evasion. Therefore, targeting pathways that regulate T cell apoptosis may represent a promising strategy to remodel the immunosuppressive TME and enhance immunotherapeutic efficacy in HCC."
+    },
+    {
+      "type": "paragraph",
+      "text": "Genome-wide CRISPR/Cas9 knockout (GeCKO) screening has emerged as a powerful approach to systematically identify gene functions and regulatory networks. This strategy has been successfully applied to uncover key regulators of T cell-mediated antitumor responses. However, the molecular mechanisms governing T cell apoptosis in tumor immunity remain incompletely defined. Building on this platform, we sought to identify critical regulators of T cell apoptosis in HCC."
+    },
+    {
+      "type": "paragraph",
+      "text": "To complement this unbiased loss-of-function screening, we leveraged a functional reactivation model based on tumor-infiltrating lymphocytes (TILs). Adoptive transfer of TILs expanded with high-dose interleukin 2 (IL-2) has achieved objective response rates of 49%–72% in metastatic melanoma, underscoring the capacity of IL-2 to restore T cell function and enhance survival. Accordingly, we compared TILs from HCC tumors with or without high-dose IL-2 stimulation to identify genes associated with T cell reactivation and survival. By integrating GeCKO screening data with IL-2-responsive transcriptional profiles, we identified signal regulatory protein alpha (SIRPA) as a candidate regulator of T cell apoptosis."
+    },
+    {
+      "type": "paragraph",
+      "text": "SIRPA is classically characterized as an inhibitory receptor expressed on myeloid cells, where its interaction with tumor-expressed CD47 transmits a “don’t eat me” signal to suppress phagocytosis. Therapeutic blockade of the CD47-SIRPA axis has been shown to enhance myeloid-mediated tumor clearance. However, its role in T cells remains largely unexplored. In this study, we investigated the role of SIRPA in regulating T cell apoptosis in HCC."
+    },
+    {
+      "type": "heading",
+      "text": "Results"
+    },
+    {
+      "type": "heading",
+      "text": "Integrative analysis identified *SIRPA* as a regulator of T cell apoptosis in HCC"
+    },
+    {
+      "type": "paragraph",
+      "text": "To identify key regulators of T cell-mediated immune evasion in HCC, we performed an integrative analysis combining GeCKO screening with IL-2-mediated TIL reactivation profiling (). This approach revealed candidate genes associated with T cell apoptosis."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5fce/13711587/5365fe9f65ef/jitc-14-10-g001.webp",
+      "caption": "Figure 1 Integrative screening identifies SIRPA as a regulator of T cell apoptosis in HCC. (A) Schematic overview of the integrative screening strategy for identifying genes regulating T-cell AICD (GeCKO: n=3, TIL: n=4). (B) Bubble plot of enriched candidate genes identified from Jurkat E6-1-GeCKO screening. (C) KEGG pathway analysis of DEGs identified from Jurkat E6-1-GeCKO screening. (D) Volcano plot of enriched DEGs identified from TILs with or without high-dose IL-2 stimulation. (E) KEGG pathway analysis of DEGs identified from IL-2-treated TILs. (F-G) Integrative analysis of GeCKO screening, IL-2-responsive TILs transcriptomic profiling, and immune checkpoint datasets identifies SIRPA as a candidate regulator of T cell apoptosis and immune evasion in HCC. AICD, activation-induced cell death; DEGs, differentially expressed genes; GeCKO, genome-scale CRISPR knockout; HCC, hepatocellular carcinoma; IL, interleukin; SIRPA, signal regulatory protein alpha; TILs, tumor-infiltrating lymphocytes."
+    },
+    {
+      "type": "heading",
+      "text": "GeCKO screening identifies key genes regulating AICD"
+    },
+    {
+      "type": "paragraph",
+      "text": "To identify key genes regulating AICD, we established a Jurkat E6-1 model with 100% apoptosis after ConA stimulation (). Flow cytometry (FCM) analysis determined that 20 µg/mL ConA effectively induced T cell activation and apoptosis (). Subsequently, Jurkat E6-1 cells stably expressing espCas9 were transduced with the GeCKO library to enable genome-wide loss-of-function screening. Following repeated rounds of ConA stimulation, a subset of GeCKO-transduced cells survived, indicating resistance to AICD. These Jurkat E6-1-GeCKO cells exhibited enrichment of sgRNA sequences (172 bp) and significantly enhanced survival compared with the control Jurkat E6-1-espCas9 cells ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "Typical nested peaks in Sanger sequencing revealed sgRNA diversity in Jurkat E6-1-GeCKO cells (). High-throughput sequencing analysis identified 511 differentially enriched sgRNAs corresponding to candidate genes associated with AICD, including *ATP5A1*, *CDC42EP1*, *ECE2*, *ABLIM1*, *KBTBD2*, *KRT79*, *MACROD1*, *PMM2*, *RABGAP1L*, and *SIRPA* (). GO () and KEGG () enrichment analysis revealed that these genes were enriched in immune-related biological processes and signaling pathways, including PI3K-AKT signaling, T cell receptor signaling, and apoptosis. These results suggested that these genes may contribute to AICD through these biological processes."
+    },
+    {
+      "type": "heading",
+      "text": "Transcriptomic profiling identifies key genes involved in TIL reactivation"
+    },
+    {
+      "type": "paragraph",
+      "text": "To identify genes associated with T cell functional restoration, TILs from HCC patients were cultured with high-dose IL-2. Transcriptomic analysis revealed genes associated with T cell reactivation, including *TOP2A*, *CDC20*, *SMOX*, *SERPINA1*, *ZNF703*, *S100A9*, *FOSB*, *ALB*, *SNAI1*, *KRT7*, and *SIRPA* (). GO analysis indicated enrichment in biological processes related to DNA replication and RNA/protein binding (). KEGG analysis showed enrichment in signaling pathways, including PI3K-AKT, p53, cytokine–cytokine receptor interaction, T cell receptor signaling, and apoptosis ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "Integration of the GeCKO screening dataset with IL-2-responsive genes identified 20 overlapping genes, including *GK*, *RACGAP1*, *COL5A2*, *PYCR1*, *MELK*, *JAZF1*, *TRIP13*, *KIF23*, *PTPRK*, *FCGR2A*, *ZNF571*, *RRM2*, *GJB2*, *CCR10*, *MGAT3*, *KRTAP12-3*, *CERS6*, *ZNF703*, *CENPM*, and *SIRPA*. Further integration with immune checkpoint profiling highlighted *SIRPA* as a potential regulator of T cell apoptosis and immune evasion in HCC (). Collectively, these findings identified *SIRPA* as a candidate regulator for subsequent functional investigation."
+    },
+    {
+      "type": "heading",
+      "text": "SIRPA expression in CD8^(+) T cells correlates with poor prognosis and promotes T cell apoptosis in HCC"
+    },
+    {
+      "type": "paragraph",
+      "text": "To further determine whether high-dose IL-2 stimulation regulates SIRPA expression in T cells, TILs were isolated from HCC tumor tissues and cultured with high-dose IL-2. FCM analysis revealed that high-dose IL-2 culture significantly reduced the frequencies of SIRPA^(+) cells within the CD3^(+), CD4^(+), and CD8^(+) T cell subsets (). Collectively, these findings indicate that SIRPA expression is downregulated during IL-2-mediated TIL reactivation and may be associated with the restoration of T cell function."
+    },
+    {
+      "type": "paragraph",
+      "text": "The baseline clinical characteristics of the 77 patients with HCC were summarized in . The cohort consisted of 68 male and 9 female patients, with a mean age of 48.32±10.79 years. Most patients had advanced disease (tumor, node, metastasis (TNM) stage II–IV, 71/77), cirrhosis (65/77), and hepatitis B virus infection (HBsAg-positive, 63/77), while 20/77 patients had portal vein tumor thrombus (PVTT), and 4/77 had lymph node metastasis. The median serum alpha-fetoprotein (AFP) level was 419.50 ng/mL (). No significant differences were observed in the baseline clinicopathological characteristics between patients with different levels of SIRPA^(+) CD8^(+) T cells, including HBsAg status, TNM stage, cirrhosis, PVTT, AFP levels, and lymph node metastasis ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "Multiplex immunofluorescence analysis of 77 paired HCC tumor and adjacent tissues subsequently revealed a significantly higher frequency of SIRPA^(+) CD8^(+) T cells in tumor tissues (). Importantly, patients with a high level of SIRPA^(+) CD8^(+) T cells (＞10) exhibited significantly poorer overall survival than those with a low level (≤10) ()."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5fce/13711587/871f152a9413/jitc-14-10-g002.webp",
+      "caption": "Figure 2 SIRPA^(+) CD8^(+) T cells correlate with poor prognosis and exhibit enhanced apoptosis and impaired cytotoxic function in HCC. (A and B) Multiplex immunofluorescence analysis shows increased infiltration of SIRPA^(+) CD8^(+) T cells in HCC tumor tissues compared with adjacent non-tumor tissues. (C) A high proportion of SIRPA^(+) CD8^(+) T cells is associated with poor overall survival in patients with HCC. (D and E) ConA stimulation induces increased apoptosis and upregulation of SIRPA expression in PBMC-derived CD4^(+) and CD8^(+) T cells. (F) SIRPA expression positively correlates with T-cell apoptosis. (G) SIRPA deficiency reduces, whereas SIRPA overexpression enhances, apoptosis in primary human T cells. (H) Generation and validation of *Sirpα* knockout mice. (I and J) *Sirpα* deficiency enhances resistance to AICD in bone marrow- and spleen-derived T cells. (K) SIRPA overexpression impairs antigen-specific cytotoxicity of TCR-T cells. (L and M) *Sirpα*-deficient T cells exhibit enhanced cytotoxic function, as indicated by increased LDH release and IFN-γ production. *p<0.05, **p<0.01, ***p<0.001, ****p<0.0001. AICD, activation-induced cell death; HCC, hepatocellular carcinoma; IFN, interferon; LDH, lactate dehydrogenase; PBMC, peripheral blood mononuclear cell; SIRPA, signal regulatory protein alpha; WT, wild-type."
+    },
+    {
+      "type": "paragraph",
+      "text": "To investigate the relationship between SIRPA and T cell apoptosis, AICD was induced by ConA (20 µg/mL) stimulation (). FCM analysis showed that SIRPA expression progressively increased in both CD4^(+) T cells and CD8^(+) T cells following ConA stimulation () and positively correlated with apoptotic frequency (). Functional studies further demonstrated that SIRPA deficiency significantly reduced T cell apoptosis, whereas SIRPA overexpression enhanced apoptosis in primary human T cells () and Jurkat E6-1 cells (). Consistently, T cells derived from Sirpα⁻^(/)⁻ mice () exhibited markedly increased resistance to AICD compared with wild-type (WT) controls ( and )."
+    },
+    {
+      "type": "paragraph",
+      "text": "Beyond apoptosis, SIRPA also impaired T cell effector function. Overexpression of SIRPA in *KRAS* G12D-specific TCR-T cells significantly reduced antigen-specific cytotoxicity (). Conversely, CD3^(+) T cells isolated from the spleens of *Sirpα^(-/-)* mice displayed enhanced IFN-γ production and cytotoxic activity against tumor cells ( and )."
+    },
+    {
+      "type": "paragraph",
+      "text": "Collectively, these results demonstrate that SIRPA promotes T cell apoptosis and suppresses cytotoxic function in HCC, suggesting a potential role of SIRPA^(+) CD8^(+) T cells in tumor progression."
+    },
+    {
+      "type": "heading",
+      "text": "SIRPA deficiency suppresses tumor progression and enhances antitumor immunity *in vivo*"
+    },
+    {
+      "type": "paragraph",
+      "text": "To determine the role of SIRPA in HCC progression, orthotopic liver tumor models were established using Hep53.4 cells in WT and *Sirpα⁻^(/)⁻* mice (). Compared with WT mice, *Sirpα⁻^(/)⁻* mice exhibited significantly reduced tumor burden () and fewer lung metastatic nodules (). FCM analysis revealed enhanced antitumor immunity in *Sirpα⁻^(/)⁻* mice, characterized by increased CD8^(+) T cell proportions and a decreased CD4^(+)/CD8^(+) T cell ratio in both peripheral blood and tumor tissues (). Moreover, CD8^(+) T cells from peripheral blood and tumors of *Sirpα⁻^(/)⁻* mice exhibited elevated granzyme B (GZMB) expression and reduced PD-1 levels, indicating enhanced effector function ()."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5fce/13711587/7f5cfc6efbcd/jitc-14-10-g003.webp",
+      "caption": "Figure 3 *Sirpα* deficiency suppresses tumor progression and enhances antitumor immunity in vivo. (A) Schematic illustration of orthotopic liver tumor implantation in mice (n=4). (B) Representative images showing reduced tumor burden in the livers of *Sirpα^(-/-)* mice compared with WT controls. (C) Representative images and histological analysis showing decreased lung metastasis in *Sirpα^(-/-)* mice. (D) Flow cytometry analysis showing increased CD8^(+) T cell proportions and decreased CD4^(+)/CD8^(+) T cell ratios in peripheral blood and tumor tissues of *Sirpα^(-/-)* mice. (E) Increased GZMB expression in CD8^(+) T cells from peripheral blood and tumor tissues of *Sirpα^(-/-)* mice. (F) Reduced PD-1 expression in CD8^(+) T cells from peripheral blood and tumor tissues of *Sirpα^(-/-)* mice. *p<0.05, **p<0.01, ***p<0.001, ****p<0.0001. GZMB, granzyme B; WT, wild-type."
+    },
+    {
+      "type": "paragraph",
+      "text": "To further assess the dose-dependent effect of SIRPA, subcutaneous tumor models were established in WT, *Sirpα^(+/)⁻*, and *Sirpα⁻^(/)⁻* mice. Consistent with the orthotopic model, *Sirpα* deficiency significantly suppressed tumor growth (), while *Sirpα^(+)/⁻* mice displayed an intermediate phenotype compared with WT mice (). In addition, T cells from *Sirpα^(+/)⁻* mice exhibited enhanced resistance to AICD compared with WT controls ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "Collectively, these findings demonstrate that SIRPA deficiency suppresses tumor progression in a dose-dependent manner and enhances T cell-mediated antitumor immunity."
+    },
+    {
+      "type": "heading",
+      "text": "SIRPA deficiency enhances T cell-intrinsic tumor control independent of macrophages"
+    },
+    {
+      "type": "paragraph",
+      "text": "Classically, SIRPA functions as an inhibitory immune receptor in macrophages. To determine whether the antitumor effects of SIRPA deficiency observed in our study were dependent on macrophages, we performed macrophage depletion in both WT and *Sirpα⁻^(/)⁻* mice (). FCM analysis confirmed efficient depletion of macrophages across multiple tissues, including bone marrow, liver, peripheral blood, and spleen (). Following macrophage depletion, tumor growth was accelerated in both WT and *Sirpα⁻^(/)⁻* mice compared with control conditions. However, *Sirpα⁻^(/)⁻* mice continued to exhibit significantly reduced tumor growth and volume relative to WT mice (), indicating that the antitumor effect of SIRPA deficiency is largely independent of macrophages. Immunophenotyping revealed enhanced T cell activation in *Sirpα⁻^(/)⁻* mice after macrophage depletion, as evidenced by increased CD8^(+) T cell proportions and decreased CD4^(+)/CD8^(+) T cell ratios in both peripheral blood and tumor tissues (). Moreover, CD8^(+) T cells from tumors of Sirpα⁻^(/)⁻ mice exhibited higher levels of IFN-γ and GZMB, along with reduced PD-1 expression, compared with WT controls (), indicating enhanced effector function and reduced exhaustion."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5fce/13711587/14b8a3c1c274/jitc-14-10-g004.webp",
+      "caption": "Figure 4 SIRPA deficiency promotes T cell-intrinsic tumor control independent of macrophages. (A) Experimental design showing macrophage depletion in WT and *Sirpα⁻^(/)⁻* mice bearing subcutaneous tumors (n=4). (B) Representative images showing tumor growth under control and macrophage-depleted conditions in WT mice and *Sirpα^(-/-)* mice. (C–E) Tumor growth curves, tumor weights, and tumor volumes demonstrating that *Sirpα⁻^(/)⁻* mice exhibit reduced tumor progression compared with WT mice, even after macrophage depletion. (F) Flow cytometry analysis confirming efficient macrophage depletion in bone marrow, liver, peripheral blood, and spleen. (G) Increased CD8^(+) T cell proportions and decreased CD4^(+)/CD8^(+) T cell ratios in peripheral blood and tumor tissues of *Sirpα⁻^(/)⁻* mice following macrophage depletion. (H and I) Increased IFN-γ and GZMB expression in CD8^(+) T cells from tumors of *Sirpα⁻^(/)⁻* mice following macrophage depletion. (J) Reduced PD-1 expression in CD8^(+) T cells from tumors of *Sirpα⁻^(/)⁻* mice. *p<0.05, **p<0.01, ***p<0.001, ****p<0.0001. GZMB, granzyme B; IFN, interferon; WT, wild-type."
+    },
+    {
+      "type": "paragraph",
+      "text": "Collectively, these results demonstrate that *Sirpα* deficiency suppresses tumor progression through a T cell-intrinsic mechanism that is independent of macrophage-mediated effects."
+    },
+    {
+      "type": "heading",
+      "text": "Targeting SIRPA enhances antitumor efficacy and improves T cell-based immunotherapy in HCC"
+    },
+    {
+      "type": "heading",
+      "text": "Pharmacological inhibition of SIRPA enhances T cell-mediated antitumor immunity"
+    },
+    {
+      "type": "paragraph",
+      "text": "To evaluate the therapeutic potential of targeting SIRPA, WT mice bearing subcutaneous Hep53.4 cells were treated with an anti-*Sirpα* inhibitor (100 µg per mouse) (). Tumor growth was significantly suppressed in the treatment group compared with IgG1 isotype controls (), accompanied by reduced tumor weight and volume at endpoint ()."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5fce/13711587/0cc36ef8462f/jitc-14-10-g005.webp",
+      "caption": "Figure 5 Targeting SIRPA in T cells enhances antitumor efficacy and improves T cell-based immunotherapy in hepatocellular carcinoma. (A) Experimental design showing pharmacological inhibition of *Sirpα* in tumor-bearing mice (n=5). (B–E) Representative images, tumor growth curves, tumor weights, and tumor volumes demonstrating that *Sirpα* inhibition significantly suppresses tumor progression compared with isotype controls. (F) Reduced *Sirpα* expression in tumor tissues following *Sirpα* inhibitor treatment. (G) Increased frequency of *Sirpα*⁻ CD8^(+) T cells in tumors on S*irpα* inhibition. (H) Enhanced T-cell infiltration, as indicated by increased CD4^(+) and CD8^(+) T cell proportions and a decreased CD4^(+)/CD8^(+) ratio in tumors. (I) Increased GZMB expression in CD8^(+) T cells following SIRPA inhibition. (J) Schematic illustration of the ex vivo T-cell cytotoxicity assay. CD3^(+) T cells isolated from Hep53.4 tumor-bearing WT mice were co-cultured with Hep53.4 cells in the presence of an anti-Sirpα antibody or IgG1 isotype control. (K) LDH activity in the co-culture supernatants, reflecting tumor-cell cytotoxicity. (L and M) Flow cytometry quantification of GZMB^(+) and IFN-γ^(+) T cells, respectively. (N) Schematic illustration of adoptive T cell therapy using CD3^(+) T cells from WT or *Sirpα⁻^(/)⁻* mice (n=6). (O and P) Adoptive transfer of *Sirpα⁻^(/)⁻* T cells significantly suppresses tumor growth, as indicated by reduced tumor size, tumor growth curves, and tumor volume. *p<0.05, **p<0.01, ***p<0.001, ****p<0.0001. GZMB, granzyme B; LDH, lactate dehydrogenase; IFN, interferon; PBS, phosphate-buffered saline; WT, wild-type."
+    },
+    {
+      "type": "paragraph",
+      "text": "FCM revealed that SIRPA inhibition reduced the proportion of intratumoral SIRPA^(+) cells () and increased the frequency of *Sirpα*⁻ CD8^(+) T cells (). Notably, SIRPA blockade promoted T cell infiltration, as evidenced by increased CD4^(+) and CD8^(+) T cell proportions within tumors, along with a decreased CD4^(+)/CD8^(+) ratio (). Similar trends were observed in peripheral blood (). Functional analysis further demonstrated enhanced T cell activity following *Sirpα* inhibition, as indicated by increased GZMB expression in TILs (, ). *Sirpα* inhibition improved T cell-mediated antitumor effects."
+    },
+    {
+      "type": "heading",
+      "text": "Adoptive transfer of Sirpα-deficient T cells enhances antitumor efficacy"
+    },
+    {
+      "type": "paragraph",
+      "text": "To further determine whether pharmacological blockade of Sirpα enhances T-cell effector function, CD3^(+) T cells isolated from Hep53.4 tumor-bearing WT mice were co-cultured with Hep53.4 cells in the presence of an anti-Sirpα antibody or IgG1 isotype control. Compared with the isotype control, anti-Sirpα treatment significantly increased LDH release and the frequencies of GZMB^(+) and IFN-γ^(+) T cells (), supporting enhanced T-cell-mediated cytotoxicity and effector function following Sirpα blockade."
+    },
+    {
+      "type": "paragraph",
+      "text": "To further validate the T cell-intrinsic role of SIRPA in antitumor immunity, CD3^(+) T cells from WT or *Sirpα⁻^(/)⁻* mice were isolated, activated *in vitro*, and adoptively transferred into tumor-bearing immunodeficient mice (). Mice receiving *Sirpα⁻^(/)⁻* T cells exhibited significantly reduced tumor growth, tumor volume, and tumor weight compared with those receiving WT T cells (; )."
+    },
+    {
+      "type": "paragraph",
+      "text": "Collectively, these results demonstrate that targeting SIRPA, either pharmacologically or through adoptive T cell transfer, enhances antitumor immunity and represents a promising immunotherapeutic strategy for HCC."
+    },
+    {
+      "type": "heading",
+      "text": "SIRPA drives T cell apoptosis through the SHP1-FOXO1-EGR4 signaling axis"
+    },
+    {
+      "type": "heading",
+      "text": "EGR4 is a key downstream effector of SIRPA in T cells"
+    },
+    {
+      "type": "paragraph",
+      "text": "To identify key downstream mediators of SIRPA in T cells, we performed transcriptomic profiling in Jurkat E6-1 cells with SIRPA overexpression or knockdown. RNA sequencing revealed distinct transcriptional changes associated with SIRPA expression. Notably, members of the early growth response (EGR) family, including EGR1, EGR2, EGR3, and EGR4, were significantly upregulated in SIRPA-overexpressing cells (), while knockdown of *SIRPA* led to enrichment of genes including *UCP1*, *CTNNBL1*, *ID2*, and *GZMK* (). Further, KEGG analysis revealed that these genes were mainly concentrated in pathways such as amino acid biosynthesis, steroid biosynthesis, PD-L1 expression, and PD-1 checkpoint pathway in cancer, and apoptosis (). Previous evidence suggests that *EGR4* deficiency affects T cell function, supporting a potential role for EGR4 in SIRPA-mediated T cell regulation."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5fce/13711587/dfbc75b35cfc/jitc-14-10-g006.webp",
+      "caption": "Figure 6 EGR4 is identified as a key downstream effector of SIRPA in T cells. (A and B) Volcano plots showing differentially expressed genes following SIRPA overexpression or knockdown in Jurkat E6-1 cells. (C) KEGG pathway enrichment analysis indicating that SIRPA-regulated genes are enriched in immune-related and apoptosis-associated pathways. (D) Heat map highlighting transcriptional changes associated with SIRPA overexpression, including upregulation of early growth response (EGR) family members. (E and F) Single-cell in silico knockout analysis showing significantly perturbed genes in CD8^(+) cytotoxic T cells on SIRPA depletion, with EGR4 among the most prominently altered regulators. (G) Functional enrichment analysis of perturbed genes, indicating associations with immune regulation and apoptosis-related pathways. FC, fold change; FDR, false discovery rate; SIRPA, signal regulatory protein alpha."
+    },
+    {
+      "type": "paragraph",
+      "text": "To further refine candidate regulators, we performed in silico SIRPA knockout analysis of single-cell RNA sequencing data using the scTenifoldKnk package (V.1.0.2). After data integration and cell-type annotation (), CD8^(+) cytotoxic T cells were selected for downstream analysis. Within this subset, SIRPA knockout led to significant perturbation of multiple genes, including *RPL3*, *JUN*, *HSPA1B*, *SARAF*, *MYOM2,* and *EGR4*, among which *EGR4* emerged as one of the most prominently altered regulators (). Functional enrichment analysis of these perturbed genes revealed significant associations with protein processing, immune regulation, and apoptosis-related pathways (), further supporting a role for EGR4 in regulating T cell apoptosis."
+    },
+    {
+      "type": "paragraph",
+      "text": "Collectively, these findings identify EGR4 as a key downstream effector of SIRPA and suggest that SIRPA regulates T cell function through an EGR4-centered transcriptional program."
+    },
+    {
+      "type": "heading",
+      "text": "EGR4 is a key downstream effector of SIRPA-mediated T cell apoptosis"
+    },
+    {
+      "type": "paragraph",
+      "text": "To validate EGR4 as a downstream effector of SIRPA, we first assessed its expression in Jurkat E6-1 cells. Both qPCR and Western blot analyses demonstrated that SIRPA overexpression significantly increased EGR4 mRNA and protein levels ()."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5fce/13711587/aeb25439777d/jitc-14-10-g007.webp",
+      "caption": "Figure 7 EGR4 is a key downstream effector for SIRPA-mediated T cell apoptosis. (A and B) Western blot and qPCR analyses show increased EGR4 protein and mRNA expression following SIRPA overexpression in Jurkat E6-1 cells. (C and D) EGR4 knockdown reduces, whereas EGR4 overexpression increases, apoptosis in human peripheral blood mononuclear cell-derived T cells. (E and F) Consistent effects of *Egr4* knockdown and overexpression on apoptosis in mouse spleen-derived T cells. (G) Rescue experiment showing that EGR4 knockdown attenuates SIRPA-induced T cell apoptosis in human T cells. *p<0.05, **p<0.01, ***p<0.001, ****p<0.0001. SIRPA, signal regulatory protein alpha."
+    },
+    {
+      "type": "paragraph",
+      "text": "Functionally, EGR4 modulation directly affected T cell apoptosis. Knockdown of EGR4 significantly reduced apoptosis in human peripheral blood-derived T cells, whereas EGR4 overexpression markedly increased apoptosis (). Consistent results were observed in primary mouse T cells ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "To determine whether SIRPA promotes T cell apoptosis through EGR4, we performed rescue experiments in human T cells. SIRPA overexpression significantly increased T cell apoptosis, whereas EGR4 knockdown suppressed apoptosis. Notably, silencing EGR4 markedly attenuated SIRPA-induced apoptosis ( and ), indicating that EGR4 is a key downstream effector of SIRPA-mediated T cell apoptosis."
+    },
+    {
+      "type": "heading",
+      "text": "SIRPA activates the SHP1-FOXO1-EGR4 signaling axis to induce T cell apoptosis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Several studies have demonstrated that SIRPA overexpression activates SHP-1, which is closely associated with the PI3K/AKT/FOXO1 signaling pathway. To further elucidate the upstream signaling events, we investigated the SHP1-PI3K/AKT-FOXO1 pathway. Western blot analysis revealed that SIRPA overexpression increased SHP1 phosphorylation while suppressing PI3K/AKT/FOXO1 signaling ( and ). Consistent with previous reports, inhibition of AKT signaling promotes nuclear localization of FOXO1, enabling transcriptional activation of pro-apoptotic genes, such as Bim."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5fce/13711587/72546c7dcc1a/jitc-14-10-g008.webp",
+      "caption": "Figure 8 SIRPA promotes T cell apoptosis through the SHP1-FOXO1-EGR4 signaling axis. (A) SIRPA overexpression activates SHP1 and suppresses the PI3K/AKT/FOXO1 signaling pathway. (B) Molecular docking analysis shows a strong interaction between EGR4 and FOXO1. (C) Co-immunoprecipitation confirms the interaction between EGR4 and FOXO1. (D) SIRPA overexpression upregulates EGR4 and activates the mitochondrial apoptosis pathway, as indicated by increased Bim and Bax and decreased Bcl-2 expression. SIRPA, signal regulatory protein alpha."
+    },
+    {
+      "type": "paragraph",
+      "text": "Further, we investigated the relationship between EGR4 and FOXO1. Molecular docking analysis suggested a strong interaction between EGR4 and FOXO1 (binding energy: −54.8 kcal/mol; ), which was further confirmed by co-immunoprecipitation assays demonstrating a direct association between EGR4 and FOXO1 ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "Given the established role of the Bim/Bcl-2/Bax axis in mitochondrial apoptosis, we next examined whether this pathway mediates EGR4-dependent cell death. Western blot analysis showed that SIRPA overexpression increased EGR4 expression, upregulated Bim and Bax, and reduced Bcl-2 levels in primary T cells ( and ), indicating activation of the intrinsic apoptotic pathway."
+    },
+    {
+      "type": "paragraph",
+      "text": "Collectively, these results demonstrate that SIRPA activates SHP1, thereby suppressing PI3K/AKT signaling and promoting FOXO1 dephosphorylation. Dephosphorylated FOXO1 cooperates with EGR4 to induce the Bim/Bcl-2/Bax apoptotic program, ultimately leading to T cell apoptosis and tumor immune evasion in HCC."
+    },
+    {
+      "type": "heading",
+      "text": "Discussion"
+    },
+    {
+      "type": "paragraph",
+      "text": "The immunosuppressive TME remains a major barrier to effective immunotherapy in HCC. Although strategies such as ICB and ACT aim to restore antitumor immunity, their efficacy is frequently limited by T cell dysfunction and apoptosis. In this study, we identify SIRPA as a previously unrecognized T cell-intrinsic regulator of apoptosis that drives immune evasion in HCC."
+    },
+    {
+      "type": "paragraph",
+      "text": "AICD is a major factor impairing the efficacy of ACT. A key finding of this study is that SIRPA directly promotes AICD in T cells and impairs antitumor immunity. We demonstrate that SIRPA overexpression enhances apoptosis and diminishes cytotoxic function in both primary human T cells and TCR-engineered T cells, whereas genetic ablation or pharmacological inhibition of SIRPA significantly enhances T cell survival and effector function. Importantly, high SIRPA expression in CD8^(+) T cells correlates with poor clinical prognosis, highlighting its clinical relevance as a negative regulator of antitumor immunity."
+    },
+    {
+      "type": "paragraph",
+      "text": "In ACT treatment, CD4^(+) T cells are essential not only for activating CD8^(+) T cells but also for sustaining their cytotoxicity during the effector phase. Consistently, we observed enhanced resistance to apoptosis in CD4^(+) T cells following *Sirpα* targeting, further supporting the therapeutic potential of SIRPA inhibition in T cell-based immunotherapy."
+    },
+    {
+      "type": "paragraph",
+      "text": "SIRPA has been classically characterized as an inhibitory receptor on macrophages that mediates immune evasion through the CD47-SIRPA axis. Disruption of this pathway enhances antitumor immunity through myeloid-dependent mechanisms. Our findings extend this paradigm by demonstrating that SIRPA also exerts a macrophage-independent function in T cells. Notably, even after macrophage depletion, SIRPA deficiency continued to enhance T cell infiltration, effector function, and tumor control, indicating that SIRPA intrinsically regulates T cell fate and function. In addition, our results showed that CD47 protein increased SIRPA expression in T cells and was accompanied by a significant increase in apoptosis (). These findings suggest that CD47 may participate in the regulation of SIRPA-associated T cell apoptosis. However, whether CD47 promotes T cell apoptosis by directly regulating SIRPA expression, or through an SIRPA-independent mechanism, remains unclear and requires further investigation."
+    },
+    {
+      "type": "paragraph",
+      "text": "Mechanistically, we define a SIRPA-SHP1-FOXO1-EGR4 signaling axis that governs T cell apoptosis. As a key protein tyrosine phosphatase recruited by the immunoreceptor tyrosine-based inhibitory motifs of SIRPA, SHP1 plays a central role in regulating immune cell activation and apoptosis. The PI3K/AKT/FOXO1 signaling pathway is a canonical pathway governing cell apoptosis and proliferation. Consistent with its canonical function, we observed that SIRPA overexpression markedly increased SHP1 phosphorylation, accompanied by reduced AKT phosphorylation and decreased p-FOXO1 levels, indicating suppression of PI3K/AKT signaling. Reduced FOXO1 phosphorylation promotes its nuclear translocation and transcriptional activity, thereby facilitating the expression of pro-apoptotic genes."
+    },
+    {
+      "type": "paragraph",
+      "text": "Importantly, we identify EGR4 as a critical downstream effector of this signaling cascade. Previous studies have proposed that EGR4 functions as a molecular brake on T cell activation. Following TCR stimulation, EGR4 expression increases and restrains Ca²^(+)-NFAT signaling, thereby limiting excessive proliferation and Th1/CTL differentiation. Other studies suggest that EGR4 partially overlaps functionally with EGR1, and they regulate STIM1 and PMCA4, modulating the duration of intracellular Ca²^(+) signaling and subsequent NFAT activation. Collectively, these findings suggest that EGR4 may serve as an important transcriptional regulator that maintains the balance between T cell activation and excessive immune responses. Consistently, our data demonstrate that SIRPA overexpression significantly upregulates EGR4 expression, whereas EGR4 knockdown restores resistance to apoptosis in SIRPA-overexpressing T cells, establishing EGR4 as a key mediator of SIRPA-induced apoptosis. Moreover, molecular docking and co-immunoprecipitation analyses support an interaction between EGR4 and FOXO1, suggesting coordinated transcriptional regulation."
+    },
+    {
+      "type": "paragraph",
+      "text": "At the effector level, activation of this axis ultimately triggers the mitochondrial apoptosis pathway. We show that SIRPA overexpression leads to increased expression of pro-apoptotic proteins Bim and Bax, along with decreased expression of anti-apoptotic Bcl-2, indicating activation of the intrinsic apoptotic program. Notably, this process appears to be independent of NF-κB signaling, highlighting the specificity of the SIRPA-mediated apoptotic pathway."
+    },
+    {
+      "type": "paragraph",
+      "text": "These findings provide several important insights. First, we establish T cell apoptosis as a central mechanism of immune evasion in HCC. Second, we uncover a previously unrecognized role of SIRPA in adaptive immunity, extending its function beyond myeloid cells. Third, we identify EGR4 as a critical transcriptional regulator linking upstream signaling to apoptotic execution, thereby filling an important gap in our understanding of T cell fate regulation within the TME."
+    },
+    {
+      "type": "paragraph",
+      "text": "Despite these advances, several limitations should be acknowledged. Although SIRPA-deficient T cells exhibit enhanced antitumor activity in mouse models, further validation in human systems and clinical settings is required. In addition, the precise transcriptional mechanisms by which EGR4 and FOXO1 cooperatively regulate downstream apoptotic genes remain to be fully elucidated."
+    },
+    {
+      "type": "paragraph",
+      "text": "In summary, our study demonstrates that SIRPA promotes HCC progression by inducing T cell apoptosis through a SHP1-FOXO1-EGR4 signaling axis in a macrophage-independent manner. Targeting SIRPA may therefore represent a promising strategy to enhance T cell-mediated antitumor immunity and improve immunotherapeutic outcomes in HCC."
+    }
+  ]
+}
