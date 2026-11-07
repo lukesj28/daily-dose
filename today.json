@@ -1,0 +1,191 @@
+{
+  "id": "PMC13595111",
+  "title": "Activatable 19F NMR probes from drug scaffolds for assessing myeloperoxidase-associated inflammation",
+  "journal": "Chemical Science",
+  "fetch_date": "2026-11-07",
+  "publish_date": "2026-09-22",
+  "authors": [
+    "Xiangjie Luo",
+    "Xinran Ji",
+    "Zhuoying Chen",
+    "Haoyu Wu",
+    "Han Cheng",
+    "Bing Zhang",
+    "Yong Qian"
+  ],
+  "license": "This article is licensed under a Creative Commons Attribution-Non Commercial 3.0 Unported Licence. You can use material from this article in other publications without requesting further permissions from the RSC, provided that the correct acknowledgement is given and it is not used for commercial purposes.",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13595111/",
+  "abstract": "Myeloperoxidase (MPO)-derived hypochlorous acid (HClO) is a key oxidant in inflammatory diseases such as sepsis and neuroinflammation. Selective detection of MPO-derived HClO in complex biological matrices remains challenging. ^(19)F NMR spectroscopy offers zero-background, environment-sensitive chemical shifts and easy quantification. Herein, we report a series of drug-derived, nitrone-based ^(19)F NMR probes (^(19)FP-1 to ^(19)FP-14) that respond specifically to HClO *via* nitrone oxidation, producing a distinct ^(19)F chemical shift change. Systematic screening identified ^(19)FP-10 as the optimal probe, exhibiting a chemical shift change of >2 ppm, high selectivity over other reactive oxygen species, and a linear concentration-dependent response to HClO. Importantly, ^(19)FP-10 enables effective detection of HClO in mouse plasma from a sepsis model and discriminates between inflamed and healthy brain tissue in a neuroinflammation model. Additionally, ^(19)FP-10 protects cells from oxidative stress and exhibits good *in vivo* biosafety, underscoring its translational potential. This work successfully establishes a class of activatable ^(19)F NMR probes based on drug scaffolds, featuring both low toxicity and high selectivity, providing a clinically translatable molecular tool for assessing MPO-associated inflammation.",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Introduction"
+    },
+    {
+      "type": "paragraph",
+      "text": "Myeloperoxidase (MPO) is a key enzyme predominantly expressed in neutrophils, microglia, and monocytes, playing an essential role in host defense. However, its excessive or dysregulated activity is closely associated with a variety of inflammatory diseases. Upon activation, MPO is released into phagosomes or (upon degranulation) into the extracellular space, where it catalyzes the formation of reactive oxidants. In the presence of H_(2)O_(2) and Cl^(−), MPO mainly produces HClO *via* the chlorination cycle and a tyrosyl radical *via* the peroxidation cycle. These reactive species oxidize host biomolecules, including DNA, RNA, proteins, and lipids, leading to tissue damage and diverse pathological conditions, such as neuroinflammation and sepsis. Neuroinflammation is a core pathological process underlying Alzheimer's disease and multiple sclerosis, involving sustained microglial activation and infiltration of peripheral immune cells into the central nervous system. Sepsis, in contrast, is a life-threatening organ dysfunction resulting from a dysregulated host response to infection, characterized by systemic hemodynamic, metabolic, and coagulation abnormalities. In both conditions, MPO-derived HClO contributes to vascular dysfunction and amplifies the inflammatory cascade. Consequently, molecular tools that can selectively detect MPO-derived HClO offer significant potential for early diagnosis and treatment monitoring of these MPO-associated inflammatory conditions."
+    },
+    {
+      "type": "paragraph",
+      "text": "Although *in vivo* imaging techniques can provide real-time dynamic information, their application in routine clinical screening is limited by high equipment costs, operational complexity, and challenges in quantification. In contrast, *in vitro* detection using plasma or tissue fluid samples presents advantages such as simplicity, low cost, ease of standardization, and suitability for large-scale screening. Among various *in vitro* detection platforms, ^(19)F NMR stands out for several unique features: the complete absence of endogenous fluorine background ensures no interference; the ^(19)F chemical shift is exquisitely sensitive to local environmental changes; and the linear correlation between signal intensity and concentration enables straightforward quantification. Furthermore, a chemical shift difference of just 0.03 ppm is typically sufficient to achieve baseline separation of two singlet ^(19)F signals on a standard 400 MHz NMR spectrometer, supporting reliable detection even in complex biological matrices such as plasma or tissue homogenates. These characteristics make ^(19)F NMR an attractive readout for the design of detection probes. For example, Su's group reported a ^(19)F probe (P1-CF_(3)) for quantitative detection of basal SO_(2) in live cells. Zhao's group developed a platinum-based ^(19)F-labeled probe (3-S) for rapid detection and chiral discrimination of sulfur-containing analytes. In parallel, our group established a ^(19)F barcoding strategy enabling simultaneous detection of multiple biomarkers in complex environments. Despite these advances, a robust ^(19)F NMR probe for direct detection of MPO-associated inflammation has yet to be reported. Therefore, a suitable chemical reaction that can translate HClO recognition into a distinct change in ^(19)F chemical shift is highly desirable. Although a few ^(19)F NMR probes for HClO have been reported, most rely on intensity-based readouts and are confined to liver/kidney models."
+    },
+    {
+      "type": "paragraph",
+      "text": "Indeed, a variety of reactive functional groups have been developed for HClO sensing (*e.g.*, thioketal groups, aromatic thioethers, and C\n\n<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" width=\"13.200000pt\" height=\"16.000000pt\" viewBox=\"0 0 13.200000 16.000000\" preserveAspectRatio=\"xMidYMid meet\"><metadata>\nCreated by potrace 1.16, written by Peter Selinger 2001-2019\n</metadata><g transform=\"translate(1.000000,15.000000) scale(0.017500,-0.017500)\" fill=\"currentColor\" stroke=\"none\"><path d=\"M0 440 l0 -40 320 0 320 0 0 40 0 40 -320 0 -320 0 0 -40z M0 280 l0 -40 320 0 320 0 0 40 0 40 -320 0 -320 0 0 -40z\"/></g></svg>\n\n\nN bonds), but these are primarily suitable for fluorescence detection. Extending such motifs to ^(19)F NMR readout is not straightforward, and their safety profiles remain to be verified. Recently, it was reported that the nitrone scaffold is readily oxidized by HClO, providing a direct chemical handle for converting HClO recognition into a detectable signal. Beyond the above reactivity advantages, the nitrone scaffold also exhibits low cytotoxicity and a favorable safety profile. Nitrones, exemplified by α-phenyl-*tert*-butylnitrone (PBN), show excellent biocompatibility within their effective concentration ranges. Moreover, nitrones are well known for their neuroprotective activity in models of neurodegenerative diseases. Their clinical translational potential has been demonstrated by NXY-059, a second-generation nitrone derivative that reached Phase III clinical trials for acute ischemic stroke (). Given these advantages, we sought to leverage the nitrone-based HClO-responsive chemistry to generate a distinct ^(19)F NMR chemical shift change. Herein, we report a series of drug-derived, nitrone-based ^(19)F NMR probes (designated ^(19)FP-X) for the specific detection of MPO-derived HClO (). Through systematic screening, we identified ^(19)FP-10 as the oserumptimal candidate, combining the low cytotoxicity and favorable safety of the nitrone scaffold with neuroprotective potential. Upon HClO activation, ^(19)FP-10 displays a significant chemical shift change (>2 ppm) with good selectivity over other reactive oxygen species. The probe enables accurate quantification of HClO in complex biological matrices, as demonstrated in mouse plasma from a sepsis model, and further discriminates between inflamed and healthy brain tissue in a neuroinflammation model (). Collectively, this work establishes a new class of drug-derived, low-toxicity, activatable ^(19)F NMR probes that hold promise for specific diagnosis of MPO-associated inflammation and offers a new approach for potential applications in inflammatory disease screening."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/c5a4/13733304/0de813d4bc01/d6sc06063c-s1.webp",
+      "caption": "Scheme 1 (A) Structure of nitrone-based neuroprotectants. (B) Design strategy for drug-derived HClO-activatable ^(19)F NMR chemical shift probes. (C) Schematic illustration of ^(19)FP-10 for detecting HClO in MPO-associated inflammation *via*^(19)F NMR."
+    },
+    {
+      "type": "heading",
+      "text": "Results and discussion"
+    },
+    {
+      "type": "heading",
+      "text": "Molecular design and screening"
+    },
+    {
+      "type": "paragraph",
+      "text": "The molecular design strategy aimed to install a fluorine-containing reporter moiety for a distinct ^(19)F NMR shift upon nitrone oxidation by HClO. To translate this reactivity into a ^(19)F NMR readout, we introduced fluorine-containing reporter groups (F or CF_(3)) at the *ortho*- or *para*-positions of the α-phenyl-*N-tert*-butylnitrone (PBN) core, affording compounds ^(19)FP-1 to ^(19)FP-4. To modulate the electronic environment around the nitrone moiety, analogues bearing electron-donating (OCH_(3)) or electron-withdrawing (Cl) substituents were also synthesized (^(19)FP-5 to ^(19)FP-7). Additionally, pyridine was employed in place of benzene as the aromatic core to improve water solubility and enhance ^(19)F NMR chemical shift sensitivity, giving ^(19)FP-8 to ^(19)FP-10 (). After obtaining these compounds, we first examined their ^(19)F NMR chemical shift changes upon oxidation by HClO by comparing them with the corresponding theoretical oxidation products (Table S1). As summarized in , most compounds exhibited chemical shift differences exceeding 2 ppm, which is sufficient for clear spectral differentiation. The only exception was ^(19)FP-3, which showed a relatively small shift of approximately 0.2 ppm. The reactivity of these ^(19)F-probes with HClO was then examined by ^(19)F NMR. Upon incubation of the probes with HClO (1.0 equiv.) in PBS buffer (pH 7.5, 30 min), we observed a consistent shift indicative of oxidation product formation. The reaction efficiency was then determined by analyzing the corresponding peak areas. As shown in , ^(19)FP-1, ^(19)FP-3, and ^(19)FP-4 displayed reaction efficiencies of less than 10%, while the remaining compounds achieved efficiencies of approximately 30% or higher, with ^(19)FP-10 demonstrating the highest efficiency at over 50%. In an effort to achieve superior reaction efficiency, we introduced structural variations at the *N-tert*-butyl moiety of ^(19)FP-10, leading to compounds ^(19)FP-11 through ^(19)FP-14. Comparison of the chemical shift differences and reaction efficiencies of ^(19)FP-10 through ^(19)FP-14 ( and S1) revealed that all compounds displayed chemical shift changes exceeding 2 ppm. However, their reaction efficiencies did not improve and remained lower than that of ^(19)FP-10. Taken together, these results identify ^(19)FP-10 as the optimal candidate, combining a large chemical shift change (>2 ppm) with the highest reaction efficiency (>50%) among the series. These results validate our drug-derived nitrone design and set the stage for further selectivity and biological studies."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/c5a4/13733304/2d4072db8dc9/d6sc06063c-f1.webp",
+      "caption": "Fig. 1 (A) The chemical structures of drug-derived ^(19)F-probes (^(19)FP-1 to ^(19)FP-14) used in this work. (B) ^(19)F NMR chemical shift changes and (C) response efficiencies of the probes (^(19)FP-1 to ^(19)FP-10) after a 30-minute reaction with 1 eq. HClO in 20 mM phosphate buffer (containing 1% DMSO, pH 7.5). Data represent mean ± SD of replicates (*n* = 3). (D) Comparison of chemical shift changes and response efficiencies of the probes ^(19)FP-10 to ^(19)FP-14. Response efficiencies are expressed as the peak area percentage of the sensing product following HClO incubation, after subtracting background signals from the PBS control group. See Table S1 for ^(19)F chemical shifts of probes and sensing products."
+    },
+    {
+      "type": "heading",
+      "text": "Reactivity and selectivity assessment"
+    },
+    {
+      "type": "paragraph",
+      "text": "Having identified ^(19)FP-10 as the optimal probe, we next evaluated its selectivity toward HClO against other relevant reactive oxygen species (ROS) and common biological molecules/macromolecules (GSH and FBS). As shown in , a significant ^(19)F NMR shift was observed only upon treatment with HClO (from −62.2 to −59.8 ppm), whereas negligible chemical shift changes or product formation were detected with other analytes. The reaction product was independently verified by ^(1)H/^(13)C NMR and HRMS analyses, as expected (Fig. S2). The relative population of the oxidation product formed under each condition was quantified and is presented in . These results demonstrate that ^(19)FP-10 possesses high selectivity for HClO, which is essential for accurate detection in complex biological environments where multiple oxidative species coexist, a key requirement for diagnosing MPO-associated inflammation. To determine whether ^(19)FP-10 could detect MPO-derived HClO, we incubated the probe with the MPO reaction system. The resulting ^(19)F NMR response was suppressed upon co-treatment with the MPO inhibitor, 4-ABAH, confirming that the probe can be used to detect MPO-derived HClO (Fig. S3). We next established the correlation between the relative intensities of the characteristic peaks and HClO concentrations within the range of 0–2 mM in an aqueous solution. To avoid the Nuclear Overhauser Effect (NOE)-induced signal alterations, we used undecoupled ^(19)F NMR for quantification. As depicted in , with HClO concentrations ranging from 0.4 to 2 mM, the relative intensity of the sensing product peak at *δ*^(19)F −59.8 ppm increased gradually. No side product peaks were observed, allowing reliable quantification. A linear correlation was established between the percentage of the sensing product peak area (*Y*) and HClO concentration (*X*), described by the equation *Y* = 34.08*X* + 19.2 (*R*^(2) = 0.996) (). The stability of ^(19)FP-10 was also evaluated. Under varying pH conditions and upon prolonged storage, no degradation of the probe was observed, indicating excellent stability for practical applications (). To better mimic physiological conditions, we also assessed ^(19)FP-10 in 20% fresh mouse plasma spiked with different HClO concentrations. The response showed a good linear relationship from 0 to 1.2 mM (*Y* = 52.93*X* + 19.2 (*R*^(2) = 0.987), Fig. S4). Non-decoupled ^(19)F NMR was used to avoid NOE-induced signal alterations. Under the specified ^(19)F NMR acquisition parameters (256 scans, 376 MHz transmitter frequency), the limits of detection (LOD) and quantification (LOQ) for HClO were calculated as 19.8 µM and 65.3 µM, respectively. Given that HClO concentrations in pathological body fluids can reach up to 200 µM, our detection system is well-suited for practical HClO analysis. Additionally, spike recovery experiments in plasma yielded recoveries ranging from 97.6% to 98.9%, with relative standard deviations (RSD) of 4.1–7.9% (*n* = 3), indicating good accuracy and reproducibility (Table S2). These properties establish ^(19)FP-10 as a promising tool for reliable detection of HClO in complex biological systems."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/c5a4/13733304/e1e5b73eaae7/d6sc06063c-f2.webp",
+      "caption": "Fig. 2 (A) ^(19)F NMR spectra of optimized ^(19)F-probe, ^(19)FP-10 (1 mM), treated with various analytes (2.5 mM) in PBS buffer for 30 min. CF_(3)COONa (at −75.4 ppm) was used as an internal reference for chemical shift. (B) Analysis of the response efficiency of probe ^(19)FP-10. Data were derived from the experiments shown in (A) and are presented as mean ± SD (*n* = 3). (C) Representative un-decoupled ^(19)F NMR spectra of ^(19)FP-10 (1 mM) with varying concentrations of HClO (0–2 mM) in 20 mM phosphate buffer (containing 1% DMSO, pH 7.5) at 37 °C for 30 min. (D) Linear regression of the sensing product's peak area percentage relative to HClO concentration, based on data from C (*n* = 3). (E) The stability of ^(19)FP-10 was assessed by NMR under different pH conditions or for different time intervals in PBS."
+    },
+    {
+      "type": "heading",
+      "text": "Blood plasma diagnosis of sepsis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Sepsis is typically accompanied by bloodstream infection, and plasma from infected individuals contains higher levels of MPO than that from healthy controls, suggesting increased generation of HClO *in vivo*. Following validation of the high selectivity and quantitative capability of ^(19)FP-10 toward HClO, we next evaluated its applicability in complex biological matrices using a mouse model of sepsis established by cecal ligation and puncture (CLP). The workflow for sepsis diagnosis using ^(19)F NMR is illustrated in . The successful establishment of the mouse model was confirmed by the damage observed in liver and kidney tissues *via* H&E staining, together with significantly elevated levels of IL-6 and IL-1β (). We next assessed the performance of ^(19)FP-10 in detecting HClO in plasma samples by ^(19)F NMR. Based on the pathophysiological levels of HClO (which can reach up to ∼200 µM) and the detection sensitivity of our system (LOD: 19.8 µM), we selected 100 µM as the probe concentration for plasma sample testing. First, the stability of the probe was verified in FBS, where no impurity peaks were observed even after 24 hours of incubation in 20% FBS (Fig. S5). Upon incubation of ^(19)FP-10 (100 µM) with 20% or 40% septic plasma for 30 min, a distinct characteristic peak corresponding to the sensing product appeared in the ^(19)F NMR spectra (−59.8 ppm), whereas no such signal was observed in the healthy plasma-treated group. This result demonstrates that ^(19)FP-10 can effectively detect the elevated levels of HClO associated with sepsis in real biological samples. Notably, the response efficiency increased with plasma proportion, from 42.8% (20% septic plasma) to 68.2% (40% septic plasma), demonstrating a positive correlation between product peak intensity and plasma proportion, which reflects the degree of oxidative stress (). These results demonstrate that ^(19)FP-10 can effectively detect HClO in real biological samples from septic mice and can be used for semi-quantitative assessment of inflammation-associated HClO levels. This capability directly addresses the unmet need for a robust ^(19)F NMR probe for MPO-associated inflammation."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/c5a4/13733304/b3763a4da478/d6sc06063c-f3.webp",
+      "caption": "Fig. 3 (A) Schematic illustration of the operational procedure for sepsis diagnosis using blood plasma with ^(19)FP-10. This figure was created with Adobe Photoshop and https://bioRender.com. (B) H&E staining of the liver and kidney tissues from normal and septic mice. (C) Serum levels of IL-6 and IL-1β in normal and septic mice. (D) ^(19)F NMR spectra and corresponding response efficiency analysis of ^(19)FP-10 (100 µM) in the presence of normal plasma or sepsis plasma. Error bars represent the standard deviations of 3 trials. Significant differences (**P* < 0.05, ***P* < 0.01) were determined by Student's *t*-test."
+    },
+    {
+      "type": "heading",
+      "text": "Detection of HClO in inflamed mouse brain tissue"
+    },
+    {
+      "type": "paragraph",
+      "text": "Encouraged by the successful detection of HClO in septic plasma, we next evaluated the ability of ^(19)FP-10 to detect HClO in a murine model of neuroinflammation, where MPO-derived HClO is known to contribute to vascular dysfunction and neuronal damage. Unilateral injection of lipopolysaccharide (LPS) into the right cerebral hemisphere was performed to establish the model (). To validate the inflammatory state, we assessed the expression of MPO, the enzyme responsible for catalyzing HClO production. Representative western blotting ( and S6) and immunostaining ( and S7) revealed that, in wild-type (WT) mice, MPO levels in the left (L) and right (R) hemispheres were comparable. In contrast, LPS injection led to markedly elevated MPO expression in both hemispheres compared to WT controls, with the right (injected) hemisphere exhibiting higher levels than the left (uninjected) hemisphere. These results confirm successful induction of localized neuroinflammation, characterized by both a robust ipsilateral MPO upregulation and a moderate contralateral response. We then applied ^(19)FP-10 to detect HClO in brain tissue homogenates. Following incubation of ^(19)FP-10 (100 µM) with homogenates from the left and right hemispheres, ^(19)F NMR spectra were acquired. As shown in , a distinct new peak corresponding to the oxidized sensing product was observed in both hemispheres of LPS-treated mice, with a higher intensity in the right (injected) hemisphere than in the left (uninjected) hemisphere. In contrast, only negligible signals were detected in tissues from WT mice. Quantitative analysis of the product peak area () further confirmed that the response efficiency in the right hemisphere of LPS-injected mice (68.9%) was significantly higher than that in the left hemisphere (46.8%), consistent with elevated MPO expression and HClO production in the inflamed region. Furthermore, elevated MPO activity was also observed in the brain tissue of LPS-injected mice (Fig. S8). Collectively, these results demonstrate that ^(19)FP-10 enables region-specific detection of HClO elevation in inflamed brain tissue and, more importantly, exhibits practical utility for *ex vivo* diagnosis across diverse biological specimens, as validated in both septic plasma and inflamed brain tissue homogenates."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/c5a4/13733304/7f56e511c41b/d6sc06063c-f4.webp",
+      "caption": "Fig. 4 (A) Schematic illustration of the operational procedure for the detection of HClO in inflamed mouse brain tissue using ^(19)FP-10. This figure was created with Figdraw. Representative western blots (B) and immunostaining (C) of MPO in left (L) and right (R) brain tissues from wild-type (WT) or LPS-injected (LPS) mice following unilateral LPS injection into the right hemisphere. ^(19)F NMR spectra (D) and corresponding response efficiency analysis (E) of ^(19)FP-10 (100 µM) in the left (L) and right (R) brain tissues. Data are shown as mean ± SEM, *n* = 3. **P* < 0.05, ***P* < 0.01."
+    },
+    {
+      "type": "heading",
+      "text": "^(19)FP-10 exhibits low cytotoxicity"
+    },
+    {
+      "type": "paragraph",
+      "text": "Given the drug-derived nature of ^(19)FP-10 and its potential utility in biological systems, we first assessed its biocompatibility in HT22 mouse hippocampal neuronal cells. Even at concentrations up to 20 µM, no significant reduction in cell viability was observed (Fig. S9), confirming its low toxicity. During these experiments, we noticed that ^(19)FP-10 unexpectedly mitigated oxidative stress-induced cell damage. This protective effect is consistent with the well-documented neuroprotective properties of the nitrone scaffold. As shown in , exposure to 5 mM glutamate or 400 µM H_(2)O_(2) for 24 h reduced cell viability to approximately 50% of the control level; pretreatment with ^(19)FP-10 (1 or 10 µM) dose-dependently restored viability. We next assessed whether the protective effect of ^(19)FP-10 was associated with the reduction of intracellular ROS. As depicted in , H_(2)O_(2) treatment alone markedly increased DCFH-DA fluorescence intensity, indicating robust ROS accumulation. Co-treatment with ^(19)FP-10 reduced this increase, an effect similar to that of the classical nitrone antioxidant PBN. Additionally, ^(19)FP-10 upregulated Nrf2 protein under H_(2)O_(2)-induced oxidative stress, indicating activation of the Nrf2-mediated antioxidant pathway (Fig. S10). Furthermore, we evaluated the anti-apoptotic effect of ^(19)FP-10 using flow cytometry. As shown in , H_(2)O_(2) exposure substantially elevated the apoptotic cell population (total apoptosis rate: 27.24%, representing the sum of early and late apoptotic cells), whereas pretreatment with ^(19)FP-10 decreased this rate to 11.56%. In addition, we measured the levels of the pro-inflammatory cytokine IL-6 in the culture media.  revealed that H_(2)O_(2) stimulation significantly increased IL-6 and IL-1β secretion, which was efficiently reversed by ^(19)FP-10 treatment. To further evaluate the *in vivo* safety of the probe, it was administered *via* tail vein injection. At 24 h post-injection, major organs were harvested for H&E staining. The results showed that the probe group was comparable to the PBS group, with no discernible organ damage observed (). These results indicate that ^(19)FP-10 is a safe probe with incidental cytoprotective effects, laying a solid foundation for its future applications in live-body imaging of inflamed regions *via*^(19)F MRI or further derivatization into ^(18)F-labeled PET probes to enhance detection sensitivity, and thus holds potential for further applications in MPO-associated inflammation."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/c5a4/13733304/4a24dd4b76c0/d6sc06063c-f5.webp",
+      "caption": "Fig. 5 Effects of ^(19)FP-10 on cell viability in HT22 cells injured by glutamate (Glu) (A) or H_(2)O_(2) (B). Cells were pretreated with ^(19)FP-10 (1 or 10 µM) for 2 h and then stimulated with 5 mM Glu or 400 µM H_(2)O_(2) for 24 h. Cell viability was measured by the MTT assay. (C) ^(19)FP-10 prevents H_(2)O_(2)-induced accumulation of ROS in HT22 cells. Cells were treated with 400 µM H_(2)O_(2) in the absence or presence of 10 µM ^(19)FP-10 for 24 h and stained with 2 µM DCFH-DA. Fluorescence intensity was quantified using ImageJ software. (D) ^(19)FP-10 attenuates H_(2)O_(2)-stimulated apoptosis in HT22 cells. Cells were pretreated with ^(19)FP-10 (10 µM) for 2 h, and then exposed to 400 µM H_(2)O_(2) for 24 h. The cell apoptosis was detected by flow cytometry. (E and F) Levels of pro-inflammatory cytokines IL-6 (E) and IL-1β (F) in the culture media of H_(2)O_(2)-stimulated HT22 cells treated as indicated (*n* = 3 per group). (G) H&E staining of major organs harvested at 24 h post-injection. Data are shown as mean ± SEM, *n* = 3. ***P* < 0.01, ****P* < 0.001, *****P* < 0.0001."
+    },
+    {
+      "type": "heading",
+      "text": "Experimental section"
+    },
+    {
+      "type": "heading",
+      "text": "Synthesis and characterization"
+    },
+    {
+      "type": "paragraph",
+      "text": "Detailed information on materials, instrumentation, synthesis procedures (Scheme S1), and structural characterization is provided in the SI."
+    },
+    {
+      "type": "heading",
+      "text": "General ^(19)F NMR measurements"
+    },
+    {
+      "type": "paragraph",
+      "text": "^(19)F NMR measurements were performed using freshly prepared probes and analyte solutions. The ^(19)F probes were dissolved in DMSO to prepare a stock solution at 100 mM. Spectra were acquired with a transmitter frequency offset of −100 ppm and a spectral width of 241 ppm. The longitudinal relaxation times (*T*_(1)) of the probe (^(19)FP-10) and its oxidation product were determined using the inversion-recovery method, giving values of 622.7 ms and 696.2 ms, respectively. For quantitative analysis, the recycle delay (*D*_(1)) was set to 4 s (longer than 5 × *T*_(1)) to ensure complete relaxation of all fluorine nuclei. For qualitative comparisons only, *D*_(1)-of 1 s, with 64 scans averaged unless otherwise specified. Deuterium oxide (D_(2)O, 10%) served as the field-lock solvent. All spectral data were processed and analyzed using MestReNova software."
+    },
+    {
+      "type": "heading",
+      "text": "Sample preparation for ^(19)F NMR analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "For ^(19)F NMR experiments, the probe (1 mM) was incubated with each analyte (2.5 mM) in PBS buffer (20.0 mM, containing 1% DMSO, pH 7.5) for 30 min. Subsequently, 0.6 mL aliquots were collected from each reaction for ^(19)F NMR analysis. HClO and H_(2)O_(2) were obtained from commercial sources. ONOO^(−), KO_(2), and ˙OH solutions were prepared according to reported methods. The remaining analytes were dissolved directly in ultrapure water. Unless otherwise specified, all concentrations refer to the final reaction concentrations."
+    },
+    {
+      "type": "heading",
+      "text": "Plasma sample preparation and analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "A mouse model of sepsis was established in C57BL/6 mice *via* cecal ligation and puncture (CLP) according to reported methods. Subsequently, retro-orbital blood samples were collected, and whole blood mixed with anticoagulant was centrifuged at 2000 rpm for 15 min to obtain plasma (the upper pale-yellow layer). For ^(19)F NMR experiments, the probe (100 µM) was incubated with 20% or 40% sepsis plasma for 30 min."
+    },
+    {
+      "type": "heading",
+      "text": "Brain tissue preparation and analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "The animal study protocol was approved by the Institutional Animal Care and Use Committee of Nanjing Normal University (ethics no. IACUC-2603097). A mouse model of neuroinflammation was established using C57BL/6 mice according to previously reported methods. Briefly, microinjection was performed using a microinjection pump (emptying rate: 0.2 nL s^(−1), injection volume: 300 nL, LPS concentration: 10 mg mL^(−1)). At 8 h post-LPS treatment, brain tissues were harvested for ^(19)F NMR analysis."
+    },
+    {
+      "type": "heading",
+      "text": "Cytoprotective effects of ^(19)FP-10 in HT22 cells"
+    },
+    {
+      "type": "paragraph",
+      "text": "HT22 cells were seeded in 96-well plates and cultured overnight. Cells were then pretreated with ^(19)FP-10 for 2 h, followed by exposure to 5 mM glutamate (Glu) or 400 µM H_(2)O_(2) for 24 h to induce oxidative injury. Cell viability was measured using the MTT assay, and the absorbance was read at 490 nm."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusions"
+    },
+    {
+      "type": "paragraph",
+      "text": "In summary, we have successfully transformed the nitrone scaffold, a well-established neuroprotective pharmacophore, into a class of activatable ^(19)F NMR probes for detecting MPO-derived HClO. Through systematic structure optimization, ^(19)FP-10 was identified as the optimal probe, exhibiting high selectivity for HClO, a robust chemical shift response, and low cytotoxicity. In septic mouse plasma, the probe detected elevated HClO levels in a plasma-proportion-dependent manner. In an LPS-induced neuroinflammation model, it clearly discriminated between inflamed and healthy brain tissue with region-specific resolution, correlating well with MPO expression levels. These results validate the utility of drug-derived nitrone probes for diagnosing MPO-associated inflammation across different biological matrices. Moreover, the incidental cytoprotective effect observed for ^(19)FP-10 underscores the retained bioactivity of the nitrone core, offering a potential dual function of detection and protection. Importantly, the probe showed good *in vivo* safety, as tail vein injection caused no organ damage. Collectively, this probe platform establishes a chemical strategy that translates MPO activity into a distinct ^(19)F NMR signal, paving the way for future *in vivo* imaging of inflammation *via*^(19)F MRI or ^(18)F PET."
+    },
+    {
+      "type": "heading",
+      "text": "Author contributions"
+    },
+    {
+      "type": "paragraph",
+      "text": "X. J. L. and Y. Q. designed the research and supervised the study; X. J. L. and R. X. J. performed the chemical synthesis; X. J. L. conducted the ^(19)F NMR experiments, with H. Y. W. assisting in the measurements, and H. C. and B. Z. assisting in the animal studies. Z. Y. C. carried out the immunofluorescence imaging. The manuscript was reviewed and revised by Y. Q. and X. J. L. All authors discussed the results and contributed to the editing of the manuscript."
+    },
+    {
+      "type": "heading",
+      "text": "Conflicts of interest"
+    },
+    {
+      "type": "paragraph",
+      "text": "There are no conflicts to declare."
+    },
+    {
+      "type": "heading",
+      "text": "Supplementary Material"
+    }
+  ]
+}
