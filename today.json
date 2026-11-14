@@ -1,0 +1,276 @@
+{
+  "id": "PMC13749921",
+  "title": "Half of the children do not own a book: early childhood book access and shared reading in a middle-income country",
+  "journal": "BMC Pediatrics",
+  "fetch_date": "2026-11-14",
+  "publish_date": "2026-08-12",
+  "authors": [
+    "Merve Cicek Kanatli",
+    "Seyma Erdem Torun"
+  ],
+  "license": "Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13749921/",
+  "abstract": "Although the developmental benefits of parent–child shared book reading in early childhood are well established and pediatric care provides an opportunity to promote it, shared reading remains underutilized in low- and middle-income countries. This study aimed to describe daily shared reading, its duration, and the number of children’s books in early childhood and to examine their associations with each other and with parental literacy-related factors in a low-resource setting. This cross-sectional study included 296 children aged 0–6 years attending a pediatric outpatient clinic in Van, Türkiye. Data were obtained from parents using interviewer-administered questionnaires on sociodemographic characteristics, whether they engaged in daily shared reading with their child, the duration of shared reading, and household book counts, including the numbers of children’s and parental books. Analyses included univariate comparisons, correlation analyses, and multivariable logistic regression models adjusting for child-level variables. Overall, 49.7% of children did not engage in daily shared reading, and the median shared reading duration was 5 min/day (IQR 0–30). Half of the children (50.0%) had no children’s books in the home, and 20.9% had no parental books. In univariate analyses, higher parental education, maternal employment, preschool attendance, and urban residence were associated with both shared reading and the number of children’s books (all *p* < 0.05), whereas child age and sex were not. Correlation analyses showed a moderate association between shared reading and the number of children’s books (r_(s) = 0.564, *p* < 0.001), and between children’s and parental book counts (r_(s) = 0.570, *p* < 0.001). In multivariable analyses, higher maternal and paternal education and maternal employment were independently associated with both outcomes (all *p* < 0.05), after adjustment for child-level variables. Daily shared reading and the number of children’s books were limited in this low-resource setting and were associated with parental literacy-related factors. These findings highlight early constraints in home-based literacy environments in a pediatric care population and suggest a potential role for pediatric services in supporting early literacy. The online version contains supplementary material available at https://doi.org/10.1186/s12887-026-07525-8.",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Introduction"
+    },
+    {
+      "type": "paragraph",
+      "text": "Parent-child shared reading is a highly effective and cost-efficient strategy to support early childhood development [–]. However, despite its demonstrated benefits, this practice remains underutilized in low- and middle-income countries (LMICs), where approximately 250 million children 43% of the global under-five population are at risk of not reaching their developmental potential []."
+    },
+    {
+      "type": "paragraph",
+      "text": "In the literature, the term *shared book reading* sometimes referred to as *book sharing* is used to describe an interactive process in which parents and children not only read aloud but also talk about pictures, ask and answer questions, and engage in conversations around the book [–]."
+    },
+    {
+      "type": "paragraph",
+      "text": "Its benefits for children’s language development, particularly vocabulary, expressive language, and listening comprehension, are well documented [–]. Beyond language, shared reading enhances cognitive abilities such as executive function and attention [–], and contributes to socio-emotional development, including improvements in self-regulation, prosocial behavior, and imitation [, ]. These outcomes are supported by neuroimaging studies linking shared reading to positive brain development in preschool-aged children [, ]."
+    },
+    {
+      "type": "paragraph",
+      "text": "In LMICs and low-socioeconomic status (SES) contexts, shared reading also plays a critical role in promoting early literacy and school readiness key predictors of later academic achievement, educational attainment, and broader life outcomes such as employment and health []. Importantly, its effects are especially pronounced for children from disadvantaged backgrounds, highlighting its potential to reduce educational inequalities and break the intergenerational cycle of low literacy [, ]. Despite its well-documented benefits, shared reading practices are not equally accessible to all families particularly in LMICs and low-SES settings. In a broad sample of LMICs, children living in households with at least one children’s book were nearly twice as likely to be on track for literacy and numeracy development compared to those without any children’s literature []. In the same study covering 35 low- and middle-income countries, only about half (51.8%) of children aged 36 to 59 months had access to at least one children’s book at home []. Beyond the presence of children’s books alone, the total number of books in the home including adult books is an important indicator of the overall home literacy environment. This broader book availability has been shown to be positively associated with children’s language development and literacy outcomes [, ]. Despite these findings, in many LMICs both shared reading practices and access to children’s books remain limited."
+    },
+    {
+      "type": "paragraph",
+      "text": "The health system, as the primary and often most consistent point of contact with families during early childhood, is uniquely positioned to tackle these barriers []. Intervening early through pediatric care is crucial since waiting until school entry is often too late. Evidence from systematic reviews supports the effectiveness of literacy promotion through health services [, ], and organizations such as the American Academy of Pediatrics recommend initiating literacy guidance in the first year of life []. However, in LMICs, information on shared reading practices and home literacy environments in pediatric populations that would be the target of such approaches remains limited."
+    },
+    {
+      "type": "paragraph",
+      "text": "Türkiye, a middle-income country, has no official program for shared reading in pediatrics or family medicine practices during early childhood []. This highlights a missed opportunity to reach families early and promote equitable developmental support through existing healthcare infrastructure. In Türkiye, where over 25% of children live in poverty [], significant disparities in income, education, and material resources persist across regions. This underscores the importance of focusing on disadvantaged areas, such as Van, where this study was conducted. Located on Türkiye’s eastern border, Van falls into the lowest of six socioeconomic development categories []. This study aimed to describe daily shared reading, its duration, and children’s book counts in early childhood, and to examine their associations with each other and with selected parental literacy-related factors, including parental education level and parental book counts."
+    },
+    {
+      "type": "heading",
+      "text": "Materials and methods"
+    },
+    {
+      "type": "paragraph",
+      "text": "This cross-sectional study was conducted in Van, Türkiye, between February and April 2024, among children aged 0–6 years attending general pediatric outpatient clinics at a large health care center. Data were obtained from their parents or primary caregivers through interviewer-administered questionnaires conducted by pediatricians."
+    },
+    {
+      "type": "heading",
+      "text": "Ethical statement"
+    },
+    {
+      "type": "paragraph",
+      "text": "Prior to commencing the study, approval was obtained from the Ethics Committee of Ankara Bilkent City Hospital (approval number: TABED 2-24-648, date: January 2024). The study was conducted in accordance with the ethical standards outlined in the 1964 Declaration of Helsinki. Written informed consent was obtained from all participating parents."
+    },
+    {
+      "type": "paragraph",
+      "text": "The reporting of this cross-sectional study followed the Strengthening the Reporting of Observational Studies in Epidemiology (STROBE) reporting guidelines. Clinical trial registration: not applicable."
+    },
+    {
+      "type": "paragraph",
+      "text": "Participant confidentiality and anonymity were ensured by assigning unique study codes, and all data were collected and analyzed in a de-identified format without recording any personal identifiers."
+    },
+    {
+      "type": "heading",
+      "text": "Participants"
+    },
+    {
+      "type": "paragraph",
+      "text": "The study population consisted of 296 children aged 0–6 years attending a pediatric outpatient clinic. Information about the children and their households was obtained from their parents or primary caregivers, who were fluent in Turkish. Children with acute or chronic conditions were not excluded."
+    },
+    {
+      "type": "paragraph",
+      "text": "The sample size was calculated as 296, providing a 95% confidence level with a 5% margin of error, based on the population of children aged 0–6 years in Van province and a previously reported prevalence of daily shared reading of 29.5% in Türkiye []."
+    },
+    {
+      "type": "paragraph",
+      "text": "All eligible caregivers who were approached agreed to participate in the study."
+    },
+    {
+      "type": "paragraph",
+      "text": "Key sociodemographic characteristics of the study population are summarized in Table  and described in detail in the Results section."
+    },
+    {
+      "type": "paragraph",
+      "text": "Table 1Associations between child and family characteristics and the duration of daily shared reading and the number of children's booksDuration of daily shared reading (minutes)Number of children’s books in the homeCharacteristics of childrenTotal (n=296) (%)Median (IQR)Effect Size (95% CI)\n*p*\nMedian (IQR)Effect Size (95% CI)\n*p*\nSex Boys156 (52,7)5 (0-30)0,017 (0.002, 0.135)0,7701.5 (0-10)0,004 (0.002, 0.136)0,945 Girls140 (47,3)5 (0-30)0 (0-10)Age (months) mean±SD=35.1±18.40-1236 (12.16)2.5 (0-30)0.001 (0.000, 0.037)0.3030 (0-5)0.002 (0.000, 0.033)0.53113-35118 (39.87)0 (0-30)0 (0-10)36-72142 (47.97)10 (0-30)2 (0-10)Preschool education Yes50 (16.9)30 (10-34)0.246 (0.139, 0.346)<0.001*10 (0-40)0.259 (0.135, 0.369)<0.001* No246 (83.1)0 (0-30)0 (0-5)Characteristics of familiesMedian (IQR)Effect Size (95% CI)\n*p*\nMedian (IQR)Effect Size (95% CI)\n*p*\nMaternal education Never went to school33 (11.1)0 (0-10)0.192 (0.120, 0.301)<0.001*0 (0-0)0.349 (0.262, 0.456)<0.001* Primary school59 (19.9)0 (0-10)0 (0-2) Secondary school62 (20.9)0 (0-10)0 (0-2) High school88 (29.7)10 (0-30)5 (0-20) University54 (18.2)30 (10-30)10 (5-40)Paternal education Never went to school7 (2.4)0 (0-0)0.121 (0.063, 0.217)<0.001*0 (0-0)0.208 (0.130, 0.311)<0.001* Primary school54 (18.2)0 (0-15)0 (0-4) Secondary school58 (19.6)0 (0-0)0 (0-0) High school87 (29.4)0 (0-30)2 (0-5) University90 (30.4)15 (10-30)10 (3-30)Mother working status Working60 (20.3)30 (10-40)0.366 (0.254, 0.462)<0.001*10 (3-30)0.346 (0.241, 0.448)<0.001* Not working236 (79.7)0 (0-30)0 (0-5)Family structure Nuclear family210 (71.0)10 (0-30)0.012 (0.000, 0.059)0.0632.5 (0-10)0.011 (0.000, 0.051)0.076 Joint family80 (27.0)0 (0-30)0 (0-5) Single parent6 (2.0)0 (0-10)0 (0-4)Sibling status226 (76.4) No sibling(s)71 (31.4)15 (0-30)0.115 (0.013, 0.221)0.048*5 (0-20)0.138 (0.031, 0.257)0.017* Having sibling(s)225 (68.6)0 (0-30)0 (0-5)Residency Urban228 (77.0)10 (0-30)0.106 (0.011, 0.217)0.0682 (0-10)0.122 (0.017, 0.230)0.036* Rural68 (23.0)0 (0-30)0 (0-5)*IQR* Interquartile range, *CI* Confidence interval**p*< 0.05, statistically significant"
+    },
+    {
+      "type": "heading",
+      "text": "Questionnaire and variables"
+    },
+    {
+      "type": "paragraph",
+      "text": "A structured questionnaire was developed to collect information on sociodemographic characteristics, shared reading practices, and the number of books in the home (see Supplementary File). The questionnaire was developed by the research team, including a developmental pediatrician (MCK) with training in early literacy promotion (Reach Out and Read), based on a review of the relevant literature and existing measures of shared reading practices and the home literacy environment [–]. Given the study aim and the busy clinical setting, a brief and structured format was preferred to ensure feasibility and minimize respondent burden. Participants provided their answers verbally, and the pediatricians recorded the responses. Completion took approximately 10 min. The items consisted of simple, factual questions (e.g., parental education, number of books at home) that did not require subjective interpretation; therefore, formal validity testing was not performed. Prior to the main data collection, the questionnaire was pilot-tested with 15 participants with similar characteristics to the study population to assess clarity and feasibility, and no modifications were required."
+    },
+    {
+      "type": "paragraph",
+      "text": "The final questionnaire consisted of 16 items: 4 related to child characteristics, 8 to family and sociodemographic characteristics, and 4 to shared reading and household book counts. The following variables were assessed:"
+    },
+    {
+      "type": "paragraph",
+      "text": "Daily or almost daily shared reading (yes/no): Defined as shared reading occurring on ≥5 days per week.Duration of daily shared reading (minutes): The average total time per day caregivers spend sharing books with the child (e.g., reading aloud, discussing pictures).Number of children’s books in the home: The total number of illustrated books for infants and preschool-aged children.Number of parental books in the home: The total number of books in the household, excluding children’s books and school textbooks."
+    },
+    {
+      "type": "heading",
+      "text": "Statistical analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Numerical variables were summarized as means, standard deviations (SD), and/or medians [interquartile range (IQR)], while categorical variables were reported as frequencies and percentages. The dataset contained no missing values; therefore, no imputation or other corrective procedures were required."
+    },
+    {
+      "type": "paragraph",
+      "text": "The primary analyses compared shared reading practices and book ownership across sociodemographic groups, including preschool attendance, parental education level, maternal employment status, and family structure."
+    },
+    {
+      "type": "paragraph",
+      "text": "Since parametric test assumptions were not met, comparisons between two independent groups for numerical variables were performed using the Mann–Whitney U test, and comparisons among more than two groups were conducted using the Kruskal–Wallis test, followed by Dunn post-hoc tests where appropriate. In addition to p-values, effect sizes were reported. For comparisons between two independent groups, the rank-biserial correlation (r), calculated as Z/√N, was used as the effect size measure. The magnitude of effect sizes was interpreted as small (r = 0.1), moderate (r = 0.3), and large (r = 0.5)."
+    },
+    {
+      "type": "paragraph",
+      "text": "For comparisons among more than two independent groups, eta squared based on the Kruskal–Wallis H statistic (η²[H]) was calculated as the effect size measure. The magnitude of η²[H] was interpreted as small (0.01), moderate (0.06), and large (0.14). Confidence intervals for effect sizes were obtained using bootstrap resampling (1,000 iterations) with the percentile method."
+    },
+    {
+      "type": "paragraph",
+      "text": "The relationships between numerical variables (e.g., duration of shared reading and number of books) were evaluated using Spearman correlation coefficients."
+    },
+    {
+      "type": "paragraph",
+      "text": "To evaluate the association between family characteristics and reading-related outcomes while controlling for potential confounders (children characteristics), regression analyses were performed. Given the high proportion of zero values for duration of shared reading and number of children’s books, outcomes were additionally analyzed as binary variables (0 vs. >0) to distinguish absence versus presence of exposure. and multiple logistic regression analyses were conducted. To avoid multicollinearity among family-related predictors, separate models were constructed for each family characteristic, each adjusted for the same set of child-level covariates. In all models, child’s age, sex, and preschool education were included as covariates. Results were reported as odds ratios (ORs) with corresponding 95% confidence intervals (CIs) and p-values."
+    },
+    {
+      "type": "paragraph",
+      "text": "Overall model significance was evaluated using omnibus chi-square test, while model calibration was assessed using Hosmer-Lemeshow goodness-of-fit test. Model explanatory performance was summarized using the Cox-Snell and Nagelkerke R^(2) measures. Discriminative ability was evaluated using the area under the receiver operating characteristic curve (AUC) with 95% confidence intervals. Multicollinearity among the independent variables was assessed using variance inflation factor (VIF) values."
+    },
+    {
+      "type": "paragraph",
+      "text": "All p values were two-tailed, with statistical significance set at *p* < 0.05. Statistical analyses were performed using IBM SPSS Statistics (version 27) and R software (version 4.3)."
+    },
+    {
+      "type": "heading",
+      "text": "Availability of data and materials"
+    },
+    {
+      "type": "paragraph",
+      "text": "The datasets used and/or analyzed during the current study are available from the corresponding author on reasonable request."
+    },
+    {
+      "type": "heading",
+      "text": "Results"
+    },
+    {
+      "type": "heading",
+      "text": "Population characteristics"
+    },
+    {
+      "type": "paragraph",
+      "text": "The characteristics of the study population and the distribution of key sociodemographic variables used in subsequent analyses are summarized in Table . The mean age of the children was 35.1 months (SD = 18.4), with 47.3% girls and 52.7% boys. The preschool enrollment rate among children aged ≥ 3 years was 31%. Parental educational attainment was low, with 51.9% of mothers and 40.2% of fathers having less than a high school education, and approximately one tenth of mothers having never attended school. The majority of mothers were not employed. Most families were nuclear and resided in urban areas."
+    },
+    {
+      "type": "heading",
+      "text": "Factors associated with the duration of daily shared reading"
+    },
+    {
+      "type": "paragraph",
+      "text": "There were no significant differences in the duration of daily shared reading by child age group (infant, toddler, and preschool-aged) or sex (*p* = 0.303 and *p* = 0.770, respectively). Similarly, child age was not significantly correlated with the duration of daily shared reading (Spearman’s rho = 0.038). In univariate analyses, the duration of daily shared reading was greater among children attending preschool (*p* < 0.001), those with more highly educated mothers and fathers (both *p* < 0.001), those whose mothers were employed (*p* < 0.001), and those without siblings (*p* = 0.048) (Table )."
+    },
+    {
+      "type": "heading",
+      "text": "Factors associated with children’s book counts"
+    },
+    {
+      "type": "paragraph",
+      "text": "The number of children’s books did not differ by child age group (infant, toddler, and preschool-aged) or sex (*p* = 0.531 and *p* = 0.945, respectively). Likewise, child age was not significantly correlated with the number of children’s books in the home (Spearman’s rho = 0.047). In univariate analyses, greater children’s book counts were observed among children with more highly educated parents (both *p* < 0.001), those attending preschool (p < 0.001), those whose mothers were employed (*p* < 0.001), those without siblings (*p* = 0.017), and those living in urban areas (*p* = 0.036) (Table )."
+    },
+    {
+      "type": "heading",
+      "text": "Distribution of daily shared reading and household book counts"
+    },
+    {
+      "type": "paragraph",
+      "text": "Overall, 49.7% of children did not engage in shared reading. Half of the children (50.0%) had no children’s books at home, and 20.9% had no parental books in the household (Table ). The distribution of the main study variables was characterized by a high proportion of zero values, indicating absence of exposure in a substantial proportion of households. Therefore, in addition to analyses of continuous variables, outcomes were also analyzed as binary variables (0 vs. >0) to distinguish the presence versus absence of exposure and better capture variability in early literacy environments."
+    },
+    {
+      "type": "paragraph",
+      "text": "Table 2Distribution of duration of daily shared reading and household book countsDuration of daily shared reading (minutes)Number of children’s books in the homeNumber of parents’ books in the homeMedian: 5 [IQR:0-30]Median: 0,5 [IQR:0-10]Median: 20 [IQR:4-60]MinutesNumber of children%BooksNumber of children%BooksNumber of children%014749.7014850.006220.91-103712.51-109231.11-105418.311-307425.011-30299.811-509031.431-603110.531-60186.150-2006823.0>6072.3>6093.0>200226.4*IQR* interquartile range"
+    },
+    {
+      "type": "heading",
+      "text": "Adjusted associations with shared reading and children’s books"
+    },
+    {
+      "type": "paragraph",
+      "text": "Multivariable logistic regression analyses showed that parental literacy-related factors remained strongly associated with both the presence of daily shared reading and children’s books in the home after adjustment for child-level variables (Table ). Higher maternal education demonstrated the strongest associations. Compared with children of mothers without formal education, children of mothers with university education had substantially higher odds of both daily shared reading and having children’s books at home. Higher paternal education and maternal employment were also positively associated with both outcomes. All adjusted logistic regression models were statistically significant according to the omnibus test (all p < 0.05), indicating improved fit compared with the intercept-only models. Hosmer-Lemeshow tests were non-significant for all models (all p > 0.05), providing no evidence of substantial lack of fit. Cox–Snell and Nagelkerke pseudo-(R^2) values ranged from 0.044 to 0.380, with the highest explanatory performance observed in the maternal education models. All AUC confidence intervals remained above 0.50, indicating discrimination better than chance; however, acceptable discrimination (AUC > 0.70) was observed primarily for the maternal and paternal education models. VIF values ranged from 1.006 to 2.644 across the models, indicating no substantial multicollinearity among the independent variables."
+    },
+    {
+      "type": "paragraph",
+      "text": "Table 3Multivariable logistic regression models for daily shared reading and children’s book ownership\n**Daily shared reading**\n\n**Children’s book ownership**\nNo147 (49.7%)148 (50.0%)Yes149 (50.3%)148 (50.0%)\n*p*\nOR (95% CI)\n*p*\nOR (95% CI)Maternal education (reference: Never went to school)<0.001*<0.001*Primary school0.910.943 (0.361-2.466)0.391.605 (0.546-4.719)Secondary school0.991.004 (0.387-2.605)0.22.009 (0.694-5.815)High school04.607 (1.895-11.2)<0.0019.608 (3.5-26.374)University<0.00121.067 (6.322-70.201)<0.00152.835 (13.512-206.596)Paternal education(reference: Never went to school or Primary school)<0.001*<0.001*Secondary school0.050.449 (0.2-1.005)0.390.697 (0.307-1.584)High school0.481.279 (0.649-2.523)0.012.468 (1.224-4.976)University<0.0014.459 (2.131-9.331)<0.0017.049 (3.303-15.041)Mother working status(reference: not working)<0.001*7.585 (3.389-16.974)<0.001*4.495 (2.219-9.105)Family structure (reference: Joint family)0.061.692 (0.986-2.902)0.591.158 (0.681-1.971)Having sibling(s) (reference: not having sibling(s))0.04*1.795 (1.021-3.156)0.081.659 (0.949-2.901)Residency (reference: Rural)0.05*1.778 (1.005-3.143)0.061.743 (0.989-3.071)*OR*odds ratio, *CI*confidence interval*p* values and odds ratios were obtained from multiple logistic regression models adjusted for child’s age, sex, and preschool education**p* < 0.05, statistically significant"
+    },
+    {
+      "type": "heading",
+      "text": "Correlations between shared reading and book counts"
+    },
+    {
+      "type": "paragraph",
+      "text": "The duration of daily shared reading was moderately correlated with the number of children’s books in the home (r_(s) = 0.564, *p* < 0.001) and weakly correlated with the number of parental books (r_(s) = 0.384, *p* < 0.001). The number of children’s books was also moderately correlated with parental book ownership (r_(s) = 0.570, *p* < 0.001) (Table )."
+    },
+    {
+      "type": "paragraph",
+      "text": "Table 4Correlations between the duration of daily shared reading and book countsDuration of daily shared readingNumber of children’s books in the homeNumber of parents’ books in the homeDuration of daily shared reading1Number of children’s books in the home0.559* (0.469-0.638)1Number of parents’ books in the home0.383* (0.277-0.479)0.507* (0.411-0.592)1Spearman's correlation coefficients (r_(s)) are presented with 95% CIs*CI*confidence interval**p* < 0.001"
+    },
+    {
+      "type": "heading",
+      "text": "Discussion"
+    },
+    {
+      "type": "heading",
+      "text": "Key findings"
+    },
+    {
+      "type": "paragraph",
+      "text": "This study provides descriptive evidence from a pediatric care population in a low-resource setting, highlighting limited shared reading practices and restricted access to children’s books in early childhood. Approximately half of the children had no children’s books at home and were not engaged in shared reading activities. Parental literacy-related factors, including parental education and household book ownership, remained associated with both shared reading practices and children’s book availability after adjustment for child-level variables. Given the established role of shared reading in early childhood development, these findings may indicate reduced early literacy exposure for a substantial proportion of children in this population."
+    },
+    {
+      "type": "heading",
+      "text": "Limited home literacy environment in a low-resource setting"
+    },
+    {
+      "type": "paragraph",
+      "text": "The low rate of children’s book ownership observed in this study is consistent with reports from other LMICs. A multi-country study reported similarly low average rates of book ownership (51%) across LMICs []. Findings from Türkiye also suggest comparable patterns, with regional estimates ranging from 54.5% to 58.2% and likely reflecting underlying socioeconomic variation []. While financial constraints may contribute to limited access to children’s books, they do not fully explain the observed patterns. Parental awareness and beliefs regarding early shared reading are also likely to influence home literacy practices and may be shaped by parental education [, ]. These findings indicate that limited book access should be interpreted within a broader context of caregiver-level factors influencing early literacy exposure."
+    },
+    {
+      "type": "heading",
+      "text": "Socioeconomic and parental literacy as key determinants of shared reading"
+    },
+    {
+      "type": "paragraph",
+      "text": "Our findings showed that both shared reading and children’s book ownership were associated with parental literacy, as reflected in parental educational attainment and the number of adult books in the household. Notably, one in five children lived in homes without any books at all, including those owned by their parents, highlighting a broader gap in the home literacy environment beyond children’s materials. Low parental education is often considered a barrier to shared reading; however, evidence shows that its benefits persist across education levels []. Previous studies suggest that interventions targeting shared reading may be effective across diverse educational backgrounds and could support intergenerational improvements in early literacy []. Several SES-related factors, including larger family size and maternal unemployment, were also associated with lower shared reading and lower book counts, reflecting broader socioeconomic disadvantage. In addition, preschool attendance among children aged ≥ 3 years was limited in this population. Together with the high proportion of households without shared reading or children’s books, this finding suggests that some children may experience multiple layers of reduced early literacy exposure before entering formal schooling. Such disparities in access to both home-based and institutional early literacy experiences may contribute to persistent educational inequalities [, –]. Interventions such as preschool education and shared reading, while effective, may widen existing gaps if they are more accessible to higher-SES families []. Thus, early childhood policies should ensure equitable access and monitor inclusiveness."
+    },
+    {
+      "type": "heading",
+      "text": "Strengths and limitations"
+    },
+    {
+      "type": "paragraph",
+      "text": "This study provides insight into the relationship between socioeconomic and familial factors and early shared reading practices in a middle-income country. A major strength is its focus on an underrepresented population, contributing local data to a globally relevant issue."
+    },
+    {
+      "type": "paragraph",
+      "text": "Several limitations should be considered. First, the reliance on parent-reported data introduces the possibility of reporting bias, particularly social desirability bias, as caregivers may overreport positive behaviors such as shared reading. If present, such bias may have resulted in an overestimation of shared reading practices, suggesting that the actual level of literacy exposure in this population may be even lower than observed. Additionally, the cross-sectional design limits causal inference. In addition, participants were recruited from a single pediatric outpatient clinic, which may limit the generalizability of the findings beyond similar clinical populations. Because the questionnaire was intentionally designed to be brief and feasible for use in a pediatric outpatient setting, parental literacy-related factors were represented by selected proxy indicators (parental education and parental book counts) rather than a comprehensive assessment of parents’ own reading behaviors; therefore not all dimensions of the home literacy environment were captured. Future studies would benefit from longitudinal designs and qualitative methods to better understand family beliefs, routines, and barriers to shared reading."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusions"
+    },
+    {
+      "type": "paragraph",
+      "text": "In this low-SES, middle-income country population, shared reading practices and children’s book ownership were limited and were associated with parental education and household literacy resources. These findings highlight early disparities in home literacy environments and suggest that many children have limited exposure to shared reading in early childhood. These findings suggest that pediatric care services may represent a potential setting for identifying families with limited literacy resources and delivering early developmental guidance. Future studies are needed to evaluate the feasibility and effectiveness of pediatric literacy promotion strategies in similar settings."
+    },
+    {
+      "type": "heading",
+      "text": "Supplementary Information"
+    },
+    {
+      "type": "paragraph",
+      "text": "Supplementary Material 1: Questionnaire."
+    },
+    {
+      "type": "paragraph",
+      "text": "Supplementary Material 2: Regression model diagnostics."
+    }
+  ]
+}
