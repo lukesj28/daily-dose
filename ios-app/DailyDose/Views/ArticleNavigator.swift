@@ -41,6 +41,15 @@ enum FABPosition: String, Codable {
     var isTopAligned: Bool {
         self == .topLeft || self == .topRight
     }
+
+    static func nearest(to point: CGPoint, in frame: CGRect) -> FABPosition {
+        switch (point.y < frame.midY, point.x < frame.midX) {
+        case (true, true): .topLeft
+        case (true, false): .topRight
+        case (false, true): .bottomLeft
+        case (false, false): .bottomRight
+        }
+    }
 }
 
 struct SearchMatch: Equatable {
@@ -187,17 +196,8 @@ struct ArticleNavigator: View {
     }
 
     private func updatePosition(dropLocation: CGPoint, geo: GeometryProxy) {
-        let frame = geo.frame(in: .global)
-        let isLeft = dropLocation.x < frame.midX
-        let isTop = dropLocation.y < frame.midY
-
         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-            switch (isTop, isLeft) {
-            case (true, true): fabPosition = .topLeft
-            case (true, false): fabPosition = .topRight
-            case (false, true): fabPosition = .bottomLeft
-            case (false, false): fabPosition = .bottomRight
-            }
+            fabPosition = .nearest(to: dropLocation, in: geo.frame(in: .global))
             dragOffset = .zero
         }
     }
@@ -284,17 +284,8 @@ struct ArticleNavigator: View {
 
     // MARK: - Annotations
 
-    private static let annotationSectionOrder = [BlockSection.header: 0, BlockSection.content: 1, BlockSection.footer: 2]
-
     private var annotationsList: some View {
-        let annotations = article.annotations.sorted { a, b in
-            let aOrder = Self.annotationSectionOrder[a.blockSection] ?? 1
-            let bOrder = Self.annotationSectionOrder[b.blockSection] ?? 1
-            if aOrder != bOrder { return aOrder < bOrder }
-            if a.blockIndex != b.blockIndex { return a.blockIndex < b.blockIndex }
-            return a.startIndex < b.startIndex
-        }
-        let blocks = article.contentBlocks
+        let annotations = AnnotationList.sorted(article.annotations)
         return Group {
             if annotations.isEmpty {
                 emptyState("No annotations yet")
@@ -306,7 +297,7 @@ struct ArticleNavigator: View {
                                 jumpTo(scrollID: annotation.scrollID)
                             } label: {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    if let snippet = snippet(for: annotation, in: blocks) {
+                                    if let snippet = AnnotationList.snippet(for: annotation, in: article) {
                                         Text(snippet)
                                             .font(.subheadline)
                                             .fontWeight(.medium)
@@ -330,54 +321,6 @@ struct ArticleNavigator: View {
                 }
             }
         }
-    }
-
-    private func snippet(for annotation: Annotation, in blocks: [ContentBlock]) -> String? {
-        if annotation.isCellAnnotation {
-            return "Table cell (\(annotation.cellRow + 1), \(annotation.cellColumn + 1))"
-        }
-
-        if annotation.isEquationAnnotation {
-            return "Equation"
-        }
-
-        let sourceText: String?
-
-        switch annotation.blockSection {
-        case BlockSection.header:
-            switch annotation.blockIndex {
-            case 0: sourceText = article.journal
-            case 1: sourceText = article.title
-            case 2: sourceText = article.authors.joined(separator: ", ")
-            case 3: sourceText = article.formattedPublishDate
-            default: sourceText = nil
-            }
-
-        case BlockSection.footer:
-            switch annotation.blockIndex {
-            case 0: sourceText = article.authors.joined(separator: ", ")
-            case 1: sourceText = "\(article.journal) · \(article.formattedPublishDate)"
-            case 2: sourceText = article.license
-            default: sourceText = nil
-            }
-
-        default: // BlockSection.content
-            if let block = blocks.first(where: { $0.index == annotation.blockIndex }) {
-                sourceText = block.caption ?? block.text
-            } else {
-                sourceText = nil
-            }
-        }
-
-        guard let text = sourceText else { return nil }
-        let ns = text as NSString
-        let range = annotation.range
-        guard range.location >= 0,
-              range.location + range.length <= ns.length,
-              range.length > 0 else { return nil }
-        var snippet = ns.substring(with: range)
-        if snippet.count > 80 { snippet = String(snippet.prefix(80)) + "…" }
-        return "\u{201C}" + snippet + "\u{201D}"
     }
 
     // MARK: - Search
@@ -442,9 +385,8 @@ struct ArticleNavigator: View {
     }
 
     private func stepMatch(_ delta: Int) {
-        guard !searchMatches.isEmpty else { return }
-        let count = searchMatches.count
-        currentMatchIndex = (currentMatchIndex + delta + count) % count
+        guard let next = AnnotationList.step(currentMatchIndex, by: delta, count: searchMatches.count) else { return }
+        currentMatchIndex = next
         let match = searchMatches[currentMatchIndex]
         withAnimation {
             scrollProxy.scrollTo("content_\(match.blockIndex)", anchor: .center)
@@ -474,5 +416,72 @@ struct ArticleNavigator: View {
             Spacer()
         }
         .frame(maxWidth: .infinity)
+    }
+}
+
+enum AnnotationList {
+    private static let sectionOrder = [BlockSection.header: 0, BlockSection.content: 1, BlockSection.footer: 2]
+
+    static func sorted(_ annotations: [Annotation]) -> [Annotation] {
+        annotations.sorted { a, b in
+            let aOrder = sectionOrder[a.blockSection] ?? 1
+            let bOrder = sectionOrder[b.blockSection] ?? 1
+            if aOrder != bOrder { return aOrder < bOrder }
+            if a.blockIndex != b.blockIndex { return a.blockIndex < b.blockIndex }
+            return a.startIndex < b.startIndex
+        }
+    }
+
+    static func snippet(for annotation: Annotation, in article: Article) -> String? {
+        if annotation.isCellAnnotation {
+            return "Table cell (\(annotation.cellRow + 1), \(annotation.cellColumn + 1))"
+        }
+
+        if annotation.isEquationAnnotation {
+            return "Equation"
+        }
+
+        let sourceText: String?
+
+        switch annotation.blockSection {
+        case BlockSection.header:
+            switch annotation.blockIndex {
+            case 0: sourceText = article.journal
+            case 1: sourceText = article.title
+            case 2: sourceText = article.authors.joined(separator: ", ")
+            case 3: sourceText = article.formattedPublishDate
+            default: sourceText = nil
+            }
+
+        case BlockSection.footer:
+            switch annotation.blockIndex {
+            case 0: sourceText = article.authors.joined(separator: ", ")
+            case 1: sourceText = "\(article.journal) · \(article.formattedPublishDate)"
+            case 2: sourceText = article.license
+            default: sourceText = nil
+            }
+
+        default: // BlockSection.content
+            if let block = article.contentBlocks.first(where: { $0.index == annotation.blockIndex }) {
+                sourceText = block.caption ?? block.text
+            } else {
+                sourceText = nil
+            }
+        }
+
+        guard let text = sourceText else { return nil }
+        let ns = text as NSString
+        let range = annotation.range
+        guard range.location >= 0,
+              range.location + range.length <= ns.length,
+              range.length > 0 else { return nil }
+        var snippet = ns.substring(with: range)
+        if snippet.count > 80 { snippet = String(snippet.prefix(80)) + "…" }
+        return "\u{201C}" + snippet + "\u{201D}"
+    }
+
+    static func step(_ index: Int, by delta: Int, count: Int) -> Int? {
+        guard count > 0 else { return nil }
+        return (index + delta + count) % count
     }
 }

@@ -49,6 +49,21 @@ final class CacheManager {
     }
 
     @MainActor
+    func currentArticle(in articles: [Article]) -> Article? {
+        if let id = currentDailyId { return articles.first { $0.id == id } }
+        return articles.first
+    }
+
+    @MainActor
+    func removeFromLibrary(_ article: Article, context: ModelContext) {
+        if article.id == currentDailyId {
+            article.isSavedToLibrary = false
+        } else {
+            context.delete(article)
+        }
+    }
+
+    @MainActor
     private func upsertDailyArticle(with payload: ArticlePayload, context: ModelContext) throws {
         let payloadId = payload.id
         let contentJSON = try JSONEncoder().encode(payload)

@@ -37,3 +37,8 @@ Package.resolved
 # IDE
 .idea/
 .vscode/
+
+# Test output
+.pytest_cache/
+.coverage
+*.xcresult

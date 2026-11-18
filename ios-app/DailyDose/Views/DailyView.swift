@@ -12,10 +12,8 @@ struct DailyView: View {
     private var allArticles: [Article]
 
     @State private var hasAppeared = false
-    @State private var wasAboveThreshold = false
-    @State private var iconIsVisible = false
+    @State private var swipe = SaveSwipe()
     @State private var isTableScrolling = false
-    @State private var dragCancelledByTable = false
     @State private var haptic = UIImpactFeedbackGenerator(style: .light)
     @State private var showAnnotationSheet = false
     @State private var pendingAnnotation: PendingAnnotation?
@@ -31,10 +29,7 @@ struct DailyView: View {
     @State private var isFABRelocating = false
 
     private var currentArticle: Article? {
-        if let id = cacheManager.currentDailyId {
-            return allArticles.first(where: { $0.id == id })
-        }
-        return allArticles.first
+        cacheManager.currentArticle(in: allArticles)
     }
 
     var body: some View {
@@ -71,16 +66,7 @@ struct DailyView: View {
                         try? modelContext.save()
                     } else if let pending = pendingAnnotation {
                         if let article = currentArticle {
-                            let annotation = Annotation(
-                                blockIndex: pending.blockIndex,
-                                blockSection: pending.blockSection,
-                                startIndex: pending.range.location,
-                                length: pending.range.length,
-                                cellRow: pending.cellRow,
-                                cellColumn: pending.cellColumn,
-                                noteText: text,
-                                article: article
-                            )
+                            let annotation = Annotation(pending: pending, noteText: text, article: article)
                             modelContext.insert(annotation)
                             try? modelContext.save()
                         }
@@ -161,7 +147,7 @@ struct DailyView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 40)
             }
-            .scrollDisabled(iconIsVisible || isFABRelocating)
+            .scrollDisabled(swipe.iconVisible || isFABRelocating)
             .simultaneousGesture(saveSwipeGesture(article))
             .overlay {
                 ArticleNavigator(
@@ -357,54 +343,30 @@ struct DailyView: View {
         DragGesture(minimumDistance: 50, coordinateSpace: .global)
             .onChanged { value in
                 guard !article.isSavedToLibrary else { return }
-                let horizontal = value.translation.width
-                let vertical = value.translation.height
-
-                if iconIsVisible {
-                    SaveIconAnimator.shared.move(to: value.location)
-                    let isAbove = horizontal > 100
-                    if isAbove != wasAboveThreshold {
-                        wasAboveThreshold = isAbove
-                        haptic.impactOccurred()
-                    }
-                    return
-                }
-
-                guard abs(horizontal) > abs(vertical) else { return }
-
-                if isTableScrolling {
-                    dragCancelledByTable = true
-                    return
-                }
-
-                if horizontal > 50 {
+                let change = swipe.changed(translation: value.translation, tableScrolling: isTableScrolling)
+                if change.showIcon {
                     SaveIconAnimator.shared.show(at: value.location)
-                    iconIsVisible = true
                     haptic.prepare()
                 }
-
-                let isAbove = horizontal > 100
-                if isAbove != wasAboveThreshold {
-                    wasAboveThreshold = isAbove
+                if change.moveIcon {
+                    SaveIconAnimator.shared.move(to: value.location)
+                }
+                if change.haptic {
                     haptic.impactOccurred()
                 }
             }
             .onEnded { value in
-                defer {
-                    wasAboveThreshold = false
-                    dragCancelledByTable = false
-                    iconIsVisible = false
-                }
-
-                guard iconIsVisible, !article.isSavedToLibrary else { return }
-                let horizontal = value.translation.width
-
-                guard !dragCancelledByTable && !isTableScrolling else {
-                    SaveIconAnimator.shared.hide()
+                let end = swipe.ended(translation: value.translation, tableScrolling: isTableScrolling)
+                guard !article.isSavedToLibrary else {
+                    if end != .ignore { SaveIconAnimator.shared.hide() }
                     return
                 }
-
-                if horizontal > 100 {
+                switch end {
+                case .ignore:
+                    break
+                case .hide:
+                    SaveIconAnimator.shared.hide()
+                case .save:
                     article.isSavedToLibrary = true
                     try? modelContext.save()
                     SaveIconAnimator.shared.flyToLibrary {
@@ -413,8 +375,6 @@ struct DailyView: View {
                             saveNotifier.didSave = false
                         }
                     }
-                } else {
-                    SaveIconAnimator.shared.hide()
                 }
             }
     }

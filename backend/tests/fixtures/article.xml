@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmc-articleset>
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article">
+  <front>
+    <journal-meta><journal-title-group><journal-title>Journal of Testing</journal-title></journal-title-group></journal-meta>
+    <article-meta>
+      <title-group><article-title>A <italic>Novel</italic> Approach</article-title></title-group>
+      <contrib-group>
+        <contrib contrib-type="author"><name><surname>Smith</surname><given-names>Jane</given-names></name></contrib>
+        <contrib contrib-type="author"><name><surname>Doe</surname></name></contrib>
+        <contrib contrib-type="editor"><name><surname>Editor</surname><given-names>Ed</given-names></name></contrib>
+      </contrib-group>
+      <pub-date pub-type="epub"><day>5</day><month>3</month><year>2024</year></pub-date>
+      <permissions><license xlink:href="https://creativecommons.org/licenses/by/4.0/"><license-p>CC BY</license-p></license></permissions>
+      <abstract><p>First <bold>finding</bold>.</p><p>Second finding.</p></abstract>
+    </article-meta>
+  </front>
+  <body>
+    <sec><title>Introduction</title>
+      <p>Paragraph one with <italic>E. coli</italic><xref ref-type="bibr" rid="b1">1</xref>.</p>
+      <p>Paragraph two with CO<sub>2</sub> and 10<sup>5</sup> cells.</p>
+      <sec><title>Background</title><p>Paragraph three.</p></sec>
+    </sec>
+    <sec><title>Results</title>
+      <p>Paragraph four.</p>
+      <fig id="f1"><label>Figure 1</label><caption><title>Cells</title><p>Under <bold>40x</bold>.</p></caption><graphic xlink:href="fig1"/></fig>
+      <table-wrap id="t1"><label>Table 1</label><caption><title>Results</title></caption>
+        <table><thead><tr><th>Variable</th><th>Value</th></tr></thead><tbody><tr><td onclick="alert(1)">A</td><td>1<script>alert(1)</script></td></tr></tbody></table>
+      </table-wrap>
+      <disp-formula id="e1"><tex-math>$$E = mc^2$$</tex-math></disp-formula>
+    </sec>
+  </body>
+</article>
+</pmc-articleset>

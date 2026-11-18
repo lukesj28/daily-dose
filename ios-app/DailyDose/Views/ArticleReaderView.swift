@@ -82,16 +82,7 @@ struct ArticleReaderView: View {
                         editing.noteText = text
                         try? modelContext.save()
                     } else if let pending = pendingAnnotation {
-                        let annotation = Annotation(
-                            blockIndex: pending.blockIndex,
-                            blockSection: pending.blockSection,
-                            startIndex: pending.range.location,
-                            length: pending.range.length,
-                            cellRow: pending.cellRow,
-                            cellColumn: pending.cellColumn,
-                            noteText: text,
-                            article: article
-                        )
+                        let annotation = Annotation(pending: pending, noteText: text, article: article)
                         modelContext.insert(annotation)
                         try? modelContext.save()
                     }

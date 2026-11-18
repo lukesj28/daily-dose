@@ -19,3 +19,12 @@ struct PendingAnnotation {
         PendingAnnotation(blockSection: BlockSection.content, blockIndex: index, range: NSRange(location: -1, length: 0), cellRow: -1, cellColumn: -1)
     }
 }
+
+extension Annotation {
+    convenience init(pending: PendingAnnotation, noteText: String, article: Article? = nil) {
+        self.init(blockIndex: pending.blockIndex, blockSection: pending.blockSection,
+                  startIndex: pending.range.location, length: pending.range.length,
+                  cellRow: pending.cellRow, cellColumn: pending.cellColumn,
+                  noteText: noteText, article: article)
+    }
+}

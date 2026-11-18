@@ -1,0 +1,58 @@
+{
+  "id": "PMC123",
+  "title": "A Novel Approach",
+  "journal": "Journal of Testing",
+  "fetch_date": "2026-11-17",
+  "publish_date": "2024-03-05",
+  "authors": [
+    "Jane Smith",
+    "Doe"
+  ],
+  "license": "Creative Commons Attribution 4.0 International License (CC BY 4.0)",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC123/",
+  "abstract": "First **finding**. Second finding.",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Introduction"
+    },
+    {
+      "type": "paragraph",
+      "text": "Paragraph one with *E. coli*."
+    },
+    {
+      "type": "paragraph",
+      "text": "Paragraph two with CO_(2) and 10^(5) cells."
+    },
+    {
+      "type": "heading",
+      "text": "Background"
+    },
+    {
+      "type": "paragraph",
+      "text": "Paragraph three."
+    },
+    {
+      "type": "heading",
+      "text": "Results"
+    },
+    {
+      "type": "paragraph",
+      "text": "Paragraph four."
+    },
+    {
+      "type": "image",
+      "url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/abc/123/fig1.jpg",
+      "caption": "Figure 1 Cells Under **40x**."
+    },
+    {
+      "type": "table",
+      "html": "<table><thead><tr><th>Variable</th><th>Value</th></tr></thead><tbody><tr><td>A</td><td>1</td></tr></tbody></table>\n      ",
+      "caption": "Table 1 Results"
+    },
+    {
+      "type": "math",
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><mrow><mi>E</mi><mo>&#x0003D;</mo><mi>m</mi><msup><mi>c</mi><mn>2</mn></msup></mrow></math>"
+    }
+  ]
+}

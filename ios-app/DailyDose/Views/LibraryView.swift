@@ -101,12 +101,7 @@ struct LibraryView: View {
     private func deleteArticles(at offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                let article = savedArticles[index]
-                if article.id == cacheManager.currentDailyId {
-                    article.isSavedToLibrary = false
-                } else {
-                    modelContext.delete(article)
-                }
+                cacheManager.removeFromLibrary(savedArticles[index], context: modelContext)
             }
         }
         try? modelContext.save()
