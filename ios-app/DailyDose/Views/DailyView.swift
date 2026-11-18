@@ -42,8 +42,12 @@ struct DailyView: View {
                     loadingState
                 } else if let article = currentArticle {
                     articleReader(article)
+                } else if cacheManager.isOffline {
+                    messageState(systemImage: "wifi.slash", title: "No Connection",
+                                 message: "Read your saved articles in the Library,\nor pull down to try again.")
                 } else {
-                    emptyState
+                    messageState(systemImage: "newspaper", title: "No article yet",
+                                 message: "Pull down to refresh, or wait\nfor tomorrow's delivery.")
                 }
             }
         }
@@ -391,16 +395,16 @@ struct DailyView: View {
         }
     }
 
-    private var emptyState: some View {
+    private func messageState(systemImage: String, title: LocalizedStringKey, message: LocalizedStringKey) -> some View {
         ScrollView {
             VStack(spacing: 16) {
-                Image(systemName: "newspaper")
+                Image(systemName: systemImage)
                     .font(.system(size: 48))
                     .foregroundStyle(.secondary)
-                Text("No article yet")
+                Text(title)
                     .font(.title2)
                     .fontWeight(.bold)
-                Text("Pull down to refresh, or wait\nfor tomorrow's delivery.")
+                Text(message)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
