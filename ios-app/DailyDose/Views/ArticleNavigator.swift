@@ -61,7 +61,8 @@ struct SearchMatch: Equatable {
         guard !trimmed.isEmpty else { return [] }
         var matches: [SearchMatch] = []
         for block in blocks where block.type == .paragraph || block.type == .heading {
-            guard let text = block.text else { continue }
+            guard let raw = block.text else { continue }
+            let text = block.type == .paragraph ? InlineMarkdown.plain(raw) : raw
             let ns = text as NSString
             var searchRange = NSRange(location: 0, length: ns.length)
             while searchRange.location < ns.length {
@@ -463,7 +464,7 @@ enum AnnotationList {
 
         default: // BlockSection.content
             if let block = article.contentBlocks.first(where: { $0.index == annotation.blockIndex }) {
-                sourceText = block.caption ?? block.text
+                sourceText = block.type == .paragraph ? block.text.map { InlineMarkdown.plain($0) } : block.caption ?? block.text
             } else {
                 sourceText = nil
             }

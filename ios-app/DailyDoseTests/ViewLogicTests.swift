@@ -43,6 +43,22 @@ extension AppTests {
             #expect(SearchMatch.compute(query: "cat sat", blocks: blocks).count == 1)
         }
 
+        @Test func inlineMarkdownResolvesNestedAndAdjacentMarkers() {
+            func styled(_ s: String) -> String {
+                InlineMarkdown.runs(s).map { run in
+                    run.text + "|" + (run.bold ? "B" : "") + (run.italic ? "I" : "")
+                        + (run.baseline > 0 ? "^" : run.baseline < 0 ? "_" : "")
+                }.joined(separator: "/")
+            }
+            #expect(styled("***a** b*") == "a|BI/ b|I")
+            #expect(styled("**bold *it***") == "bold |B/it|BI")
+            #expect(styled("*K*_(d)") == "K|I/d|_")
+            #expect(styled("^(*a*)") == "a|I^")
+            #expect(styled("^(a (b) c)") == "a (b) c|^")
+            #expect(InlineMarkdown.plain("2 * 3 * 4") == "2 * 3 * 4")
+            #expect(InlineMarkdown.plain("n = 5*, then *x*") == "n = 5*, then x")
+        }
+
         @Test func groupedAndCurrentRange() {
             let a = SearchMatch(blockIndex: 1, range: NSRange(location: 0, length: 1))
             let b = SearchMatch(blockIndex: 1, range: NSRange(location: 5, length: 1))

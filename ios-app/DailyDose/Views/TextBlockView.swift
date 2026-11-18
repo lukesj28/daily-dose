@@ -122,80 +122,22 @@ struct TextBlockView: UIViewRepresentable {
 
     private func parseMarkdown(_ input: String, font: UIFont) -> NSAttributedString {
         let result = NSMutableAttributedString()
-
-        let boldFont = UIFont.boldSystemFont(ofSize: font.pointSize)
-        let italicFont = UIFont.italicSystemFont(ofSize: font.pointSize)
-
-        let baseAttributes: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .foregroundColor: textColor,
-        ]
-
-        var remaining = input
-
-        while !remaining.isEmpty {
-            if let boldRange = remaining.range(of: #"\*\*(.+?)\*\*"#, options: .regularExpression) {
-                let before = String(remaining[remaining.startIndex..<boldRange.lowerBound])
-                if !before.isEmpty {
-                    result.append(NSAttributedString(string: before, attributes: baseAttributes))
-                }
-                let matched = String(remaining[boldRange])
-                let boldText = String(matched.dropFirst(2).dropLast(2))
-                var attrs = baseAttributes
-                attrs[.font] = boldFont
-                result.append(NSAttributedString(string: boldText, attributes: attrs))
-                remaining = String(remaining[boldRange.upperBound...])
-                continue
+        for run in InlineMarkdown.runs(input) {
+            var attrs: [NSAttributedString.Key: Any] = [.foregroundColor: textColor]
+            var traits: UIFontDescriptor.SymbolicTraits = []
+            if run.bold { traits.insert(.traitBold) }
+            if run.italic { traits.insert(.traitItalic) }
+            if traits.isEmpty && run.baseline == 0 {
+                attrs[.font] = font
+            } else {
+                let size = run.baseline == 0 ? font.pointSize : font.pointSize * 0.7
+                let system = UIFont.systemFont(ofSize: size)
+                attrs[.font] = system.fontDescriptor.withSymbolicTraits(traits).map { UIFont(descriptor: $0, size: size) } ?? system
             }
-
-            if let italicRange = remaining.range(of: #"\*(.+?)\*"#, options: .regularExpression) {
-                let before = String(remaining[remaining.startIndex..<italicRange.lowerBound])
-                if !before.isEmpty {
-                    result.append(NSAttributedString(string: before, attributes: baseAttributes))
-                }
-                let matched = String(remaining[italicRange])
-                let italicText = String(matched.dropFirst(1).dropLast(1))
-                var attrs = baseAttributes
-                attrs[.font] = italicFont
-                result.append(NSAttributedString(string: italicText, attributes: attrs))
-                remaining = String(remaining[italicRange.upperBound...])
-                continue
-            }
-
-            if let supRange = remaining.range(of: #"\^\((.+?)\)"#, options: .regularExpression) {
-                let before = String(remaining[remaining.startIndex..<supRange.lowerBound])
-                if !before.isEmpty {
-                    result.append(NSAttributedString(string: before, attributes: baseAttributes))
-                }
-                let matched = String(remaining[supRange])
-                let supText = String(matched.dropFirst(2).dropLast(1))
-                var attrs = baseAttributes
-                attrs[.font] = UIFont.systemFont(ofSize: font.pointSize * 0.7)
-                attrs[.baselineOffset] = font.pointSize * 0.35
-                result.append(NSAttributedString(string: supText, attributes: attrs))
-                remaining = String(remaining[supRange.upperBound...])
-                continue
-            }
-
-            if let subRange = remaining.range(of: #"_\((.+?)\)"#, options: .regularExpression) {
-                let before = String(remaining[remaining.startIndex..<subRange.lowerBound])
-                if !before.isEmpty {
-                    result.append(NSAttributedString(string: before, attributes: baseAttributes))
-                }
-                let matched = String(remaining[subRange])
-                let subText = String(matched.dropFirst(2).dropLast(1))
-                var attrs = baseAttributes
-                attrs[.font] = UIFont.systemFont(ofSize: font.pointSize * 0.7)
-                attrs[.baselineOffset] = -(font.pointSize * 0.15)
-                result.append(NSAttributedString(string: subText, attributes: attrs))
-                remaining = String(remaining[subRange.upperBound...])
-                continue
-            }
-
-            result.append(NSAttributedString(string: remaining, attributes: baseAttributes))
-            break
+            if run.baseline > 0 { attrs[.baselineOffset] = font.pointSize * 0.35 }
+            if run.baseline < 0 { attrs[.baselineOffset] = -(font.pointSize * 0.15) }
+            result.append(NSAttributedString(string: run.text, attributes: attrs))
         }
-
         return result
     }
 
