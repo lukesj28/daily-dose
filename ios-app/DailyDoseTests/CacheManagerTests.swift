@@ -90,6 +90,22 @@ extension AppTests {
             UserDefaults.standard.removeObject(forKey: currentIdKey)
         }
 
+        @Test func sameIdRefreshLeavesLibraryArticleUntouched() async throws {
+            StubURLProtocol.install { _ in (200, payloadJSON(id: "A", title: "New title", fetchDate: "2026-04-10")) }
+            let context = try makeContext()
+            context.insert(makeArticle(id: "A", saved: true, fetchDate: "2026-04-09"))
+            try context.save()
+
+            let cm = CacheManager()
+            await cm.checkAndUpdateCache(context: context, force: true)
+
+            let row = try #require(try articles(context).first)
+            #expect(row.title == "Title A")
+            #expect(row.fetchDate == "2026-04-09")
+            #expect(cm.currentDailyId == "A")
+            UserDefaults.standard.removeObject(forKey: currentIdKey)
+        }
+
         @Test func serverErrorWithEmptyStoreIsOffline() async throws {
             StubURLProtocol.install { _ in (500, Data()) }
             let context = try makeContext()

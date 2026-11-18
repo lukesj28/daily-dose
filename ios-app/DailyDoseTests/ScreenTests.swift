@@ -47,12 +47,12 @@ extension AppTests {
             let cacheManager = CacheManager()
             let (window, controller) = hostDaily(context, cacheManager)
             defer { window.isHidden = true; UserDefaults.standard.removeObject(forKey: currentIdKey) }
-            try await waitForTexts(controller, ["Today"])
+            try await waitForTexts(controller, ["Title CUR"])
 
             cacheManager.removeFromLibrary(current, context: context)
             try context.save()
 
-            try await waitForTexts(controller, ["Today", "The cat sat"])
+            try await waitForTexts(controller, ["Title CUR", "The cat sat"])
             #expect(current.isSavedToLibrary == false)
         }
 

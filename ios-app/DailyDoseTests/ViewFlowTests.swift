@@ -85,11 +85,12 @@ extension AppTests {
 
         // MARK: CacheManager
 
-        @Test func currentArticleDefaultsToNewestWhenNoDailyIsRecorded() {
+        @Test func currentArticleDefaultsToNewestUnsavedWhenNoDailyIsRecorded() {
             let a = makeArticle(id: "A")
             let b = makeArticle(id: "B")
             #expect(CacheManager().currentArticle(in: [a, b]) === a)
             #expect(CacheManager().currentArticle(in: []) == nil)
+            #expect(CacheManager().currentArticle(in: [makeArticle(id: "LIB", saved: true)]) == nil)
         }
 
         @Test func currentArticleIsTheFetchedDaily() async throws {

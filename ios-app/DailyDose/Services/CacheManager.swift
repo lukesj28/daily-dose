@@ -40,8 +40,8 @@ final class CacheManager {
             isOffline = false
             try upsertDailyArticle(with: payload, context: context)
         } catch {
-            let cachedCount = (try? context.fetchCount(FetchDescriptor<Article>())) ?? 0
-            if cachedCount == 0 {
+            let cached = (try? context.fetch(FetchDescriptor<Article>())) ?? []
+            if currentArticle(in: cached) == nil {
                 isOffline = true
             }
             errorMessage = error.localizedDescription
@@ -51,7 +51,7 @@ final class CacheManager {
     @MainActor
     func currentArticle(in articles: [Article]) -> Article? {
         if let id = currentDailyId { return articles.first { $0.id == id } }
-        return articles.first
+        return articles.first { !$0.isSavedToLibrary }
     }
 
     @MainActor
@@ -67,22 +67,25 @@ final class CacheManager {
     private func upsertDailyArticle(with payload: ArticlePayload, context: ModelContext) throws {
         let payloadId = payload.id
         let contentJSON = try JSONEncoder().encode(payload)
+        try purgeUnsavedArticles(exceptId: payloadId, context: context)
 
         let idDescriptor = FetchDescriptor<Article>(
             predicate: #Predicate { $0.id == payloadId }
         )
 
         if let existing = try context.fetch(idDescriptor).first {
-            existing.title = payload.title
-            existing.journal = payload.journal
-            existing.publishDate = payload.publishDate
-            existing.authors = payload.authors
-            existing.license = payload.license
-            existing.sourceUrl = payload.sourceUrl
-            existing.abstract = payload.abstract
-            existing.contentJSON = contentJSON
+            if !existing.isSavedToLibrary {
+                existing.title = payload.title
+                existing.journal = payload.journal
+                existing.fetchDate = payload.fetchDate
+                existing.publishDate = payload.publishDate
+                existing.authors = payload.authors
+                existing.license = payload.license
+                existing.sourceUrl = payload.sourceUrl
+                existing.abstract = payload.abstract
+                existing.contentJSON = contentJSON
+            }
         } else {
-            try purgeUnsavedArticles(exceptId: payloadId, context: context)
             context.insert(Article(
                 id: payload.id,
                 title: payload.title,
