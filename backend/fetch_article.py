@@ -7,7 +7,7 @@ import random
 import re
 import sys
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 import defusedxml.ElementTree as ET
 from xml.etree.ElementTree import Element
@@ -139,12 +139,14 @@ def _api_params() -> dict:
 
 
 def _search_term() -> str:
-    five_years_ago = (datetime.now(timezone.utc) - timedelta(days=5 * 365)).strftime(
-        "%Y/%m/%d"
-    )
+    now = datetime.now(timezone.utc)
+    try:
+        five_years_ago = now.replace(year=now.year - 5)
+    except ValueError:
+        five_years_ago = now.replace(year=now.year - 5, day=28)
     return (
-        '"open access"[filter] '
-        f'AND ("{five_years_ago}"[PDAT] : "3000/12/31"[PDAT])'
+        '"open access"[filter] AND "fha"[Filter] '
+        f'AND ("{five_years_ago:%Y/%m/%d}"[PDAT] : "3000/12/31"[PDAT])'
     )
 
 
@@ -279,14 +281,7 @@ def _extract_publish_date(article_meta: Element) -> str:
 
 
 def _extract_journal(root: Element) -> str:
-    journal_title = _find_deep(root, "journal-title")
-    if journal_title is not None:
-        return _extract_text(journal_title)
-    journal_meta = _find_deep(root, "journal-meta")
-    if journal_meta is not None:
-        jt = _find_deep(journal_meta, "journal-title")
-        return _extract_text(jt) if jt is not None else ""
-    return ""
+    return _extract_text(_find_deep(root, "journal-title"))
 
 
 _CC_LICENSE_MAP: dict[str, str] = {
@@ -555,8 +550,8 @@ def _validate_payload(payload: dict) -> bool:
         len(b.get("text", "") + b.get("html", "") + b.get("caption", ""))
         for b in payload["content"]
     )
-    if total_chars > MAX_CHAR_COUNT:
-        log.warning("Validation failed: %d chars exceeds %d limit", total_chars, MAX_CHAR_COUNT)
+    if total_chars >= MAX_CHAR_COUNT:
+        log.warning("Validation failed: %d chars (must be < %d)", total_chars, MAX_CHAR_COUNT)
         return False
 
     log.info(

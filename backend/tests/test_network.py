@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from unittest.mock import Mock
 
 import defusedxml.ElementTree as ET
@@ -33,6 +34,16 @@ def test_search_term_free_full_text_filter(frozen_now):
 
 def test_search_term_five_calendar_years(frozen_now):
     assert '"2021/11/17"[PDAT]' in fa._search_term()
+
+
+def test_search_term_leap_day_maps_to_feb_28(monkeypatch):
+    class LeapDay(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return datetime(2028, 2, 29, 12, 0, tzinfo=timezone.utc)
+
+    monkeypatch.setattr(fa, "datetime", LeapDay)
+    assert '"2023/02/28"[PDAT]' in fa._search_term()
 
 
 def test_search_count_parses_and_sends_params(monkeypatch):
