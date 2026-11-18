@@ -174,7 +174,7 @@ private struct MathWebView: UIViewRepresentable {
         func webView(
             _ webView: WKWebView,
             decidePolicyFor action: WKNavigationAction,
-            decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+            decisionHandler: @escaping @MainActor (WKNavigationActionPolicy) -> Void
         ) {
             decisionHandler(action.navigationType == .other ? .allow : .cancel)
         }
