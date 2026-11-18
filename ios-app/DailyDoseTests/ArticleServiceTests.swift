@@ -4,17 +4,6 @@ import Testing
 
 extension AppTests {
     @Suite struct ArticleServiceTests {
-        @Test func todayURLHonorsEnvironmentOverride() {
-            let original = ProcessInfo.processInfo.environment["DAILY_DOSE_ARTICLE"]
-            defer {
-                if let original { setenv("DAILY_DOSE_ARTICLE", original, 1) } else { unsetenv("DAILY_DOSE_ARTICLE") }
-            }
-            setenv("DAILY_DOSE_ARTICLE", "x.json", 1)
-            #expect(ArticleService.todayURL.absoluteString == "https://lukesj28.github.io/daily-dose/x.json")
-            unsetenv("DAILY_DOSE_ARTICLE")
-            #expect(ArticleService.todayURL.absoluteString == "https://lukesj28.github.io/daily-dose/today.json")
-        }
-
         @Test func fetchDecodesPayload() async throws {
             StubURLProtocol.install { _ in (200, payloadJSON()) }
             let payload = try await ArticleService().fetchTodayArticle()

@@ -2,12 +2,7 @@ import Foundation
 
 actor ArticleService {
     static let baseURL = "https://lukesj28.github.io/daily-dose"
-    static var todayURL: URL {
-        let filename = ProcessInfo.processInfo.environment["DAILY_DOSE_ARTICLE"] ?? "today.json"
-        var base = URL(string: baseURL)!
-        base.append(path: filename)
-        return base
-    }
+    static let todayURL = URL(string: baseURL + "/today.json")!
 
     enum ServiceError: LocalizedError {
         case invalidResponse(Int)

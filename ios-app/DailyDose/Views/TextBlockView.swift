@@ -100,7 +100,7 @@ struct TextBlockView: UIViewRepresentable {
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: UITextView, context: Context) -> CGSize? {
-        let width = proposal.width ?? UIScreen.main.bounds.width - 40
+        let width = proposal.width ?? (uiView.window?.windowScene?.screen.bounds.width ?? 390) - 40
         let fittingSize = uiView.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude))
         return CGSize(width: width, height: fittingSize.height)
     }
