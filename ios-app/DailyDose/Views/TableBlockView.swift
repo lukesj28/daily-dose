@@ -78,11 +78,9 @@ struct TableBlockView: UIViewRepresentable {
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
-                font-family: -apple-system, system-ui;
-                font-size: 14px;
+                font: -apple-system-subheadline;
                 color: var(--text);
                 background: transparent;
-                -webkit-text-size-adjust: none;
             }
             @media (prefers-color-scheme: dark) {
                 :root {
@@ -102,7 +100,7 @@ struct TableBlockView: UIViewRepresentable {
             }
             table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: fit-content; }
             th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; white-space: nowrap; }
-            th { background-color: var(--header-bg); font-weight: 600; font-size: 13px; position: sticky; top: 0; z-index: 1; border-bottom: 2px solid var(--border); will-change: transform; }
+            th { background-color: var(--header-bg); font: -apple-system-footnote; font-weight: 600; position: sticky; top: 0; z-index: 1; border-bottom: 2px solid var(--border); will-change: transform; }
             tr:nth-child(even) td { background: var(--row-alt); }
         </style>
         </head>

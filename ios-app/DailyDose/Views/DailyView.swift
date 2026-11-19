@@ -372,6 +372,7 @@ struct DailyView: View {
                 Image(systemName: systemImage)
                     .font(.system(size: 48))
                     .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
                 Text(title)
                     .font(.title2)
                     .fontWeight(.bold)

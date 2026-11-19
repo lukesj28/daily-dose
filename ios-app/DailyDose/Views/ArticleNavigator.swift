@@ -97,6 +97,7 @@ struct ArticleNavigator: View {
     @Binding var currentMatchIndex: Int
     @Binding var isRelocating: Bool
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var isExpanded = false
     @State private var mode: Mode = .sections
     @FocusState private var searchFocused: Bool
@@ -144,7 +145,7 @@ struct ArticleNavigator: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: fabPosition.alignment)
         }
-        .animation(.spring(response: 0.35, dampingFraction: 0.82), value: isExpanded)
+        .animation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.82), value: isExpanded)
     }
 
     // MARK: - FAB
@@ -152,7 +153,7 @@ struct ArticleNavigator: View {
     private func fabView(geo: GeometryProxy) -> some View {
         Button {
             if suppressNextTap { suppressNextTap = false; return }
-            if isExpanded { collapse() } else { withAnimation { isExpanded = true } }
+            if isExpanded { collapse() } else { withAnimation(reduceMotion ? nil : .default) { isExpanded = true } }
         } label: {
             Image(systemName: isExpanded ? "xmark" : "list.bullet")
                 .font(.system(size: 20, weight: .semibold))
@@ -160,6 +161,7 @@ struct ArticleNavigator: View {
                 .frame(width: 56, height: 56)
         }
         .glassEffect(.regular.interactive(), in: .circle)
+        .accessibilityLabel(isExpanded ? "Close Navigator" : "Sections, Notes, and Search")
         .offset(dragOffset)
         .onAppear { haptic.prepare() }
         .simultaneousGesture(
@@ -197,7 +199,7 @@ struct ArticleNavigator: View {
     }
 
     private func updatePosition(dropLocation: CGPoint, geo: GeometryProxy) {
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+        withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.8)) {
             fabPosition = .nearest(to: dropLocation, in: geo.frame(in: .global))
             dragOffset = .zero
         }
@@ -271,6 +273,7 @@ struct ArticleNavigator: View {
                                     Image(systemName: "arrow.right")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
+                                        .accessibilityHidden(true)
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 12)
@@ -331,6 +334,7 @@ struct ArticleNavigator: View {
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
                 TextField("Search article", text: $searchQuery)
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
@@ -344,6 +348,7 @@ struct ArticleNavigator: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.secondary)
                     }
+                    .accessibilityLabel("Clear Search")
                 }
             }
             .padding(.horizontal, 14)
@@ -368,12 +373,14 @@ struct ArticleNavigator: View {
                     } label: {
                         Image(systemName: "chevron.up")
                     }
+                    .accessibilityLabel("Previous Match")
                     .disabled(searchMatches.isEmpty)
                     Button {
                         stepMatch(1)
                     } label: {
                         Image(systemName: "chevron.down")
                     }
+                    .accessibilityLabel("Next Match")
                     .disabled(searchMatches.isEmpty)
                 }
                 .padding(.horizontal, 16)
@@ -389,7 +396,7 @@ struct ArticleNavigator: View {
         guard let next = AnnotationList.step(currentMatchIndex, by: delta, count: searchMatches.count) else { return }
         currentMatchIndex = next
         let match = searchMatches[currentMatchIndex]
-        withAnimation {
+        withAnimation(reduceMotion ? nil : .default) {
             scrollProxy.scrollTo("content_\(match.blockIndex)", anchor: .center)
         }
     }
@@ -397,14 +404,14 @@ struct ArticleNavigator: View {
     // MARK: - Helpers
 
     private func jumpTo(scrollID: String) {
-        withAnimation {
+        withAnimation(reduceMotion ? nil : .default) {
             scrollProxy.scrollTo(scrollID, anchor: .top)
         }
         collapse()
     }
 
     private func collapse() {
-        withAnimation { isExpanded = false }
+        withAnimation(reduceMotion ? nil : .default) { isExpanded = false }
         searchFocused = false
     }
 

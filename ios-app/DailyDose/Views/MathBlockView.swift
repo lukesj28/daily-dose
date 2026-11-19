@@ -105,14 +105,12 @@ private struct MathWebView: UIViewRepresentable {
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
-                font-family: -apple-system, system-ui;
-                font-size: 16px;
+                font: -apple-system-body;
                 background: transparent;
                 display: flex;
                 justify-content: center;
                 padding: 4px 0;
                 overflow: hidden;
-                -webkit-text-size-adjust: none;
             }
             @media (prefers-color-scheme: dark) { body { color: #f5f5f7; } }
             @media (prefers-color-scheme: light) { body { color: #1d1d1f; } }

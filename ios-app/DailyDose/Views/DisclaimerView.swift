@@ -8,6 +8,7 @@ struct DisclaimerView: View {
             Image(systemName: "cross.case")
                 .font(.system(size: 56))
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
 
             VStack(spacing: 16) {
                 Text("Important Notice")

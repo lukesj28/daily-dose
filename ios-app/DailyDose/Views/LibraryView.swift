@@ -31,11 +31,7 @@ struct LibraryView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showSettings = true
-                    } label: {
-                        Image(systemName: "gearshape")
-                    }
+                    Button("Settings", systemImage: "gearshape") { showSettings = true }
                 }
             }
             .sheet(isPresented: $showSettings) {
@@ -89,6 +85,7 @@ struct LibraryView: View {
                 HStack(spacing: 4) {
                     Image(systemName: "note.text")
                         .font(.caption2)
+                        .accessibilityHidden(true)
                     Text("\(annotationCount) note\(annotationCount == 1 ? "" : "s")")
                         .font(.caption2)
                 }
@@ -114,6 +111,7 @@ struct LibraryView: View {
             Image(systemName: "books.vertical")
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
             Text("No Saved Articles")
                 .font(.title2)
                 .fontWeight(.bold)

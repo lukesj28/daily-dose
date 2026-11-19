@@ -131,8 +131,8 @@ struct TextBlockView: UIViewRepresentable {
                 attrs[.font] = font
             } else {
                 let size = run.baseline == 0 ? font.pointSize : font.pointSize * 0.7
-                let system = UIFont.systemFont(ofSize: size)
-                attrs[.font] = system.fontDescriptor.withSymbolicTraits(traits).map { UIFont(descriptor: $0, size: size) } ?? system
+                let descriptor = font.fontDescriptor.withSymbolicTraits(font.fontDescriptor.symbolicTraits.union(traits)) ?? font.fontDescriptor
+                attrs[.font] = UIFont(descriptor: descriptor, size: size)
             }
             if run.baseline > 0 { attrs[.baselineOffset] = font.pointSize * 0.35 }
             if run.baseline < 0 { attrs[.baselineOffset] = -(font.pointSize * 0.15) }
