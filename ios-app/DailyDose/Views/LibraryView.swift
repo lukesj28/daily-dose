@@ -45,7 +45,11 @@ struct LibraryView: View {
     private var articleList: some View {
         List {
             ForEach(savedArticles) { article in
-                NavigationLink(destination: ArticleReaderView(article: article)) {
+                NavigationLink {
+                    ArticleReaderView(article: article)
+                        .navigationTitle("")
+                        .navigationBarTitleDisplayMode(.inline)
+                } label: {
                     articleRow(article)
                 }
             }

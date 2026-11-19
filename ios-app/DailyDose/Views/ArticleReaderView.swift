@@ -55,7 +55,8 @@ struct ArticleReaderView: View {
                     )
                     .padding(.horizontal, 20)
                 }
-                .padding(.vertical, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 40)
             }
             .scrollDisabled(isFABRelocating)
             .overlay {
@@ -73,8 +74,6 @@ struct ArticleReaderView: View {
             searchMatches = SearchMatch.compute(query: newValue, blocks: article.contentBlocks)
             currentMatchIndex = 0
         }
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showAnnotationSheet) {
             AnnotationSheet(
                 noteText: editingAnnotation?.noteText ?? "",
