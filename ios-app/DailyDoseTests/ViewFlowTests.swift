@@ -139,22 +139,16 @@ extension AppTests {
             #expect(AnnotationList.snippet(for: note("content", 0, 0, 100), in: article) == expected)
         }
 
-        @Test func searchStepWrapsInBothDirections() {
-            #expect(AnnotationList.step(0, by: -1, count: 3) == 2)
-            #expect(AnnotationList.step(2, by: 1, count: 3) == 0)
-            #expect(AnnotationList.step(1, by: 1, count: 3) == 2)
-            #expect(AnnotationList.step(0, by: 1, count: 0) == nil)
+        @Test func searchContextTrimsAroundMatchWithEllipses() {
+            let text = String(repeating: "x", count: 50) + "cat" + String(repeating: "y", count: 50)
+            let match = SearchMatch(blockIndex: 0, range: NSRange(location: 50, length: 3))
+            let context = String(match.context(in: text, radius: 5).characters)
+            #expect(context == "…xxxxxcatyyyyy…")
         }
 
-        // MARK: FABPosition
-
-        @Test func fabSnapsToNearestCorner() {
-            let frame = CGRect(x: 0, y: 0, width: 400, height: 800)
-            #expect(FABPosition.nearest(to: CGPoint(x: 10, y: 10), in: frame) == .topLeft)
-            #expect(FABPosition.nearest(to: CGPoint(x: 390, y: 10), in: frame) == .topRight)
-            #expect(FABPosition.nearest(to: CGPoint(x: 10, y: 790), in: frame) == .bottomLeft)
-            #expect(FABPosition.nearest(to: CGPoint(x: 390, y: 790), in: frame) == .bottomRight)
-            #expect(FABPosition.nearest(to: CGPoint(x: 200, y: 400), in: frame) == .bottomRight)
+        @Test func searchContextOmitsEllipsesAtTextEdges() {
+            let match = SearchMatch(blockIndex: 0, range: NSRange(location: 0, length: 3))
+            #expect(String(match.context(in: "cat sat", radius: 10).characters) == "cat sat")
         }
     }
 }

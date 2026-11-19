@@ -1,56 +1,4 @@
 import SwiftUI
-import UIKit
-
-enum FABPosition: String, Codable {
-    case topLeft, topRight, bottomLeft, bottomRight
-
-    var alignment: Alignment {
-        switch self {
-        case .topLeft: return .topLeading
-        case .topRight: return .topTrailing
-        case .bottomLeft: return .bottomLeading
-        case .bottomRight: return .bottomTrailing
-        }
-    }
-
-    var vStackAlignment: HorizontalAlignment {
-        switch self {
-        case .topLeft, .bottomLeft: return .leading
-        case .topRight, .bottomRight: return .trailing
-        }
-    }
-
-    var edgeInsets: EdgeInsets {
-        switch self {
-        case .topLeft: return EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 0)
-        case .topRight: return EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 16)
-        case .bottomLeft: return EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 0)
-        case .bottomRight: return EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 16)
-        }
-    }
-
-    var transitionAnchor: UnitPoint {
-        switch self {
-        case .topLeft: return .topLeading
-        case .topRight: return .topTrailing
-        case .bottomLeft: return .bottomLeading
-        case .bottomRight: return .bottomTrailing
-        }
-    }
-
-    var isTopAligned: Bool {
-        self == .topLeft || self == .topRight
-    }
-
-    static func nearest(to point: CGPoint, in frame: CGRect) -> FABPosition {
-        switch (point.y < frame.midY, point.x < frame.midX) {
-        case (true, true): .topLeft
-        case (true, false): .topRight
-        case (false, true): .bottomLeft
-        case (false, false): .bottomRight
-        }
-    }
-}
 
 struct SearchMatch: Equatable {
     let blockIndex: Int
@@ -60,9 +8,8 @@ struct SearchMatch: Equatable {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return [] }
         var matches: [SearchMatch] = []
-        for block in blocks where block.type == .paragraph || block.type == .heading {
-            guard let raw = block.text else { continue }
-            let text = block.type == .paragraph ? InlineMarkdown.plain(raw) : raw
+        for block in blocks {
+            guard let text = block.searchableText else { continue }
             let ns = text as NSString
             var searchRange = NSRange(location: 0, length: ns.length)
             while searchRange.location < ns.length {
@@ -74,6 +21,23 @@ struct SearchMatch: Equatable {
             }
         }
         return matches
+    }
+
+    func context(in text: String, radius: Int = 40) -> AttributedString {
+        let ns = text as NSString
+        guard range.location + range.length <= ns.length else { return AttributedString(text) }
+        let start = max(0, range.location - radius)
+        let end = min(ns.length, range.location + range.length + radius)
+        var result = AttributedString(start > 0 ? "…" : "")
+        result += AttributedString(ns.substring(with: NSRange(location: start, length: range.location - start)))
+        var hit = AttributedString(ns.substring(with: range))
+        hit.foregroundColor = .primary
+        hit.inlinePresentationIntent = .stronglyEmphasized
+        result += hit
+        let afterStart = range.location + range.length
+        result += AttributedString(ns.substring(with: NSRange(location: afterStart, length: end - afterStart)))
+        if end < ns.length { result += AttributedString("…") }
+        return result
     }
 }
 
@@ -92,338 +56,191 @@ extension Array where Element == SearchMatch {
 struct ArticleNavigator: View {
     let article: Article
     let scrollProxy: ScrollViewProxy
+    let sectionTracker: SectionTracker
     @Binding var searchQuery: String
-    @Binding var searchMatches: [SearchMatch]
+    let searchMatches: [SearchMatch]
     @Binding var currentMatchIndex: Int
-    @Binding var isRelocating: Bool
 
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var isExpanded = false
     @State private var mode: Mode = .sections
-    @FocusState private var searchFocused: Bool
-    @AppStorage("fabPosition") private var fabPosition: FABPosition = .bottomRight
-    @State private var dragOffset: CGSize = .zero
-    @State private var isInDragPhase = false
-    @State private var suppressNextTap = false
-    @State private var haptic = UIImpactFeedbackGenerator(style: .medium)
 
-    enum Mode: String, CaseIterable, Identifiable {
-        case sections, annotations, search
-        var id: String { rawValue }
+    enum Mode: CaseIterable, Identifiable {
+        case sections, annotations
+        var id: Self { self }
         var title: String {
             switch self {
             case .sections: return "Sections"
             case .annotations: return "Notes"
-            case .search: return "Search"
             }
         }
-        var icon: String {
-            switch self {
-            case .sections: return "list.bullet.indent"
-            case .annotations: return "note.text"
-            case .search: return "magnifyingglass"
-            }
-        }
+    }
+
+    private var isSearching: Bool {
+        !searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: fabPosition.alignment) {
-                if isExpanded {
-                    Color.black.opacity(0.0001)
-                        .ignoresSafeArea()
-                        .contentShape(Rectangle())
-                        .onTapGesture { collapse() }
+        VStack(spacing: 0) {
+            VStack(spacing: 10) {
+                searchField
+                if !isSearching {
+                    Picker("Show", selection: $mode) {
+                        ForEach(Mode.allCases) { Text($0.title).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
                 }
-
-                VStack(alignment: fabPosition.vStackAlignment, spacing: 12) {
-                    if fabPosition.isTopAligned { fabView(geo: geo) }
-                    if isExpanded { expandedPanel }
-                    if !fabPosition.isTopAligned { fabView(geo: geo) }
-                }
-                .padding(fabPosition.edgeInsets)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: fabPosition.alignment)
-        }
-        .animation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.82), value: isExpanded)
-    }
+            .padding([.horizontal, .top], 14)
+            .padding(.bottom, 10)
 
-    // MARK: - FAB
+            Divider()
 
-    private func fabView(geo: GeometryProxy) -> some View {
-        Button {
-            if suppressNextTap { suppressNextTap = false; return }
-            if isExpanded { collapse() } else { withAnimation(reduceMotion ? nil : .default) { isExpanded = true } }
-        } label: {
-            Image(systemName: isExpanded ? "xmark" : "list.bullet")
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundStyle(.primary)
-                .frame(width: 56, height: 56)
-        }
-        .glassEffect(.regular.interactive(), in: .circle)
-        .accessibilityLabel(isExpanded ? "Close Navigator" : "Sections, Notes, and Search")
-        .offset(dragOffset)
-        .onAppear { haptic.prepare() }
-        .simultaneousGesture(
-            LongPressGesture(minimumDuration: 0.3)
-                .sequenced(before: DragGesture(coordinateSpace: .global))
-                .onChanged { value in
-                    switch value {
-                    case .second(true, let drag):
-                        if !isInDragPhase {
-                            isInDragPhase = true
-                            isRelocating = true
-                            suppressNextTap = true
-                            collapse()
-                            haptic.impactOccurred()
-                            haptic.prepare()
-                        }
-                        guard let drag = drag else { return }
-                        dragOffset = drag.translation
-                    default:
-                        break
+            Group {
+                if isSearching {
+                    searchResults
+                } else {
+                    switch mode {
+                    case .sections: sectionsList
+                    case .annotations: annotationsList
                     }
                 }
-                .onEnded { value in
-                    isInDragPhase = false
-                    isRelocating = false
-                    switch value {
-                    case .second(true, let drag):
-                        guard let drag = drag else { return }
-                        updatePosition(dropLocation: drag.location, geo: geo)
-                    default:
-                        dragOffset = .zero
-                    }
-                }
-        )
-    }
-
-    private func updatePosition(dropLocation: CGPoint, geo: GeometryProxy) {
-        withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.8)) {
-            fabPosition = .nearest(to: dropLocation, in: geo.frame(in: .global))
-            dragOffset = .zero
+            }
+            .frame(maxHeight: .infinity)
         }
+        .frame(idealWidth: 440, idealHeight: 460)
     }
 
-    // MARK: - Panel
-
-    private var expandedPanel: some View {
-        panel
-            .frame(width: 320)
-            .frame(maxHeight: 440)
-            .transition(.scale(scale: 0.85, anchor: fabPosition.transitionAnchor).combined(with: .opacity))
-    }
-
-    private var panel: some View {
-        GlassEffectContainer {
-            VStack(spacing: 0) {
-                picker
-                    .padding(.horizontal, 12)
-                    .padding(.top, 12)
-                    .padding(.bottom, 8)
-
-                Divider().opacity(0.3)
-
-                content
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    private var searchField: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
+            TextField("Search Article", text: $searchQuery)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .submitLabel(.search)
+            if !searchQuery.isEmpty {
+                Button("Clear Search", systemImage: "xmark.circle.fill") { searchQuery = "" }
+                    .labelStyle(.iconOnly)
+                    .foregroundStyle(.secondary)
             }
         }
-        .glassEffect(.regular, in: .rect(cornerRadius: 24))
-    }
-
-    private var picker: some View {
-        Picker("Mode", selection: $mode) {
-            ForEach(Mode.allCases) { m in
-                Label(m.title, systemImage: m.icon).tag(m)
-            }
-        }
-        .pickerStyle(.segmented)
-    }
-
-    @ViewBuilder
-    private var content: some View {
-        switch mode {
-        case .sections: sectionsList
-        case .annotations: annotationsList
-        case .search: searchPane
-        }
+        .font(.subheadline)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 7)
+        .background(.fill.tertiary, in: .capsule)
     }
 
     // MARK: - Sections
 
+    @ViewBuilder
     private var sectionsList: some View {
         let headings = article.contentBlocks.filter { $0.type == .heading }
-        return Group {
-            if headings.isEmpty {
-                emptyState("No sections")
-            } else {
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        ForEach(headings) { block in
-                            Button {
-                                jumpTo(scrollID: "content_\(block.index)")
-                            } label: {
-                                HStack {
-                                    Text(block.text ?? "")
-                                        .font(.subheadline)
-                                        .fontWeight(.medium)
-                                        .foregroundStyle(.primary)
-                                        .multilineTextAlignment(.leading)
-                                    Spacer()
-                                    Image(systemName: "arrow.right")
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .accessibilityHidden(true)
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 12)
-                            }
-                            Divider().opacity(0.2)
+        if headings.isEmpty {
+            ContentUnavailableView("No Sections", systemImage: "list.bullet")
+        } else {
+            List(headings) { block in
+                let isCurrent = block.index == sectionTracker.currentIndex
+                Button {
+                    jumpTo(scrollID: block.scrollID)
+                } label: {
+                    HStack {
+                        Text(block.text ?? "")
+                            .fontWeight(isCurrent ? .semibold : .regular)
+                            .foregroundStyle(.primary)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                        if isCurrent {
+                            Image(systemName: "checkmark")
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+                                .accessibilityHidden(true)
                         }
                     }
                 }
+                .accessibilityAddTraits(isCurrent ? .isSelected : [])
+                .listRowBackground(Color.clear)
             }
+            .navigatorListStyle()
         }
     }
 
     // MARK: - Annotations
 
+    @ViewBuilder
     private var annotationsList: some View {
         let annotations = AnnotationList.sorted(article.annotations)
-        return Group {
-            if annotations.isEmpty {
-                emptyState("No annotations yet")
-            } else {
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        ForEach(annotations) { annotation in
-                            Button {
-                                jumpTo(scrollID: annotation.scrollID)
-                            } label: {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    if let snippet = AnnotationList.snippet(for: annotation, in: article) {
-                                        Text(snippet)
-                                            .font(.subheadline)
-                                            .fontWeight(.medium)
-                                            .foregroundStyle(.primary)
-                                            .lineLimit(2)
-                                            .multilineTextAlignment(.leading)
-                                    }
-                                    Text(annotation.noteText)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .lineLimit(2)
-                                        .multilineTextAlignment(.leading)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 10)
-                            }
-                            Divider().opacity(0.2)
+        if annotations.isEmpty {
+            ContentUnavailableView("No Notes", systemImage: "note.text",
+                                   description: Text("Select text in the article and choose Annotate."))
+        } else {
+            List(annotations) { annotation in
+                Button {
+                    jumpTo(scrollID: annotation.scrollID)
+                } label: {
+                    VStack(alignment: .leading, spacing: 4) {
+                        if let snippet = AnnotationList.snippet(for: annotation, in: article) {
+                            Text(snippet)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.primary)
+                                .lineLimit(2)
                         }
+                        Text(annotation.noteText)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(2)
                     }
+                    .multilineTextAlignment(.leading)
                 }
+                .listRowBackground(Color.clear)
             }
+            .navigatorListStyle()
         }
     }
 
     // MARK: - Search
 
-    private var searchPane: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 8) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(.secondary)
-                    .accessibilityHidden(true)
-                TextField("Search article", text: $searchQuery)
-                    .textFieldStyle(.plain)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .focused($searchFocused)
-                    .submitLabel(.search)
-                if !searchQuery.isEmpty {
-                    Button {
-                        searchQuery = ""
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
-                    .accessibilityLabel("Clear Search")
-                }
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(.quaternary.opacity(0.5))
-            )
-            .padding(.horizontal, 12)
-            .padding(.top, 12)
-
-            if !searchQuery.isEmpty {
-                HStack {
-                    Text(searchMatches.isEmpty
-                         ? "No matches"
-                         : "\(currentMatchIndex + 1) / \(searchMatches.count)")
-                        .font(.caption)
+    @ViewBuilder
+    private var searchResults: some View {
+        if searchMatches.isEmpty {
+            ContentUnavailableView.search(text: searchQuery)
+        } else {
+            let blocks = article.contentBlocks
+            List(Array(searchMatches.enumerated()), id: \.offset) { offset, match in
+                Button {
+                    currentMatchIndex = offset
+                    jumpTo(scrollID: ContentBlock.scrollID(forIndex: match.blockIndex), anchor: UnitPoint(x: 0.5, y: 0.2))
+                } label: {
+                    Text(match.context(in: blocks.indices.contains(match.blockIndex) ? blocks[match.blockIndex].searchableText ?? "" : ""))
+                        .font(.subheadline)
                         .foregroundStyle(.secondary)
-                    Spacer()
-                    Button {
-                        stepMatch(-1)
-                    } label: {
-                        Image(systemName: "chevron.up")
-                    }
-                    .accessibilityLabel("Previous Match")
-                    .disabled(searchMatches.isEmpty)
-                    Button {
-                        stepMatch(1)
-                    } label: {
-                        Image(systemName: "chevron.down")
-                    }
-                    .accessibilityLabel("Next Match")
-                    .disabled(searchMatches.isEmpty)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+                .listRowBackground(Color.clear)
             }
-
-            Spacer(minLength: 0)
-        }
-        .onAppear { searchFocused = true }
-    }
-
-    private func stepMatch(_ delta: Int) {
-        guard let next = AnnotationList.step(currentMatchIndex, by: delta, count: searchMatches.count) else { return }
-        currentMatchIndex = next
-        let match = searchMatches[currentMatchIndex]
-        withAnimation(reduceMotion ? nil : .default) {
-            scrollProxy.scrollTo("content_\(match.blockIndex)", anchor: .center)
+            .navigatorListStyle()
         }
     }
 
     // MARK: - Helpers
 
-    private func jumpTo(scrollID: String) {
+    private func jumpTo(scrollID: String, anchor: UnitPoint = .top) {
+        dismiss()
         withAnimation(reduceMotion ? nil : .default) {
-            scrollProxy.scrollTo(scrollID, anchor: .top)
+            scrollProxy.scrollTo(scrollID, anchor: anchor)
         }
-        collapse()
     }
+}
 
-    private func collapse() {
-        withAnimation(reduceMotion ? nil : .default) { isExpanded = false }
-        searchFocused = false
-    }
-
-    private func emptyState(_ text: String) -> some View {
-        VStack {
-            Spacer()
-            Text(text)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
+private extension View {
+    func navigatorListStyle() -> some View {
+        listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .contentMargins(.bottom, 12, for: .scrollContent)
+            .scrollEdgeEffectStyle(.soft, for: .bottom)
     }
 }
 
@@ -470,7 +287,7 @@ enum AnnotationList {
 
         default: // BlockSection.content
             if let block = article.contentBlocks.first(where: { $0.index == annotation.blockIndex }) {
-                sourceText = block.type == .paragraph ? block.text.map { InlineMarkdown.plain($0) } : block.caption ?? block.text
+                sourceText = block.searchableText ?? block.caption ?? block.text
             } else {
                 sourceText = nil
             }
@@ -485,10 +302,5 @@ enum AnnotationList {
         var snippet = ns.substring(with: range)
         if snippet.count > 80 { snippet = String(snippet.prefix(80)) + "…" }
         return "\u{201C}" + snippet + "\u{201D}"
-    }
-
-    static func step(_ index: Int, by delta: Int, count: Int) -> Int? {
-        guard count > 0 else { return nil }
-        return (index + delta + count) % count
     }
 }

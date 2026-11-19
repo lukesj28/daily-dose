@@ -19,6 +19,14 @@ struct ContentBlock: Codable, Identifiable {
     var index: Int = 0
     var id: Int { index }
 
+    static func scrollID(forIndex index: Int) -> String { BlockSection.scrollID(BlockSection.content, index) }
+    var scrollID: String { Self.scrollID(forIndex: index) }
+
+    var searchableText: String? {
+        guard type == .paragraph || type == .heading, let text else { return nil }
+        return type == .paragraph ? InlineMarkdown.plain(text) : text
+    }
+
     enum CodingKeys: String, CodingKey {
         case type, text, url, caption, html, mathml
     }

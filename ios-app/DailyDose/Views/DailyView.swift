@@ -4,7 +4,6 @@ import SwiftData
 struct DailyView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(CacheManager.self) private var cacheManager
-    @Environment(SaveNotifier.self) private var saveNotifier
     @Environment(\.scenePhase) private var scenePhase
 
     @Query(sort: \Article.fetchDate, order: .reverse)
@@ -51,30 +50,12 @@ struct DailyView: View {
     // MARK: - Article Reader
 
     private func articleReader(_ article: Article) -> some View {
-        ArticleReaderView(article: article)
+        ArticleReaderView(article: article, showsSaveButton: true)
             .id(article.id)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(article.isSavedToLibrary ? "Saved" : "Save to Library",
-                           systemImage: article.isSavedToLibrary ? "bookmark.fill" : "bookmark") {
-                        saveToLibrary(article)
-                    }
-                    .disabled(article.isSavedToLibrary)
-                }
-            }
     }
 
     private func refresh() async {
         await cacheManager.checkAndUpdateCache(context: modelContext, force: true)
-    }
-
-    private func saveToLibrary(_ article: Article) {
-        article.isSavedToLibrary = true
-        cacheManager.save(modelContext)
-        saveNotifier.didSave = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            saveNotifier.didSave = false
-        }
     }
 
     // MARK: - States

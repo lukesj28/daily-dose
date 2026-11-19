@@ -72,32 +72,14 @@ extension AppTests {
             #expect([SearchMatch]().currentRange(at: 0, forBlock: 0) == nil)
         }
 
-        @Test func fabPositionCornersAreConsistent() {
-            let cases: [(FABPosition, Bool, Bool)] = [
-                (.topLeft, true, true), (.topRight, true, false),
-                (.bottomLeft, false, true), (.bottomRight, false, false),
-            ]
-            for (position, top, leading) in cases {
-                let insets = position.edgeInsets
-                #expect((insets.top != 0) == top)
-                #expect((insets.bottom != 0) == !top)
-                #expect((insets.leading != 0) == leading)
-                #expect((insets.trailing != 0) == !leading)
-                #expect(position.isTopAligned == top)
-
-                let v: VerticalAlignment = top ? .top : .bottom
-                let h: HorizontalAlignment = leading ? .leading : .trailing
-                #expect(position.alignment == Alignment(horizontal: h, vertical: v))
-                #expect(position.vStackAlignment == h)
-                #expect(position.transitionAnchor == UnitPoint(x: leading ? 0 : 1, y: top ? 0 : 1))
-            }
-        }
-
-        @Test func fabPositionRawValuesMatchPersistedStrings() {
-            #expect(FABPosition(rawValue: "topLeft") == .topLeft)
-            #expect(FABPosition(rawValue: "topRight") == .topRight)
-            #expect(FABPosition(rawValue: "bottomLeft") == .bottomLeft)
-            #expect(FABPosition(rawValue: "bottomRight") == .bottomRight)
+        @Test func sectionTrackerPicksLastHeadingAboveVisibleTop() {
+            let tracker = SectionTracker()
+            tracker.headingTops = [2: 0, 7: 500, 12: 1200]
+            #expect(tracker.section(atOffset: -100) == nil)
+            #expect(tracker.section(atOffset: -80) == 2)
+            #expect(tracker.section(atOffset: 600) == 7)
+            #expect(tracker.section(atOffset: 1150) == 12)
+            #expect(SectionTracker().section(atOffset: 0) == nil)
         }
     }
 }

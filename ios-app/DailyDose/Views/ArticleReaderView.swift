@@ -5,12 +5,14 @@ import UIKit
 struct ArticleReaderView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(CacheManager.self) private var cacheManager
+    @Environment(SaveNotifier.self) private var saveNotifier: SaveNotifier?
 
     @AppStorage("highlightColorR") private var highlightR: Double = 1.0
     @AppStorage("highlightColorG") private var highlightG: Double = 0.93
     @AppStorage("highlightColorB") private var highlightB: Double = 0.27
 
     let article: Article
+    var showsSaveButton = false
 
     @State private var showAnnotationSheet = false
     @State private var pendingAnnotation: PendingAnnotation?
@@ -19,7 +21,8 @@ struct ArticleReaderView: View {
     @State private var searchQuery: String = ""
     @State private var searchMatches: [SearchMatch] = []
     @State private var currentMatchIndex: Int = 0
-    @State private var isFABRelocating = false
+    @State private var showNavigator = false
+    @State private var sectionTracker = SectionTracker()
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -55,23 +58,52 @@ struct ArticleReaderView: View {
                     )
                     .padding(.horizontal, 20)
                 }
+                .coordinateSpace(.named("articleContent"))
                 .padding(.top, 16)
                 .padding(.bottom, 40)
             }
-            .scrollDisabled(isFABRelocating)
-            .overlay {
-                ArticleNavigator(
-                    article: article,
-                    scrollProxy: proxy,
-                    searchQuery: $searchQuery,
-                    searchMatches: $searchMatches,
-                    currentMatchIndex: $currentMatchIndex,
-                    isRelocating: $isFABRelocating
-                )
+            .onScrollGeometryChange(for: Int?.self) { geometry in
+                sectionTracker.section(atOffset: geometry.contentOffset.y + geometry.contentInsets.top)
+            } action: { _, index in
+                sectionTracker.currentIndex = index
+            }
+            .overlay(alignment: .topTrailing) {
+                Color.clear
+                    .frame(width: 44, height: 1)
+                    .padding(.trailing, 32)
+                    .allowsHitTesting(false)
+                    .popover(isPresented: $showNavigator, arrowEdge: .top) {
+                        ArticleNavigator(
+                            article: article,
+                            scrollProxy: proxy,
+                            sectionTracker: sectionTracker,
+                            searchQuery: $searchQuery,
+                            searchMatches: searchMatches,
+                            currentMatchIndex: $currentMatchIndex
+                        )
+                        .presentationCompactAdaptation(.popover)
+                    }
+            }
+            .toolbar {
+                if showsSaveButton {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(article.isSavedToLibrary ? "Remove from Library" : "Save to Library",
+                               systemImage: article.isSavedToLibrary ? "bookmark.fill" : "bookmark",
+                               action: toggleSaved)
+                    }
+                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Contents", systemImage: "list.bullet") { showNavigator = true }
+                }
             }
         }
-        .onChange(of: searchQuery) { _, newValue in
-            searchMatches = SearchMatch.compute(query: newValue, blocks: article.contentBlocks)
+        .task(id: searchQuery) {
+            if !searchQuery.isEmpty {
+                try? await Task.sleep(for: .milliseconds(200))
+                guard !Task.isCancelled else { return }
+            }
+            searchMatches = SearchMatch.compute(query: searchQuery, blocks: article.contentBlocks)
             currentMatchIndex = 0
         }
         .sheet(isPresented: $showAnnotationSheet) {
@@ -115,7 +147,7 @@ struct ArticleReaderView: View {
                     cellAnnotations: cellByIndex[block.index, default: []],
                     equationAnnotation: eqByIndex[block.index]?.first
                 )
-                .id("content_\(block.index)")
+                .id(block.scrollID)
             }
         }
     }
@@ -148,6 +180,11 @@ struct ArticleReaderView: View {
                 onDeleteAnnotation: handleDelete
             )
             .padding(.top, 12)
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.frame(in: .named("articleContent")).minY
+            } action: { minY in
+                sectionTracker.headingTops[block.index] = minY
+            }
 
         case .paragraph:
             TextBlockView(
@@ -279,9 +316,36 @@ struct ArticleReaderView: View {
         cacheManager.save(modelContext)
     }
 
+    private func toggleSaved() {
+        article.isSavedToLibrary.toggle()
+        cacheManager.save(modelContext)
+        guard article.isSavedToLibrary, let saveNotifier else { return }
+        saveNotifier.didSave = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            saveNotifier.didSave = false
+        }
+    }
+
     private func resetAnnotationState() {
         pendingAnnotation = nil
         editingAnnotation = nil
         showAnnotationSheet = false
+    }
+}
+
+@Observable
+final class SectionTracker {
+    var currentIndex: Int?
+    @ObservationIgnored var headingTops: [Int: CGFloat] = [:]
+
+    private let activationOffset: CGFloat = 80
+
+    func section(atOffset visibleTop: CGFloat) -> Int? {
+        let line = visibleTop + activationOffset
+        var best: (index: Int, top: CGFloat)?
+        for (index, top) in headingTops where top <= line && top > (best?.top ?? -.infinity) {
+            best = (index, top)
+        }
+        return best?.index
     }
 }
