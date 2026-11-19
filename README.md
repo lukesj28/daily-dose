@@ -39,7 +39,7 @@ When you find an article you want to keep, you can save it to your local library
 ### The Library Tab
 Your saved articles are stored chronologically in the **Library** tab. Here you can review your saved articles, see how many notes you took for each, dive back into reading them at any time, or delete them when you're finished. 
 
-From the Library tab, you can also access the **Settings** menu to customize the app's display mode (System, Light, or Dark) and adjust your preferred highlight color.
+From the Library tab, you can also open **Settings** to adjust your preferred highlight color, read the About page, view the Privacy Policy, or contact support. The app follows your device's Light or Dark appearance.
 
 ## Developer Setup & Installation
 

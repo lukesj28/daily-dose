@@ -99,13 +99,5 @@ extension AppTests {
             #expect(FABPosition(rawValue: "bottomLeft") == .bottomLeft)
             #expect(FABPosition(rawValue: "bottomRight") == .bottomRight)
         }
-
-        @Test func displayModes() {
-            #expect(DisplayMode(rawValue: 0)?.colorScheme == nil)
-            #expect(DisplayMode(rawValue: 1)?.colorScheme == .light)
-            #expect(DisplayMode(rawValue: 2)?.colorScheme == .dark)
-            #expect(DisplayMode.allCases.map(\.label) == ["System", "Light", "Dark"])
-            #expect(DisplayMode(rawValue: 7) == nil)
-        }
     }
 }

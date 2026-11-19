@@ -7,7 +7,6 @@ struct DailyDoseApp: App {
     @State private var cacheManager = CacheManager()
     @State private var saveNotifier = SaveNotifier()
     @AppStorage("hasAcceptedDisclaimer") private var hasAccepted = false
-    @AppStorage("displayMode") private var displayMode: Int = 0
     @State private var storeUnavailable: Bool
 
     private let container: ModelContainer
@@ -36,7 +35,6 @@ struct DailyDoseApp: App {
                     DisclaimerView()
                 }
             }
-            .preferredColorScheme(DisplayMode(rawValue: displayMode)?.colorScheme)
             .alert("Library Unavailable", isPresented: $storeUnavailable) {
                 Button("OK") {}
             } message: {
