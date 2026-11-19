@@ -2,8 +2,8 @@ name: Daily Article Ingestion
 
 on:
   schedule:
-    - cron: '0 0 * * *'   # Midnight UTC
-  workflow_dispatch: {}    # Manual trigger for testing
+    - cron: '0 0 * * *'
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -30,13 +30,14 @@ jobs:
         env:
           NCBI_EMAIL: ${{ secrets.NCBI_EMAIL }}
 
-      - name: Ensure .nojekyll exists
-        run: touch public/.nojekyll
-
-      - name: Copy static pages
-        run: cp site/*.html public/
+      - name: Prepare public assets
+        run: |
+          mkdir -p public
+          touch public/.nojekyll
+          cp site/*.html public/
 
       - name: Deploy to GitHub Pages
+        if: hashFiles('public/today.json') != ''
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

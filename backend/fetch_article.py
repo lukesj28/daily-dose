@@ -145,7 +145,7 @@ def _search_term() -> str:
     except ValueError:
         five_years_ago = now.replace(year=now.year - 5, day=28)
     return (
-        '"open access"[filter] AND "fha"[Filter] '
+        '"open access"[filter] '
         f'AND ("{five_years_ago:%Y/%m/%d}"[PDAT] : "3000/12/31"[PDAT])'
     )
 

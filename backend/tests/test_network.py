@@ -28,10 +28,6 @@ def test_search_term_filters(frozen_now):
     assert '"3000/12/31"[PDAT]' in term
 
 
-def test_search_term_free_full_text_filter(frozen_now):
-    assert '"fha"[Filter]' in fa._search_term()
-
-
 def test_search_term_five_calendar_years(frozen_now):
     assert '"2021/11/17"[PDAT]' in fa._search_term()
 
