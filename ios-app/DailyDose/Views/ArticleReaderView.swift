@@ -61,28 +61,13 @@ struct ArticleReaderView: View {
                 .coordinateSpace(.named("articleContent"))
                 .padding(.top, 16)
                 .padding(.bottom, 40)
+                .frame(maxWidth: 680)
+                .frame(maxWidth: .infinity)
             }
             .onScrollGeometryChange(for: Int?.self) { geometry in
                 sectionTracker.section(atOffset: geometry.contentOffset.y + geometry.contentInsets.top)
             } action: { _, index in
                 sectionTracker.currentIndex = index
-            }
-            .overlay(alignment: .topTrailing) {
-                Color.clear
-                    .frame(width: 44, height: 1)
-                    .padding(.trailing, 32)
-                    .allowsHitTesting(false)
-                    .popover(isPresented: $showNavigator, arrowEdge: .top) {
-                        ArticleNavigator(
-                            article: article,
-                            scrollProxy: proxy,
-                            sectionTracker: sectionTracker,
-                            searchQuery: $searchQuery,
-                            searchMatches: searchMatches,
-                            currentMatchIndex: $currentMatchIndex
-                        )
-                        .presentationCompactAdaptation(.popover)
-                    }
             }
             .toolbar {
                 if showsSaveButton {
@@ -95,6 +80,17 @@ struct ArticleReaderView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Contents", systemImage: "list.bullet") { showNavigator = true }
+                        .popover(isPresented: $showNavigator) {
+                            ArticleNavigator(
+                                article: article,
+                                scrollProxy: proxy,
+                                sectionTracker: sectionTracker,
+                                searchQuery: $searchQuery,
+                                searchMatches: searchMatches,
+                                currentMatchIndex: $currentMatchIndex
+                            )
+                            .presentationCompactAdaptation(.popover)
+                        }
                 }
             }
         }

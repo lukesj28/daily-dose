@@ -225,16 +225,10 @@ struct TextBlockView: UIViewRepresentable {
                 popover.delegate = self
             }
 
-            var responder: UIResponder? = textView
-            while let current = responder {
-                if let vc = current as? UIViewController {
-                    let presenter = vc.presentedViewController ?? vc
-                    presenter.present(host, animated: true)
-                    presentedPopover = host
-                    return
-                }
-                responder = current.next
-            }
+            guard let vc = sequence(first: textView as UIResponder, next: \.next)
+                .first(where: { $0 is UIViewController }) as? UIViewController else { return }
+            (vc.presentedViewController ?? vc).present(host, animated: true)
+            presentedPopover = host
         }
 
         func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {

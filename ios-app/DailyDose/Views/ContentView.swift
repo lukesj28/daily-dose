@@ -17,6 +17,7 @@ struct ContentView: View {
                     .symbolEffect(.bounce, value: saveNotifier.didSave)
             }
         }
+        .tabBarMinimizeBehavior(.onScrollDown)
         .tint(.primary)
         .alert("Couldn't Save Changes", isPresented: Binding(
             get: { cacheManager.saveError != nil },
