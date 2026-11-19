@@ -7,6 +7,7 @@ final class CacheManager {
     var isLoading = false
     var isOffline = false
     var errorMessage: String?
+    var saveError: String?
 
     // Persisted to UserDefaults — avoids a SwiftData schema migration while
     // still surviving relaunches.
@@ -52,6 +53,11 @@ final class CacheManager {
     func currentArticle(in articles: [Article]) -> Article? {
         if let id = currentDailyId { return articles.first { $0.id == id } }
         return articles.first { !$0.isSavedToLibrary }
+    }
+
+    @MainActor
+    func save(_ context: ModelContext) {
+        do { try context.save() } catch { saveError = error.localizedDescription }
     }
 
     @MainActor

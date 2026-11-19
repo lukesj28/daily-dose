@@ -104,7 +104,7 @@ struct LibraryView: View {
                 cacheManager.removeFromLibrary(savedArticles[index], context: modelContext)
             }
         }
-        try? modelContext.save()
+        cacheManager.save(modelContext)
     }
 
     // MARK: - Empty State

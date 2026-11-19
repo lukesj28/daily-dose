@@ -4,6 +4,7 @@ import UIKit
 
 struct ArticleReaderView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(CacheManager.self) private var cacheManager
 
     @AppStorage("highlightColorR") private var highlightR: Double = 1.0
     @AppStorage("highlightColorG") private var highlightG: Double = 0.93
@@ -80,17 +81,17 @@ struct ArticleReaderView: View {
                 onSave: { text in
                     if let editing = editingAnnotation {
                         editing.noteText = text
-                        try? modelContext.save()
+                        cacheManager.save(modelContext)
                     } else if let pending = pendingAnnotation {
                         let annotation = Annotation(pending: pending, noteText: text, article: article)
                         modelContext.insert(annotation)
-                        try? modelContext.save()
+                        cacheManager.save(modelContext)
                     }
                     resetAnnotationState()
                 },
                 onDelete: editingAnnotation.map { editing in {
                     modelContext.delete(editing)
-                    try? modelContext.save()
+                    cacheManager.save(modelContext)
                     resetAnnotationState()
                 }}
             )
@@ -277,7 +278,7 @@ struct ArticleReaderView: View {
 
     private func handleDelete(_ annotation: Annotation) {
         modelContext.delete(annotation)
-        try? modelContext.save()
+        cacheManager.save(modelContext)
     }
 
     private func resetAnnotationState() {

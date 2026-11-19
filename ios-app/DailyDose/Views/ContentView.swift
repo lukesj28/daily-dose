@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(SaveNotifier.self) private var saveNotifier
+    @Environment(CacheManager.self) private var cacheManager
 
     var body: some View {
         TabView {
@@ -17,5 +18,13 @@ struct ContentView: View {
             }
         }
         .tint(.primary)
+        .alert("Couldn't Save Changes", isPresented: Binding(
+            get: { cacheManager.saveError != nil },
+            set: { if !$0 { cacheManager.saveError = nil } }
+        )) {
+            Button("OK") {}
+        } message: {
+            Text(cacheManager.saveError ?? "")
+        }
     }
 }

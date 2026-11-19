@@ -67,19 +67,19 @@ struct DailyView: View {
                 onSave: { text in
                     if let editing = editingAnnotation {
                         editing.noteText = text
-                        try? modelContext.save()
+                        cacheManager.save(modelContext)
                     } else if let pending = pendingAnnotation {
                         if let article = currentArticle {
                             let annotation = Annotation(pending: pending, noteText: text, article: article)
                             modelContext.insert(annotation)
-                            try? modelContext.save()
+                            cacheManager.save(modelContext)
                         }
                     }
                     resetAnnotationState()
                 },
                 onDelete: editingAnnotation.map { editing in {
                     modelContext.delete(editing)
-                    try? modelContext.save()
+                    cacheManager.save(modelContext)
                     resetAnnotationState()
                 }}
             )
@@ -109,7 +109,7 @@ struct DailyView: View {
 
     private func handleDelete(_ annotation: Annotation) {
         modelContext.delete(annotation)
-        try? modelContext.save()
+        cacheManager.save(modelContext)
     }
 
     // MARK: - Article Reader
@@ -372,7 +372,7 @@ struct DailyView: View {
                     SaveIconAnimator.shared.hide()
                 case .save:
                     article.isSavedToLibrary = true
-                    try? modelContext.save()
+                    cacheManager.save(modelContext)
                     SaveIconAnimator.shared.flyToLibrary {
                         saveNotifier.didSave = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {

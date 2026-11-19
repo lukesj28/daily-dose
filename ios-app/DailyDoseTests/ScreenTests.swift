@@ -63,6 +63,7 @@ extension AppTests {
             try context.save()
             let view = NavigationStack { ArticleReaderView(article: article) }
                 .modelContainer(context.container)
+                .environment(CacheManager())
             let (window, controller) = host(view)
             defer { window.isHidden = true }
 
