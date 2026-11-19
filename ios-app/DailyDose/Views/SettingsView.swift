@@ -25,6 +25,8 @@ enum DisplayMode: Int, CaseIterable {
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
+    @State private var showMailUnavailable = false
     @AppStorage("displayMode") private var displayMode: Int = 0
     @AppStorage("highlightColorR") private var highlightR: Double = 1.0
     @AppStorage("highlightColorG") private var highlightG: Double = 0.93
@@ -64,8 +66,19 @@ struct SettingsView: View {
                         AboutView()
                     }
                     Link("Privacy Policy", destination: URL(string: ArticleService.baseURL + "/privacy.html")!)
-                    Link("Contact Support", destination: URL(string: "mailto:help@sanjuan.dev")!)
+                    Button("Contact Support") {
+                        openURL(URL(string: "mailto:help@sanjuan.dev")!) { accepted in
+                            guard !accepted else { return }
+                            UIPasteboard.general.string = "help@sanjuan.dev"
+                            showMailUnavailable = true
+                        }
+                    }
                 }
+            }
+            .alert("Mail Isn't Set Up", isPresented: $showMailUnavailable) {
+                Button("OK") {}
+            } message: {
+                Text("We copied help@sanjuan.dev to your clipboard. Send us a message from any email app.")
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)

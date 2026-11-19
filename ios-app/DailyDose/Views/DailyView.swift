@@ -12,9 +12,6 @@ struct DailyView: View {
     private var allArticles: [Article]
 
     @State private var hasAppeared = false
-    @State private var swipe = SaveSwipe()
-    @State private var isTableScrolling = false
-    @State private var haptic = UIImpactFeedbackGenerator(style: .light)
     @State private var showAnnotationSheet = false
     @State private var pendingAnnotation: PendingAnnotation?
     @State private var editingAnnotation: Annotation?
@@ -44,10 +41,10 @@ struct DailyView: View {
                     articleReader(article)
                 } else if cacheManager.isOffline {
                     messageState(systemImage: "wifi.slash", title: "No Connection",
-                                 message: "Read your saved articles in the Library,\nor pull down to try again.")
+                                 message: "Read your saved articles in the Library,\nor try again.")
                 } else {
                     messageState(systemImage: "newspaper", title: "No article yet",
-                                 message: "Pull down to refresh, or wait\nfor tomorrow's delivery.")
+                                 message: "Try again, or wait\nfor tomorrow's delivery.")
                 }
             }
         }
@@ -151,8 +148,7 @@ struct DailyView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 40)
             }
-            .scrollDisabled(swipe.iconVisible || isFABRelocating)
-            .simultaneousGesture(saveSwipeGesture(article))
+            .scrollDisabled(isFABRelocating)
             .overlay {
                 ArticleNavigator(
                     article: article,
@@ -162,6 +158,15 @@ struct DailyView: View {
                     currentMatchIndex: $currentMatchIndex,
                     isRelocating: $isFABRelocating
                 )
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(article.isSavedToLibrary ? "Saved" : "Save to Library",
+                           systemImage: article.isSavedToLibrary ? "bookmark.fill" : "bookmark") {
+                        saveToLibrary(article)
+                    }
+                    .disabled(article.isSavedToLibrary)
+                }
             }
             .onChange(of: searchQuery) { _, newValue in
                 searchMatches = SearchMatch.compute(query: newValue, blocks: article.contentBlocks)
@@ -323,7 +328,6 @@ struct DailyView: View {
             if let html = block.html {
                 TableBlockView(
                     html: html,
-                    isScrolling: $isTableScrolling,
                     annotations: cellAnnotations,
                     highlightColorR: highlightR,
                     highlightColorG: highlightG,
@@ -341,46 +345,13 @@ struct DailyView: View {
         .padding(.vertical, 8)
     }
 
-    // MARK: - Swipe to Save
-
-    private func saveSwipeGesture(_ article: Article) -> some Gesture {
-        DragGesture(minimumDistance: 50, coordinateSpace: .global)
-            .onChanged { value in
-                guard !article.isSavedToLibrary else { return }
-                let change = swipe.changed(translation: value.translation, tableScrolling: isTableScrolling)
-                if change.showIcon {
-                    SaveIconAnimator.shared.show(at: value.location)
-                    haptic.prepare()
-                }
-                if change.moveIcon {
-                    SaveIconAnimator.shared.move(to: value.location)
-                }
-                if change.haptic {
-                    haptic.impactOccurred()
-                }
-            }
-            .onEnded { value in
-                let end = swipe.ended(translation: value.translation, tableScrolling: isTableScrolling)
-                guard !article.isSavedToLibrary else {
-                    if end != .ignore { SaveIconAnimator.shared.hide() }
-                    return
-                }
-                switch end {
-                case .ignore:
-                    break
-                case .hide:
-                    SaveIconAnimator.shared.hide()
-                case .save:
-                    article.isSavedToLibrary = true
-                    cacheManager.save(modelContext)
-                    SaveIconAnimator.shared.flyToLibrary {
-                        saveNotifier.didSave = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                            saveNotifier.didSave = false
-                        }
-                    }
-                }
-            }
+    private func saveToLibrary(_ article: Article) {
+        article.isSavedToLibrary = true
+        cacheManager.save(modelContext)
+        saveNotifier.didSave = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            saveNotifier.didSave = false
+        }
     }
 
     // MARK: - States
@@ -408,6 +379,12 @@ struct DailyView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
+
+                Button("Try Again") {
+                    Task { await cacheManager.checkAndUpdateCache(context: modelContext, force: true) }
+                }
+                .buttonStyle(.bordered)
+                .disabled(cacheManager.isLoading)
             }
             .frame(maxWidth: .infinity)
             .padding()

@@ -25,7 +25,7 @@ private func loadedWebView(in controller: UIViewController) async throws -> WKWe
 
 @MainActor
 private func hostTable(annotations: [Annotation] = []) async throws -> (UIWindow, WKWebView) {
-    let view = TableBlockView(html: tableHTML, isScrolling: .constant(false), annotations: annotations)
+    let view = TableBlockView(html: tableHTML, annotations: annotations)
         .frame(width: 390, height: 300)
     let (window, controller) = host(view)
     return (window, try await loadedWebView(in: controller))
@@ -55,7 +55,7 @@ private struct TableHost: View {
     let holder: Holder
     var body: some View {
         let _ = holder.tick
-        TableBlockView(html: tableHTML, isScrolling: .constant(false), annotations: holder.annotations)
+        TableBlockView(html: tableHTML, annotations: holder.annotations)
             .frame(width: 390, height: 300)
     }
 }
@@ -90,26 +90,6 @@ extension AppTests {
             try await waitUntil { await js(webView, cell) == "rgba(255, 237, 68, 0.45)" }
             let other = "document.querySelectorAll('tr')[0].querySelectorAll('td, th')[0].style.backgroundColor"
             #expect(await js(webView, other) == "")
-        }
-
-        @Test func scrollCallbacksReportBeginAndEnd() async throws {
-            let (window, webView) = try await hostTable()
-            defer { window.isHidden = true }
-            let coordinator = try #require(webView.navigationDelegate as? TableBlockView.Coordinator)
-            let began = Box<Int>(), ended = Box<Int>()
-            began.value = 0; ended.value = 0
-            coordinator.onScrollBegan = { began.value! += 1 }
-            coordinator.onScrollEnded = { ended.value! += 1 }
-            let scrollView = webView.scrollView
-
-            coordinator.scrollViewWillBeginDragging(scrollView)
-            #expect((began.value, ended.value) == (1, 0))
-            coordinator.scrollViewDidEndDragging(scrollView, willDecelerate: true)
-            #expect(ended.value == 0)
-            coordinator.scrollViewDidEndDragging(scrollView, willDecelerate: false)
-            #expect(ended.value == 1)
-            coordinator.scrollViewDidEndDecelerating(scrollView)
-            #expect(ended.value == 2)
         }
 
         @Test func longPressOnPlainCellRequestsNewAnnotation() async throws {

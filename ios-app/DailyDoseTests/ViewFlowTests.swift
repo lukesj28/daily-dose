@@ -6,10 +6,6 @@ import Testing
 
 private let currentIdKey = "DailyDose.currentDailyArticleId"
 
-private func size(_ width: CGFloat, _ height: CGFloat = 0) -> CGSize {
-    CGSize(width: width, height: height)
-}
-
 private func quoted(_ text: String) -> String { "\u{201C}\(text)\u{201D}" }
 
 private func note(_ section: String, _ index: Int, _ start: Int, _ length: Int = 1) -> Annotation {
@@ -26,62 +22,6 @@ private func note(_ section: String, _ index: Int, _ start: Int, _ length: Int =
 extension AppTests {
     @Suite struct ViewFlowTests {
         init() { UserDefaults.standard.removeObject(forKey: currentIdKey) }
-
-        // MARK: SaveSwipe
-
-        @Test func shortRightDragRevealsIconWithoutHapticThenHides() {
-            var swipe = SaveSwipe()
-            let change = swipe.changed(translation: size(80), tableScrolling: false)
-            #expect(change.showIcon)
-            #expect(!change.haptic)
-            #expect(swipe.ended(translation: size(80), tableScrolling: false) == .hide)
-        }
-
-        @Test func dragPastSaveDistanceMovesIconBuzzesAndSaves() {
-            var swipe = SaveSwipe()
-            _ = swipe.changed(translation: size(80), tableScrolling: false)
-            let change = swipe.changed(translation: size(120), tableScrolling: false)
-            #expect(change.moveIcon)
-            #expect(change.haptic)
-            #expect(swipe.ended(translation: size(120), tableScrolling: false) == .save)
-        }
-
-        @Test func crossingBackBelowSaveDistanceBuzzesAndHides() {
-            var swipe = SaveSwipe()
-            let first = swipe.changed(translation: size(120), tableScrolling: false)
-            #expect(first.showIcon && first.haptic)
-            #expect(swipe.changed(translation: size(90), tableScrolling: false).haptic)
-            #expect(swipe.ended(translation: size(90), tableScrolling: false) == .hide)
-        }
-
-        @Test func verticalDragIsIgnored() {
-            var swipe = SaveSwipe()
-            #expect(swipe.changed(translation: size(60, 200), tableScrolling: false) == SaveSwipe.Change())
-            #expect(swipe.ended(translation: size(60, 200), tableScrolling: false) == .ignore)
-        }
-
-        @Test func leftDragIsIgnored() {
-            var swipe = SaveSwipe()
-            #expect(swipe.changed(translation: size(-120), tableScrolling: false) == SaveSwipe.Change())
-            #expect(swipe.ended(translation: size(-120), tableScrolling: false) == .ignore)
-        }
-
-        @Test func tableScrollDuringDragCancelsSave() {
-            var swipe = SaveSwipe()
-            #expect(swipe.changed(translation: size(80), tableScrolling: true) == SaveSwipe.Change())
-            #expect(swipe.changed(translation: size(120), tableScrolling: false).showIcon)
-            #expect(swipe.ended(translation: size(120), tableScrolling: false) == .hide)
-        }
-
-        @Test func stateResetsAfterEveryDrag() {
-            var swipe = SaveSwipe()
-            _ = swipe.changed(translation: size(120), tableScrolling: false)
-            _ = swipe.ended(translation: size(120), tableScrolling: false)
-            #expect(!swipe.iconVisible)
-            let change = swipe.changed(translation: size(80), tableScrolling: false)
-            #expect(change.showIcon)
-            #expect(!change.haptic)
-        }
 
         // MARK: CacheManager
 

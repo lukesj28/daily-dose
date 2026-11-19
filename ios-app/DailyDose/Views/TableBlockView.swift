@@ -3,7 +3,6 @@ import WebKit
 
 struct TableBlockView: UIViewRepresentable {
     let html: String
-    @Binding var isScrolling: Bool
     var annotations: [Annotation] = []
     var highlightColorR: Double = 1.0
     var highlightColorG: Double = 0.93
@@ -26,7 +25,6 @@ struct TableBlockView: UIViewRepresentable {
         webView.scrollView.bounces = false
         webView.scrollView.maximumZoomScale = 1.0
         webView.navigationDelegate = context.coordinator
-        webView.scrollView.delegate = context.coordinator
 
         let longPress = UILongPressGestureRecognizer(
             target: context.coordinator,
@@ -39,8 +37,6 @@ struct TableBlockView: UIViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
-        context.coordinator.onScrollBegan = { isScrolling = true }
-        context.coordinator.onScrollEnded = { isScrolling = false }
         context.coordinator.annotations = annotations
         context.coordinator.highlightColorR = highlightColorR
         context.coordinator.highlightColorG = highlightColorG
@@ -117,7 +113,7 @@ struct TableBlockView: UIViewRepresentable {
         """
     }
 
-    class Coordinator: NSObject, WKNavigationDelegate, UIScrollViewDelegate {
+    class Coordinator: NSObject, WKNavigationDelegate {
         var lastHTML: String = ""
         var lastAnnotationIDs: [UUID] = []
         var lastHighlightR: Double = 1.0
@@ -128,8 +124,6 @@ struct TableBlockView: UIViewRepresentable {
         var highlightColorG: Double = 0.93
         var highlightColorB: Double = 0.27
         var pageLoaded = false
-        var onScrollBegan: () -> Void = {}
-        var onScrollEnded: () -> Void = {}
         var onAnnotateCell: ((Int, Int) -> Void)?
         var onEditAnnotation: ((Annotation) -> Void)?
         var onDeleteAnnotation: ((Annotation) -> Void)?
@@ -214,18 +208,6 @@ struct TableBlockView: UIViewRepresentable {
                     }
                 }
             }
-        }
-
-        func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-            onScrollBegan()
-        }
-
-        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-            if !decelerate { onScrollEnded() }
-        }
-
-        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-            onScrollEnded()
         }
     }
 }

@@ -3,10 +3,8 @@ import SwiftUI
 struct DisclaimerView: View {
     @AppStorage("hasAcceptedDisclaimer") private var hasAccepted = false
 
-    var body: some View {
+    private var notice: some View {
         VStack(spacing: 32) {
-            Spacer()
-
             Image(systemName: "cross.case")
                 .font(.system(size: 56))
                 .foregroundStyle(.secondary)
@@ -21,8 +19,15 @@ struct DisclaimerView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
+        }
+    }
 
-            Spacer()
+    var body: some View {
+        VStack(spacing: 32) {
+            ViewThatFits(in: .vertical) {
+                notice.frame(maxHeight: .infinity)
+                ScrollView { notice }
+            }
 
             Button {
                 hasAccepted = true
@@ -36,6 +41,7 @@ struct DisclaimerView: View {
             .buttonStyle(.borderedProminent)
             .tint(Color(.label))
         }
+        .frame(maxWidth: 560)
         .padding(24)
     }
 }

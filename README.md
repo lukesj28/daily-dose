@@ -32,7 +32,7 @@ To review, edit, or delete an annotation, simply tap on any custom highlighted s
 
 ### Saving to Your Library
 
-When you find an article you want to keep, you can save it to your local library. From the Daily tab, swipe right across the screen to toss the article into your collection.
+When you find an article you want to keep, you can save it to your local library. From the Daily tab, tap the **Save to Library** bookmark button in the navigation bar.
 
 ![Screenshot of the Library View](docs/screenshots/library.png)
 

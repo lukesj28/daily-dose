@@ -244,7 +244,6 @@ struct ArticleReaderView: View {
             if let html = block.html {
                 TableBlockView(
                     html: html,
-                    isScrolling: .constant(false),
                     annotations: cellAnnotations,
                     highlightColorR: highlightR,
                     highlightColorG: highlightG,
