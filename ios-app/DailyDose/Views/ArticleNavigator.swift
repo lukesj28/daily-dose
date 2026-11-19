@@ -454,7 +454,6 @@ enum AnnotationList {
         switch annotation.blockSection {
         case BlockSection.header:
             switch annotation.blockIndex {
-            case 0: sourceText = article.journal
             case 1: sourceText = article.title
             case 2: sourceText = article.authors.joined(separator: ", ")
             case 3: sourceText = article.formattedPublishDate

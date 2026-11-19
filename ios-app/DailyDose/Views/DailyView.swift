@@ -37,7 +37,7 @@ struct DailyView: View {
 
                 if cacheManager.isLoading && currentArticle == nil {
                     loadingState
-                } else if let article = currentArticle {
+                } else if let article = currentArticle, !article.isDeleted {
                     articleReader(article)
                 } else if cacheManager.isOffline {
                     messageState(systemImage: "wifi.slash", title: "No Connection",

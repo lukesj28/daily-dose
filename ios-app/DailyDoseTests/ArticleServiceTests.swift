@@ -56,5 +56,74 @@ extension AppTests {
             #expect(request.url?.query == nil)
             #expect(request.cachePolicy == .useProtocolCachePolicy)
         }
+
+        @Test func localOverrideLoadsFromFile() async throws {
+            let tempDir = FileManager.default.temporaryDirectory
+            let tempFile = tempDir.appendingPathComponent("override_test_\(UUID().uuidString).json")
+            try payloadJSON(id: "LOCAL-OVERRIDE").write(to: tempFile)
+            defer { try? FileManager.default.removeItem(at: tempFile) }
+
+            ArticleService.debugOverridePath = tempFile.path
+            defer { ArticleService.debugOverridePath = nil }
+
+            let payload = try await ArticleService().fetchTodayArticle()
+            #expect(payload.id == "LOCAL-OVERRIDE")
+        }
+
+        @Test func localOverrideHonorsEnvironmentVariable() async throws {
+            let tempDir = FileManager.default.temporaryDirectory
+            let tempFile = tempDir.appendingPathComponent("override_env_\(UUID().uuidString).json")
+            try payloadJSON(id: "ENV-OVERRIDE").write(to: tempFile)
+            defer { try? FileManager.default.removeItem(at: tempFile) }
+
+            let orig = ProcessInfo.processInfo.environment["DAILY_DOSE_ARTICLE"]
+            setenv("DAILY_DOSE_ARTICLE", tempFile.path, 1)
+            defer {
+                if let orig { setenv("DAILY_DOSE_ARTICLE", orig, 1) } else { unsetenv("DAILY_DOSE_ARTICLE") }
+            }
+
+            let payload = try await ArticleService().fetchTodayArticle()
+            #expect(payload.id == "ENV-OVERRIDE")
+        }
+
+        @Test func localOverrideHonorsLaunchArgument() async throws {
+            let tempDir = FileManager.default.temporaryDirectory
+            let tempFile = tempDir.appendingPathComponent("override_arg_\(UUID().uuidString).json")
+            try payloadJSON(id: "ARG-OVERRIDE").write(to: tempFile)
+            defer { try? FileManager.default.removeItem(at: tempFile) }
+
+            UserDefaults.standard.set(tempFile.path, forKey: "article")
+            defer { UserDefaults.standard.removeObject(forKey: "article") }
+
+            let payload = try await ArticleService().fetchTodayArticle()
+            #expect(payload.id == "ARG-OVERRIDE")
+        }
+
+        @Test func localOverrideNotFoundThrowsError() async {
+            ArticleService.debugOverridePath = "/nonexistent/path/to/missing.json"
+            defer { ArticleService.debugOverridePath = nil }
+
+            do {
+                _ = try await ArticleService().fetchTodayArticle()
+                Issue.record("expected throw")
+            } catch let error as ArticleService.ServiceError {
+                guard case .localOverrideNotFound(let path) = error else {
+                    Issue.record("wrong error case: \(error)")
+                    return
+                }
+                #expect(path == "/nonexistent/path/to/missing.json")
+            } catch {
+                Issue.record("unexpected error: \(error)")
+            }
+        }
+
+        @Test func localOverrideResolvesPublicTestJson() async throws {
+            ArticleService.debugOverridePath = "test.json"
+            defer { ArticleService.debugOverridePath = nil }
+
+            let payload = try await ArticleService().fetchTodayArticle()
+            #expect(payload.id == "TEST-001")
+            #expect(payload.title.contains("Gut Microbiome"))
+        }
     }
 }

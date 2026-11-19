@@ -64,6 +64,19 @@
             ReferencedContainer = "container:DailyDose.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-article $(PROJECT_DIR)/../public/test.json"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "DAILY_DOSE_ARTICLE"
+            value = "$(PROJECT_DIR)/../public/test.json"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

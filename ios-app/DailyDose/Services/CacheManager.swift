@@ -51,8 +51,8 @@ final class CacheManager {
 
     @MainActor
     func currentArticle(in articles: [Article]) -> Article? {
-        if let id = currentDailyId { return articles.first { $0.id == id } }
-        return articles.first { !$0.isSavedToLibrary }
+        if let id = currentDailyId { return articles.first { $0.id == id && !$0.isDeleted } }
+        return articles.first { !$0.isSavedToLibrary && !$0.isDeleted }
     }
 
     @MainActor

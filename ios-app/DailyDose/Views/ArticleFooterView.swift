@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import SwiftData
 
 struct ArticleFooterView: View {
     let article: Article
@@ -10,12 +11,16 @@ struct ArticleFooterView: View {
     var onEditAnnotation: ((Annotation) -> Void)? = nil
     var onDeleteAnnotation: ((Annotation) -> Void)? = nil
 
+    @ViewBuilder
     var body: some View {
-        let byIndex = Dictionary(
-            grouping: article.annotations.filter { $0.blockSection == BlockSection.footer && $0.isTextAnnotation },
-            by: \.blockIndex
-        )
-        return VStack(alignment: .leading, spacing: 12) {
+        if article.isDeleted {
+            EmptyView()
+        } else {
+            let byIndex = Dictionary(
+                grouping: article.annotations.filter { $0.blockSection == BlockSection.footer && $0.isTextAnnotation },
+                by: \.blockIndex
+            )
+            VStack(alignment: .leading, spacing: 12) {
             Divider()
 
             if !article.authors.isEmpty {
@@ -84,4 +89,5 @@ struct ArticleFooterView: View {
         }
         .padding(.top, 24)
     }
+}
 }
