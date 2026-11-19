@@ -33,6 +33,9 @@ jobs:
       - name: Ensure .nojekyll exists
         run: touch public/.nojekyll
 
+      - name: Copy static pages
+        run: cp site/*.html public/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:

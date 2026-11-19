@@ -63,6 +63,8 @@ struct SettingsView: View {
                     NavigationLink("About Daily Dose") {
                         AboutView()
                     }
+                    Link("Privacy Policy", destination: URL(string: ArticleService.baseURL + "/privacy.html")!)
+                    Link("Contact Support", destination: URL(string: "mailto:help@sanjuan.dev")!)
                 }
             }
             .navigationTitle("Settings")
