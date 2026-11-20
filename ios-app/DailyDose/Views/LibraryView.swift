@@ -75,9 +75,9 @@ struct LibraryView: View {
 
                 Spacer()
 
-                Text(article.fetchDate)
+                Text(article.formattedFetchDate)
                     .font(.caption2)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.secondary)
             }
 
             let annotationCount = article.annotations.count
@@ -107,19 +107,10 @@ struct LibraryView: View {
     // MARK: - Empty State
 
     private var emptyLibrary: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "books.vertical")
-                .font(.system(size: 48))
-                .foregroundStyle(.secondary)
-                .accessibilityHidden(true)
-            Text("No Saved Articles")
-                .font(.title2)
-                .fontWeight(.bold)
-            Text("Articles you save from the Daily tab\nwill appear here.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ContentUnavailableView(
+            "No Saved Articles",
+            systemImage: "books.vertical",
+            description: Text("Articles you save from the Daily tab\nwill appear here.")
+        )
     }
 }

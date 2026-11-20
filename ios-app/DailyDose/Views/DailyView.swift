@@ -33,6 +33,8 @@ struct DailyView: View {
                                  message: "Try again, or wait\nfor tomorrow's delivery.")
                 }
             }
+            .toolbar(.visible, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
             .refreshable { await refresh() }
         }
         .onAppear {
@@ -61,38 +63,22 @@ struct DailyView: View {
     // MARK: - States
 
     private var loadingState: some View {
-        VStack(spacing: 16) {
-            ProgressView()
-                .controlSize(.large)
-            Text("Fetching today's science...")
-                .font(.headline)
-                .foregroundStyle(.secondary)
-        }
+        ArticleSkeletonView()
     }
 
     private func messageState(systemImage: String, title: LocalizedStringKey, message: LocalizedStringKey) -> some View {
         ScrollView {
-            VStack(spacing: 16) {
-                Image(systemName: systemImage)
-                    .font(.system(size: 48))
-                    .foregroundStyle(.secondary)
-                    .accessibilityHidden(true)
-                Text(title)
-                    .font(.title2)
-                    .fontWeight(.bold)
+            ContentUnavailableView {
+                Label(title, systemImage: systemImage)
+            } description: {
                 Text(message)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-
+            } actions: {
                 Button("Try Again") {
                     Task { await refresh() }
                 }
                 .buttonStyle(.bordered)
                 .disabled(cacheManager.isLoading)
             }
-            .frame(maxWidth: .infinity)
-            .padding()
             .containerRelativeFrame(.vertical)
         }
     }

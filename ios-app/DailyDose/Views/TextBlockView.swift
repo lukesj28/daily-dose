@@ -13,6 +13,7 @@ struct TextBlockView: UIViewRepresentable {
     var baseFontWeight: UIFont.Weight? = nil
     var textColor: UIColor = .label
     var enableMarkdown: Bool = true
+    var lineSpacingRatio: CGFloat = 0
     let onAnnotate: (NSRange) -> Void
     let onEditAnnotation: (Annotation) -> Void
     let onDeleteAnnotation: (Annotation) -> Void
@@ -34,7 +35,6 @@ struct TextBlockView: UIViewRepresentable {
         textView.textContainerInset = .zero
         textView.textContainer.lineFragmentPadding = 0
         textView.backgroundColor = .clear
-        textView.tintColor = .systemBlue
         textView.adjustsFontForContentSizeCategory = true
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.delegate = context.coordinator
@@ -63,6 +63,11 @@ struct TextBlockView: UIViewRepresentable {
         let font = resolvedFont()
         let attributedText = enableMarkdown ? parseMarkdown(text, font: font) : plainText(text, font: font)
         let mutableAttr = NSMutableAttributedString(attributedString: attributedText)
+        if lineSpacingRatio > 0 {
+            let paragraph = NSMutableParagraphStyle()
+            paragraph.lineSpacing = font.pointSize * lineSpacingRatio
+            mutableAttr.addAttribute(.paragraphStyle, value: paragraph, range: NSRange(location: 0, length: mutableAttr.length))
+        }
         for annotation in annotations where annotation.isTextAnnotation {
             let range = annotation.range
             if range.location + range.length <= mutableAttr.length {

@@ -67,6 +67,12 @@ extension AppTests {
             #expect(makeArticle(id: "a", publishDate: "").formattedPublishDate == "")
         }
 
+        @Test func formattedFetchDateMatchesPublishDateStyle() {
+            let article = makeArticle(id: "a", fetchDate: "2024-05-12", publishDate: "2024-05-12")
+            #expect(article.formattedFetchDate == article.formattedPublishDate)
+            #expect(article.formattedFetchDate != "2024-05-12")
+        }
+
         @Test func deletingArticleCascadesToItsAnnotations() throws {
             let context = try makeContext()
             let article = makeArticle(id: "PMC1", saved: true)

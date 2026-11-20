@@ -62,7 +62,7 @@ struct ArticleHeaderView: View {
                     text: article.formattedPublishDate,
                     annotations: byIndex[3, default: []],
                     baseFont: UIFont.preferredFont(forTextStyle: .caption1),
-                    textColor: .tertiaryLabel,
+                    textColor: .secondaryLabel,
                     enableMarkdown: false,
                     onAnnotate: { range in
                         onAnnotate?(.text(section: BlockSection.header, index: 3, range: range))

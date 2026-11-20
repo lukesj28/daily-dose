@@ -63,19 +63,23 @@ final class Article {
         return payload.content
     }
 
-    var formattedPublishDate: String {
-        guard let date = Article.publishDateParser.date(from: publishDate) else { return publishDate }
-        return Article.publishDateDisplay.string(from: date)
+    var formattedPublishDate: String { Self.displayDate(publishDate) }
+
+    var formattedFetchDate: String { Self.displayDate(fetchDate) }
+
+    private static func displayDate(_ string: String) -> String {
+        guard let date = dayParser.date(from: string) else { return string }
+        return mediumDateDisplay.string(from: date)
     }
 
-    private static let publishDateParser: DateFormatter = {
+    private static let dayParser: DateFormatter = {
         let f = DateFormatter()
         f.dateFormat = "yyyy-MM-dd"
         f.locale = Locale(identifier: "en_US_POSIX")
         return f
     }()
 
-    private static let publishDateDisplay: DateFormatter = {
+    private static let mediumDateDisplay: DateFormatter = {
         let f = DateFormatter()
         f.dateStyle = .medium
         return f

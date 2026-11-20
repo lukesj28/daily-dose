@@ -29,15 +29,15 @@ struct ArticleReaderView: View {
                         onEditAnnotation: handleEdit,
                         onDeleteAnnotation: handleDelete
                     )
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
+                    .padding(.horizontal, ReadingLayout.gutter)
+                    .padding(.bottom, ReadingLayout.headerSpacing)
 
                     Divider()
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 20)
+                        .padding(.horizontal, ReadingLayout.gutter)
+                        .padding(.bottom, ReadingLayout.dividerSpacing)
 
                     contentBlocks
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, ReadingLayout.gutter)
 
                     ArticleFooterView(
                         article: article,
@@ -45,12 +45,12 @@ struct ArticleReaderView: View {
                         onEditAnnotation: handleEdit,
                         onDeleteAnnotation: handleDelete
                     )
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, ReadingLayout.gutter)
                 }
                 .coordinateSpace(.named("articleContent"))
-                .padding(.top, 16)
+                .padding(.top, ReadingLayout.topInset)
                 .padding(.bottom, 40)
-                .frame(maxWidth: 680)
+                .frame(maxWidth: ReadingLayout.maxWidth)
                 .frame(maxWidth: .infinity)
             }
             .onScrollGeometryChange(for: Int?.self) { geometry in
@@ -171,6 +171,7 @@ struct ArticleReaderView: View {
                 annotations: textAnnotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
+                lineSpacingRatio: 0.3,
                 onAnnotate: { range in
                     handleAnnotate(.text(section: BlockSection.content, index: block.index, range: range))
                 },
@@ -327,4 +328,12 @@ final class SectionTracker {
         }
         return best?.index
     }
+}
+
+enum ReadingLayout {
+    static let maxWidth: CGFloat = 680
+    static let gutter: CGFloat = 20
+    static let topInset: CGFloat = 16
+    static let headerSpacing: CGFloat = 24
+    static let dividerSpacing: CGFloat = 20
 }

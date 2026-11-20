@@ -2,11 +2,12 @@ import SwiftUI
 
 struct DisclaimerView: View {
     @AppStorage("hasAcceptedDisclaimer") private var hasAccepted = false
+    @ScaledMetric(relativeTo: .largeTitle) private var iconSize = 56
 
     private var notice: some View {
         VStack(spacing: 32) {
             Image(systemName: "cross.case")
-                .font(.system(size: 56))
+                .font(.system(size: iconSize))
                 .foregroundStyle(.secondary)
                 .accessibilityHidden(true)
 

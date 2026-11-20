@@ -25,8 +25,11 @@ struct ImageBlockView: View {
                     .background(Color(.systemGray6))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 case .empty:
-                    ProgressView()
-                        .frame(maxWidth: .infinity, minHeight: 100)
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.fill.tertiary)
+                        .aspectRatio(4 / 3, contentMode: .fit)
+                        .shimmering()
+                        .accessibilityLabel("Loading image")
                 @unknown default:
                     EmptyView()
                 }
