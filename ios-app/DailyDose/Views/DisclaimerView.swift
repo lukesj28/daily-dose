@@ -15,6 +15,7 @@ struct DisclaimerView: View {
                 Text("Important Notice")
                     .font(.title)
                     .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
 
                 Text("This application is for informational and educational purposes only. It does not constitute professional medical advice, diagnosis, or treatment. Always seek the advice of a physician or other qualified health provider with any questions you may have regarding a medical condition.")
                     .font(.body)

@@ -38,6 +38,7 @@ struct TableBlockView: UIViewRepresentable {
         context.coordinator.onAnnotateCell = onAnnotateCell
         context.coordinator.onEditAnnotation = onEditAnnotation
         context.coordinator.onDeleteAnnotation = onDeleteAnnotation
+        webView.accessibilityCustomActions = context.coordinator.accessibilityActions(for: webView)
 
         let highlightKeys = annotations.map(\.highlightKey)
         let htmlChanged = html != context.coordinator.lastHTML
@@ -177,11 +178,62 @@ struct TableBlockView: UIViewRepresentable {
                       let col = dict["col"] as? Int,
                       row >= 0, col >= 0 else { return }
 
+                DispatchQueue.main.async { self.openNote(row: row, col: col) }
+            }
+        }
+
+        private func openNote(row: Int, col: Int) {
+            if let existing = annotations.first(where: { $0.isCellAnnotation && $0.cellRow == row && $0.cellColumn == col }) {
+                onEditAnnotation?(existing)
+            } else {
+                onAnnotateCell?(row, col)
+            }
+        }
+
+        func accessibilityActions(for webView: WKWebView) -> [UIAccessibilityCustomAction] {
+            let add = UIAccessibilityCustomAction(name: "Add Note to Cell") { [weak self, weak webView] _ in
+                guard let self, let webView else { return false }
+                self.promptForCell(in: webView)
+                return true
+            }
+            let edits = annotations.filter(\.isCellAnnotation).map { note in
+                UIAccessibilityCustomAction(name: "Edit Note, row \(note.cellRow + 1), column \(note.cellColumn + 1)") { [weak self] _ in
+                    self?.onEditAnnotation?(note)
+                    return true
+                }
+            }
+            return [add] + edits
+        }
+
+        private func promptForCell(in webView: WKWebView) {
+            guard let vc = sequence(first: webView as UIResponder, next: \.next)
+                .first(where: { $0 is UIViewController }) as? UIViewController else { return }
+            let alert = UIAlertController(title: "Add Note to Cell", message: "Enter the row and column numbers.", preferredStyle: .alert)
+            for placeholder in ["Row", "Column"] {
+                alert.addTextField {
+                    $0.placeholder = placeholder
+                    $0.keyboardType = .numberPad
+                }
+            }
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Add", style: .default) { [weak self, weak webView, weak alert] _ in
+                guard let self, let webView,
+                      let row = Int(alert?.textFields?[0].text ?? ""),
+                      let col = Int(alert?.textFields?[1].text ?? ""),
+                      row > 0, col > 0 else { return }
+                self.addNote(row: row - 1, col: col - 1, in: webView)
+            })
+            (vc.presentedViewController ?? vc).present(alert, animated: true)
+        }
+
+        private func addNote(row: Int, col: Int, in webView: WKWebView) {
+            let script = "(function() { var r = document.querySelectorAll('tr')[\(row)]; return !!r && !!r.querySelectorAll('td, th')[\(col)]; })()"
+            webView.evaluateJavaScript(script) { [weak self] result, _ in
                 DispatchQueue.main.async {
-                    if let existing = self.annotations.first(where: { $0.isCellAnnotation && $0.cellRow == row && $0.cellColumn == col }) {
-                        self.onEditAnnotation?(existing)
+                    if result as? Bool == true {
+                        self?.openNote(row: row, col: col)
                     } else {
-                        self.onAnnotateCell?(row, col)
+                        UIAccessibility.post(notification: .announcement, argument: "That cell doesn't exist")
                     }
                 }
             }

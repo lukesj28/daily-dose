@@ -6,6 +6,7 @@ struct LibraryView: View {
     @Environment(CacheManager.self) private var cacheManager
 
     @State private var showSettings = false
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @Query(
         filter: #Predicate<Article> { $0.isSavedToLibrary == true },
@@ -61,17 +62,17 @@ struct LibraryView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
                 .textCase(.uppercase)
-                .lineLimit(1)
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
 
             Text(article.title)
                 .font(.headline)
-                .lineLimit(2)
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
 
             HStack {
                 Text(article.authors.prefix(3).joined(separator: ", "))
                     .font(.caption)
-                    .foregroundStyle(.tertiary)
-                    .lineLimit(1)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
 
                 Spacer()
 

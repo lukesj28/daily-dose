@@ -18,8 +18,78 @@ struct ArticleReaderView: View {
     @State private var currentMatchIndex: Int = 0
     @State private var showNavigator = false
     @State private var sectionTracker = SectionTracker()
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
+    private var isSearchActive: Bool {
+        !searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    private func searchBar(proxy: ScrollViewProxy) -> some View {
+        let hasMatches = !searchMatches.isEmpty
+        return GlassEffectContainer {
+            HStack(spacing: 8) {
+                Text(hasMatches ? "\(currentMatchIndex + 1) of \(searchMatches.count)" : "No Matches")
+                    .font(.subheadline.monospacedDigit())
+                    .foregroundStyle(hasMatches ? .primary : .secondary)
+                    .contentTransition(.numericText())
+                    .lineLimit(1)
+                    .padding(.horizontal, 16)
+                    .frame(minHeight: 44)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .glassEffect(.regular, in: .capsule)
+                    .accessibilityAddTraits(.updatesFrequently)
+
+                HStack(spacing: 0) {
+                    Button("Previous Match", systemImage: "chevron.up") { stepMatch(-1, proxy: proxy) }
+                        .keyboardShortcut("g", modifiers: [.command, .shift])
+                        .frame(width: 44, height: 44)
+                    Button("Next Match", systemImage: "chevron.down") { stepMatch(1, proxy: proxy) }
+                        .keyboardShortcut("g", modifiers: .command)
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.borderless)
+                .disabled(!hasMatches)
+                .padding(.horizontal, 4)
+                .glassEffect(.regular.interactive(), in: .capsule)
+
+                Button("Done", systemImage: "xmark") { searchQuery = "" }
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.circle)
+                    .controlSize(.large)
+                    .keyboardShortcut(.cancelAction)
+            }
+            .labelStyle(.iconOnly)
+            .font(.body.weight(.medium))
+        }
+        .tint(.primary)
+        .sensoryFeedback(.selection, trigger: currentMatchIndex)
+        .frame(maxWidth: ReadingLayout.maxWidth)
+        .padding(.horizontal, ReadingLayout.gutter)
+        .padding(.bottom, 8)
+        .transition(.move(edge: .bottom).combined(with: .opacity))
+    }
+
+    private func stepMatch(_ delta: Int, proxy: ScrollViewProxy) {
+        guard !searchMatches.isEmpty else { return }
+        let next = (currentMatchIndex + delta + searchMatches.count) % searchMatches.count
+        let blockIndex = searchMatches[next].blockIndex
+        withAnimation(reduceMotion ? nil : .default) {
+            currentMatchIndex = next
+            proxy.scrollTo(ContentBlock.scrollID(forIndex: blockIndex), anchor: UnitPoint(x: 0.5, y: 0.2))
+        }
+    }
+
+    @ViewBuilder
     var body: some View {
+        if article.isDeleted {
+            EmptyView()
+        } else {
+            reader
+        }
+    }
+
+    private var reader: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
@@ -58,6 +128,12 @@ struct ArticleReaderView: View {
             } action: { _, index in
                 sectionTracker.currentIndex = index
             }
+            .safeAreaInset(edge: .bottom) {
+                if isSearchActive && !showNavigator {
+                    searchBar(proxy: proxy)
+                }
+            }
+            .animation(reduceMotion ? nil : .smooth, value: isSearchActive && !showNavigator)
             .toolbar {
                 if showsSaveButton {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -108,7 +184,7 @@ struct ArticleReaderView: View {
                 },
                 onDelete: draft.editing.map { editing in { handleDelete(editing) } }
             )
-            .presentationDetents([.medium, .large])
+            .presentationDetents(dynamicTypeSize.isAccessibilitySize ? [.large] : [.medium, .large])
         }
     }
 

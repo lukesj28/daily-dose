@@ -69,5 +69,23 @@ extension AppTests {
 
             try await waitForTexts(controller, ["Title LIB", "Intro", "The cat sat"])
         }
+
+        @Test func readerSurvivesItsArticleBeingDeleted() async throws {
+            let context = try makeContext()
+            let article = makeArticle(id: "GONE", saved: false)
+            context.insert(article)
+            try context.save()
+            let view = NavigationStack { ArticleReaderView(article: article) }
+                .modelContainer(context.container)
+                .environment(CacheManager())
+            let (window, controller) = host(view)
+            defer { window.isHidden = true }
+            try await waitForTexts(controller, ["Title GONE"])
+
+            context.delete(article)
+            try context.save()
+            try await Task.sleep(for: .milliseconds(300))
+            window.layoutIfNeeded()
+        }
     }
 }

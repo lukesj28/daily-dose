@@ -65,6 +65,7 @@ struct ArticleNavigator: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var mode: Mode = .sections
     @State private var colorFilter: HighlightColor?
+    @ScaledMetric(relativeTo: .body) private var idealHeight: CGFloat = 460
 
     enum Mode: CaseIterable, Identifiable {
         case sections, annotations
@@ -109,7 +110,7 @@ struct ArticleNavigator: View {
             }
             .frame(maxHeight: .infinity)
         }
-        .frame(idealWidth: 440, idealHeight: 460)
+        .frame(idealWidth: 440, idealHeight: idealHeight)
     }
 
     private var searchField: some View {

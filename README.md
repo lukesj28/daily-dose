@@ -23,8 +23,8 @@ Each day, a new scientific article is ready for you in the **Daily** tab. The ap
 ### Highlighting and Annotating
 
 You can highlight and add personal notes to passages you find interesting:
-- **Text**: Use the standard text selection to highlight a sentence, then choose "Annotate" from the menu to add your thoughts.
-- **Tables and Math**: Tap on a specific table cell or mathematical equation to attach a note directly to it. 
+- **Text**: Use the standard text selection to highlight a sentence, then choose "Add Note" from the menu to add your thoughts.
+- **Tables and Math**: Long-press a table cell or mathematical equation to attach a note directly to it. Pick a highlight colour for each note in the note sheet. 
 
 ![Screenshot of an Annotation Example](docs/screenshots/annotation.png)
 
@@ -39,7 +39,7 @@ When you find an article you want to keep, you can save it to your local library
 ### The Library Tab
 Your saved articles are stored chronologically in the **Library** tab. Here you can review your saved articles, see how many notes you took for each, dive back into reading them at any time, or delete them when you're finished. 
 
-From the Library tab, you can also open **Settings** to adjust your preferred highlight color, read the About page, view the Privacy Policy, or contact support. The app follows your device's Light or Dark appearance.
+From the Library tab, you can also open **Settings** to read the About page, view the Privacy Policy, or contact support. The app follows your device's Light or Dark appearance.
 
 ## Developer Setup & Installation
 

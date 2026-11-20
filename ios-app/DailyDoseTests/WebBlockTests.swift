@@ -134,6 +134,21 @@ extension AppTests {
             #expect(annotated.value == nil)
         }
 
+        @Test func tableOffersVoiceOverNoteActions() async throws {
+            let existing = makeAnnotation(.cell(index: 3, row: 1, col: 0))
+            let (window, webView) = try await hostTable(annotations: [existing])
+            defer { window.isHidden = true }
+            let coordinator = try #require(webView.navigationDelegate as? TableBlockView.Coordinator)
+            let edited = Box<Annotation>()
+            coordinator.onEditAnnotation = { edited.value = $0 }
+
+            let names = webView.accessibilityCustomActions?.map(\.name)
+            #expect(names == ["Add Note to Cell", "Edit Note, row 2, column 1"])
+            let edit = try #require(webView.accessibilityCustomActions?.last)
+            _ = edit.actionHandler?(edit)
+            #expect(edited.value?.id == existing.id)
+        }
+
         @Test func tableNavigationPolicyIsRegisteredWithWebKit() async throws {
             let (window, webView) = try await hostTable()
             defer { window.isHidden = true }
