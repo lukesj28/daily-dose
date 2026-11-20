@@ -7,16 +7,11 @@ struct ArticleReaderView: View {
     @Environment(CacheManager.self) private var cacheManager
     @Environment(SaveNotifier.self) private var saveNotifier: SaveNotifier?
 
-    @AppStorage("highlightColorR") private var highlightR: Double = 1.0
-    @AppStorage("highlightColorG") private var highlightG: Double = 0.93
-    @AppStorage("highlightColorB") private var highlightB: Double = 0.27
-
     let article: Article
     var showsSaveButton = false
 
-    @State private var showAnnotationSheet = false
-    @State private var pendingAnnotation: PendingAnnotation?
-    @State private var editingAnnotation: Annotation?
+    @State private var noteDraft: NoteDraft?
+    @AppStorage("lastHighlightColor") private var lastColor: HighlightColor = .yellow
 
     @State private var searchQuery: String = ""
     @State private var searchMatches: [SearchMatch] = []
@@ -30,9 +25,6 @@ struct ArticleReaderView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ArticleHeaderView(
                         article: article,
-                        highlightColorR: highlightR,
-                        highlightColorG: highlightG,
-                        highlightColorB: highlightB,
                         onAnnotate: handleAnnotate,
                         onEditAnnotation: handleEdit,
                         onDeleteAnnotation: handleDelete
@@ -49,9 +41,6 @@ struct ArticleReaderView: View {
 
                     ArticleFooterView(
                         article: article,
-                        highlightColorR: highlightR,
-                        highlightColorG: highlightG,
-                        highlightColorB: highlightB,
                         onAnnotate: handleAnnotate,
                         onEditAnnotation: handleEdit,
                         onDeleteAnnotation: handleDelete
@@ -102,27 +91,24 @@ struct ArticleReaderView: View {
             searchMatches = SearchMatch.compute(query: searchQuery, blocks: article.contentBlocks)
             currentMatchIndex = 0
         }
-        .sheet(isPresented: $showAnnotationSheet) {
+        .sheet(item: $noteDraft) { draft in
             AnnotationSheet(
-                noteText: editingAnnotation?.noteText ?? "",
-                onSave: { text in
-                    if let editing = editingAnnotation {
-                        editing.noteText = text
-                        cacheManager.save(modelContext)
-                    } else if let pending = pendingAnnotation {
-                        let annotation = Annotation(pending: pending, noteText: text, article: article)
-                        modelContext.insert(annotation)
-                        cacheManager.save(modelContext)
+                quote: AnnotationList.snippet(for: draft.anchor, in: article),
+                noteText: draft.editing?.noteText ?? "",
+                color: draft.editing?.highlightColor ?? lastColor,
+                onSave: { text, color in
+                    if let note = draft.editing ?? article.annotation(at: draft.anchor) {
+                        note.noteText = text
+                        note.highlightColor = color
+                    } else {
+                        modelContext.insert(Annotation(pending: draft.anchor, noteText: text, color: color, article: article))
                     }
-                    resetAnnotationState()
-                },
-                onDelete: editingAnnotation.map { editing in {
-                    modelContext.delete(editing)
                     cacheManager.save(modelContext)
-                    resetAnnotationState()
-                }}
+                    lastColor = color
+                },
+                onDelete: draft.editing.map { editing in { handleDelete(editing) } }
             )
-            .presentationDetents([.medium])
+            .presentationDetents([.medium, .large])
         }
     }
 
@@ -163,9 +149,6 @@ struct ArticleReaderView: View {
                 annotations: textAnnotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
-                highlightColorR: highlightR,
-                highlightColorG: highlightG,
-                highlightColorB: highlightB,
                 baseFont: UIFont.preferredFont(forTextStyle: .title2),
                 baseFontWeight: .bold,
                 enableMarkdown: false,
@@ -188,9 +171,6 @@ struct ArticleReaderView: View {
                 annotations: textAnnotations,
                 searchRanges: matchesByBlock[block.index] ?? [],
                 currentSearchRange: searchMatches.currentRange(at: currentMatchIndex, forBlock: block.index),
-                highlightColorR: highlightR,
-                highlightColorG: highlightG,
-                highlightColorB: highlightB,
                 onAnnotate: { range in
                     handleAnnotate(.text(section: BlockSection.content, index: block.index, range: range))
                 },
@@ -203,9 +183,6 @@ struct ArticleReaderView: View {
                 MathBlockView(
                     mathml: mathml,
                     annotation: equationAnnotation,
-                    highlightColorR: highlightR,
-                    highlightColorG: highlightG,
-                    highlightColorB: highlightB,
                     onAnnotate: {
                         handleAnnotate(.equation(index: block.index))
                     },
@@ -232,9 +209,6 @@ struct ArticleReaderView: View {
                 TextBlockView(
                     text: caption,
                     annotations: textAnnotations,
-                    highlightColorR: highlightR,
-                    highlightColorG: highlightG,
-                    highlightColorB: highlightB,
                     baseFont: UIFont.preferredFont(forTextStyle: .caption1),
                     textColor: .secondaryLabel,
                     enableMarkdown: false,
@@ -258,9 +232,6 @@ struct ArticleReaderView: View {
                 TextBlockView(
                     text: caption,
                     annotations: textAnnotations,
-                    highlightColorR: highlightR,
-                    highlightColorG: highlightG,
-                    highlightColorB: highlightB,
                     baseFont: UIFont.preferredFont(forTextStyle: .caption1),
                     baseFontWeight: .semibold,
                     textColor: .secondaryLabel,
@@ -277,9 +248,6 @@ struct ArticleReaderView: View {
                 TableBlockView(
                     html: html,
                     annotations: cellAnnotations,
-                    highlightColorR: highlightR,
-                    highlightColorG: highlightG,
-                    highlightColorB: highlightB,
                     onAnnotateCell: { row, col in
                         handleAnnotate(.cell(index: block.index, row: row, col: col))
                     },
@@ -296,15 +264,15 @@ struct ArticleReaderView: View {
     // MARK: - Annotation Helpers
 
     private func handleAnnotate(_ pending: PendingAnnotation) {
-        pendingAnnotation = pending
-        editingAnnotation = nil
-        showAnnotationSheet = true
+        if let existing = article.annotation(at: pending) {
+            handleEdit(existing)
+        } else {
+            noteDraft = NoteDraft(target: .new(pending))
+        }
     }
 
     private func handleEdit(_ annotation: Annotation) {
-        editingAnnotation = annotation
-        pendingAnnotation = nil
-        showAnnotationSheet = true
+        noteDraft = NoteDraft(target: .edit(annotation))
     }
 
     private func handleDelete(_ annotation: Annotation) {
@@ -321,11 +289,26 @@ struct ArticleReaderView: View {
             saveNotifier.didSave = false
         }
     }
+}
 
-    private func resetAnnotationState() {
-        pendingAnnotation = nil
-        editingAnnotation = nil
-        showAnnotationSheet = false
+private struct NoteDraft: Identifiable {
+    enum Target {
+        case new(PendingAnnotation)
+        case edit(Annotation)
+    }
+
+    let id = UUID()
+    let target: Target
+
+    var editing: Annotation? {
+        if case .edit(let annotation) = target { annotation } else { nil }
+    }
+
+    var anchor: PendingAnnotation {
+        switch target {
+        case .new(let pending): pending
+        case .edit(let annotation): annotation.anchor
+        }
     }
 }
 

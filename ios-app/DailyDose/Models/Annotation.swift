@@ -1,12 +1,12 @@
 import Foundation
 import SwiftData
 
-enum BlockSection {
+nonisolated enum BlockSection {
     static let header = "header"
     static let content = "content"
     static let footer = "footer"
 
-    nonisolated static func scrollID(_ section: String, _ index: Int) -> String { "\(section)_\(index)" }
+    static func scrollID(_ section: String, _ index: Int) -> String { "\(section)_\(index)" }
 }
 
 @Model
@@ -19,6 +19,7 @@ final class Annotation {
     var cellRow: Int
     var cellColumn: Int
     var noteText: String
+    var colorName: String = HighlightColor.yellow.rawValue
 
     var article: Article?
 
@@ -50,7 +51,19 @@ final class Annotation {
 
     var scrollID: String { BlockSection.scrollID(blockSection, blockIndex) }
 
+    var highlightColor: HighlightColor {
+        get { HighlightColor(rawValue: colorName) ?? .yellow }
+        set { colorName = newValue.rawValue }
+    }
+
+    var highlightKey: HighlightKey { HighlightKey(id: id, color: highlightColor) }
+
     var isTextAnnotation: Bool { cellRow < 0 && startIndex >= 0 && length > 0 }
     var isCellAnnotation: Bool { cellRow >= 0 }
     var isEquationAnnotation: Bool { startIndex < 0 }
+}
+
+struct HighlightKey: Hashable {
+    let id: UUID
+    let color: HighlightColor
 }

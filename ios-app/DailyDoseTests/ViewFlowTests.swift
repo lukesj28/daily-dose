@@ -102,6 +102,29 @@ extension AppTests {
             #expect(sorted.map(\.id) == [header1, content1, content5Early, content5Late, footer0].map(\.id))
         }
 
+        @Test func articleFindsAnnotationOnlyAtTheExactSameAnchor() {
+            let article = makeArticle(id: "PMC1")
+            let test = note("content", 1, 4, 4)
+            let cell = makeAnnotation(.cell(index: 3, row: 0, col: 1))
+            let equation = makeAnnotation(.equation(index: 4))
+            article.annotations = [test, cell, equation]
+            #expect(article.annotation(at: .text(section: "content", index: 1, range: NSRange(location: 4, length: 4)))?.id == test.id)
+            #expect(article.annotation(at: .text(section: "content", index: 1, range: NSRange(location: 0, length: 8))) == nil)
+            #expect(article.annotation(at: .text(section: "header", index: 1, range: NSRange(location: 4, length: 4))) == nil)
+            #expect(article.annotation(at: .cell(index: 3, row: 0, col: 1))?.id == cell.id)
+            #expect(article.annotation(at: .equation(index: 4))?.id == equation.id)
+        }
+
+        @Test func colorsInUseAreListedInPaletteOrder() {
+            let pink = note("content", 1, 0)
+            pink.highlightColor = .pink
+            let green = note("content", 2, 0)
+            green.highlightColor = .green
+            let alsoPink = note("content", 3, 0)
+            alsoPink.highlightColor = .pink
+            #expect(AnnotationList.colors(in: [pink, green, alsoPink]) == [.green, .pink])
+        }
+
         @Test func annotationSnippetQuotesHeaderAndFooterText() {
             let article = makeArticle(id: "PMC1", authors: ["Jane Smith"])
             #expect(AnnotationList.snippet(for: note("header", 1, 0, 5), in: article) == quoted("Title"))

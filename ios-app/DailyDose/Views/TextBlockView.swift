@@ -2,13 +2,13 @@ import SwiftUI
 import UIKit
 
 struct TextBlockView: UIViewRepresentable {
+    static let searchMatchColor = UIColor.systemGray.withAlphaComponent(0.35)
+    static let currentSearchMatchColor = UIColor.systemOrange
+
     let text: String
     let annotations: [Annotation]
     var searchRanges: [NSRange] = []
     var currentSearchRange: NSRange? = nil
-    var highlightColorR: Double = 1.0
-    var highlightColorG: Double = 0.93
-    var highlightColorB: Double = 0.27
     var baseFont: UIFont? = nil
     var baseFontWeight: UIFont.Weight? = nil
     var textColor: UIColor = .label
@@ -52,51 +52,40 @@ struct TextBlockView: UIViewRepresentable {
         coordinator.onAnnotate = onAnnotate
         coordinator.onEditAnnotation = onEditAnnotation
         coordinator.onDeleteAnnotation = onDeleteAnnotation
+        coordinator.annotations = annotations
 
-        let annotationsChanged = annotations.map(\.id) != coordinator.annotations.map(\.id)
+        let highlightKeys = annotations.map(\.highlightKey)
+        let annotationsChanged = highlightKeys != coordinator.lastHighlightKeys
         let searchChanged = searchRanges != coordinator.lastSearchRanges
                          || currentSearchRange != coordinator.lastCurrentSearchRange
-        let colorChanged = highlightColorR != coordinator.lastHighlightR
-                        || highlightColorG != coordinator.lastHighlightG
-                        || highlightColorB != coordinator.lastHighlightB
-        guard text != coordinator.lastText || annotationsChanged || searchChanged || colorChanged else {
-            coordinator.annotations = annotations
-            return
-        }
+        guard text != coordinator.lastText || annotationsChanged || searchChanged else { return }
 
         let font = resolvedFont()
         let attributedText = enableMarkdown ? parseMarkdown(text, font: font) : plainText(text, font: font)
         let mutableAttr = NSMutableAttributedString(attributedString: attributedText)
-        let highlightColor = UIColor(red: highlightColorR, green: highlightColorG, blue: highlightColorB, alpha: 1.0)
-
         for annotation in annotations where annotation.isTextAnnotation {
             let range = annotation.range
             if range.location + range.length <= mutableAttr.length {
-                mutableAttr.addAttribute(.backgroundColor, value: highlightColor, range: range)
-                mutableAttr.addAttribute(.foregroundColor, value: UIColor.black, range: range)
+                mutableAttr.addAttribute(.backgroundColor, value: annotation.highlightColor.uiColor, range: range)
             }
         }
 
-        let searchColor = UIColor.systemYellow.withAlphaComponent(0.35)
         for range in searchRanges {
             if range.location + range.length <= mutableAttr.length {
-                mutableAttr.addAttribute(.backgroundColor, value: searchColor, range: range)
+                mutableAttr.addAttribute(.backgroundColor, value: Self.searchMatchColor, range: range)
             }
         }
         if let current = currentSearchRange,
            current.location + current.length <= mutableAttr.length {
-            mutableAttr.addAttribute(.backgroundColor, value: UIColor.systemOrange, range: current)
+            mutableAttr.addAttribute(.backgroundColor, value: Self.currentSearchMatchColor, range: current)
             mutableAttr.addAttribute(.foregroundColor, value: UIColor.black, range: current)
         }
 
         textView.attributedText = mutableAttr
-        coordinator.annotations = annotations
         coordinator.lastText = text
+        coordinator.lastHighlightKeys = highlightKeys
         coordinator.lastSearchRanges = searchRanges
         coordinator.lastCurrentSearchRange = currentSearchRange
-        coordinator.lastHighlightR = highlightColorR
-        coordinator.lastHighlightG = highlightColorG
-        coordinator.lastHighlightB = highlightColorB
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: UITextView, context: Context) -> CGSize? {
@@ -150,11 +139,9 @@ struct TextBlockView: UIViewRepresentable {
         var onDeleteAnnotation: (Annotation) -> Void
         var annotations: [Annotation]
         var lastText: String = ""
+        var lastHighlightKeys: [HighlightKey] = []
         var lastSearchRanges: [NSRange] = []
         var lastCurrentSearchRange: NSRange? = nil
-        var lastHighlightR: Double = 1.0
-        var lastHighlightG: Double = 0.93
-        var lastHighlightB: Double = 0.27
         weak var presentedPopover: UIViewController?
 
         init(
@@ -242,9 +229,10 @@ struct TextBlockView: UIViewRepresentable {
 
         func textView(_ textView: UITextView, editMenuForTextIn range: NSRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
             if range.length > 0 {
+                let exists = annotations.contains { $0.isTextAnnotation && $0.range == range }
                 let annotateAction = UIAction(
-                    title: "Annotate",
-                    image: UIImage(systemName: "note.text.badge.plus")
+                    title: exists ? "Edit Note" : "Add Note",
+                    image: UIImage(systemName: exists ? "pencil" : "note.text.badge.plus")
                 ) { [weak self] _ in
                     self?.onAnnotate(range)
                 }
@@ -272,23 +260,24 @@ struct AnnotationPopoverView: View {
     let onDelete: () -> Void
 
     var body: some View {
-        Text(noteText)
-            .font(.body)
-            .foregroundStyle(.primary)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(16)
-            .contextMenu {
-                Button {
-                    onEdit()
-                } label: {
-                    Label("Edit Note", systemImage: "pencil")
-                }
-                Button(role: .destructive) {
-                    onDelete()
-                } label: {
-                    Label("Delete Note", systemImage: "trash")
-                }
+        VStack(alignment: .leading, spacing: 12) {
+            Text(noteText)
+                .font(.body)
+                .foregroundStyle(.primary)
+                .lineLimit(12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Divider()
+
+            HStack {
+                Button("Edit", systemImage: "pencil", action: onEdit)
+                Spacer()
+                Button("Delete", systemImage: "trash", role: .destructive, action: onDelete)
             }
+            .font(.subheadline.weight(.medium))
+            .buttonStyle(.borderless)
+        }
+        .padding(16)
     }
 }

@@ -4,9 +4,6 @@ import SwiftData
 
 struct ArticleFooterView: View {
     let article: Article
-    var highlightColorR: Double = 1.0
-    var highlightColorG: Double = 0.93
-    var highlightColorB: Double = 0.27
     var onAnnotate: ((PendingAnnotation) -> Void)? = nil
     var onEditAnnotation: ((Annotation) -> Void)? = nil
     var onDeleteAnnotation: ((Annotation) -> Void)? = nil
@@ -27,9 +24,6 @@ struct ArticleFooterView: View {
                 TextBlockView(
                     text: article.authors.joined(separator: ", "),
                     annotations: byIndex[0, default: []],
-                    highlightColorR: highlightColorR,
-                    highlightColorG: highlightColorG,
-                    highlightColorB: highlightColorB,
                     baseFont: UIFont.preferredFont(forTextStyle: .caption1),
                     textColor: .secondaryLabel,
                     enableMarkdown: false,
@@ -45,9 +39,6 @@ struct ArticleFooterView: View {
             TextBlockView(
                 text: "\(article.journal) · \(article.formattedPublishDate)",
                 annotations: byIndex[1, default: []],
-                highlightColorR: highlightColorR,
-                highlightColorG: highlightColorG,
-                highlightColorB: highlightColorB,
                 baseFont: UIFont.preferredFont(forTextStyle: .caption1),
                 textColor: .secondaryLabel,
                 enableMarkdown: false,
@@ -63,9 +54,6 @@ struct ArticleFooterView: View {
                 TextBlockView(
                     text: article.license,
                     annotations: byIndex[2, default: []],
-                    highlightColorR: highlightColorR,
-                    highlightColorG: highlightColorG,
-                    highlightColorB: highlightColorB,
                     baseFont: UIFont.preferredFont(forTextStyle: .caption2),
                     textColor: .tertiaryLabel,
                     enableMarkdown: false,

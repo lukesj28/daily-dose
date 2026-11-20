@@ -4,9 +4,6 @@ import WebKit
 struct TableBlockView: UIViewRepresentable {
     let html: String
     var annotations: [Annotation] = []
-    var highlightColorR: Double = 1.0
-    var highlightColorG: Double = 0.93
-    var highlightColorB: Double = 0.27
     var onAnnotateCell: ((Int, Int) -> Void)? = nil
     var onEditAnnotation: ((Annotation) -> Void)? = nil
     var onDeleteAnnotation: ((Annotation) -> Void)? = nil
@@ -38,29 +35,20 @@ struct TableBlockView: UIViewRepresentable {
 
     func updateUIView(_ webView: WKWebView, context: Context) {
         context.coordinator.annotations = annotations
-        context.coordinator.highlightColorR = highlightColorR
-        context.coordinator.highlightColorG = highlightColorG
-        context.coordinator.highlightColorB = highlightColorB
         context.coordinator.onAnnotateCell = onAnnotateCell
         context.coordinator.onEditAnnotation = onEditAnnotation
         context.coordinator.onDeleteAnnotation = onDeleteAnnotation
 
-        let currentIDs = annotations.map(\.id)
+        let highlightKeys = annotations.map(\.highlightKey)
         let htmlChanged = html != context.coordinator.lastHTML
-        let annotationsChanged = currentIDs != context.coordinator.lastAnnotationIDs
-        let colorChanged = highlightColorR != context.coordinator.lastHighlightR
-                        || highlightColorG != context.coordinator.lastHighlightG
-                        || highlightColorB != context.coordinator.lastHighlightB
+        let annotationsChanged = highlightKeys != context.coordinator.lastHighlightKeys
 
         if htmlChanged {
             context.coordinator.lastHTML = html
             context.coordinator.pageLoaded = false
             webView.loadHTMLString(wrapInHTMLDocument(html), baseURL: nil)
-        } else if (annotationsChanged || colorChanged) && context.coordinator.pageLoaded {
-            context.coordinator.lastAnnotationIDs = currentIDs
-            context.coordinator.lastHighlightR = highlightColorR
-            context.coordinator.lastHighlightG = highlightColorG
-            context.coordinator.lastHighlightB = highlightColorB
+        } else if annotationsChanged && context.coordinator.pageLoaded {
+            context.coordinator.lastHighlightKeys = highlightKeys
             context.coordinator.injectHighlights(into: webView)
         }
     }
@@ -102,6 +90,7 @@ struct TableBlockView: UIViewRepresentable {
             th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; white-space: nowrap; }
             th { background-color: var(--header-bg); font: -apple-system-footnote; font-weight: 600; position: sticky; top: 0; z-index: 1; border-bottom: 2px solid var(--border); will-change: transform; }
             tr:nth-child(even) td { background: var(--row-alt); }
+            \(HighlightColor.stylesheet)
         </style>
         </head>
         <body>
@@ -113,14 +102,8 @@ struct TableBlockView: UIViewRepresentable {
 
     class Coordinator: NSObject, WKNavigationDelegate {
         var lastHTML: String = ""
-        var lastAnnotationIDs: [UUID] = []
-        var lastHighlightR: Double = 1.0
-        var lastHighlightG: Double = 0.93
-        var lastHighlightB: Double = 0.27
+        var lastHighlightKeys: [HighlightKey] = []
         var annotations: [Annotation] = []
-        var highlightColorR: Double = 1.0
-        var highlightColorG: Double = 0.93
-        var highlightColorB: Double = 0.27
         var pageLoaded = false
         var onAnnotateCell: ((Int, Int) -> Void)?
         var onEditAnnotation: ((Annotation) -> Void)?
@@ -140,16 +123,12 @@ struct TableBlockView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             pageLoaded = true
-            lastAnnotationIDs = annotations.map(\.id)
+            lastHighlightKeys = annotations.map(\.highlightKey)
             injectHighlights(into: webView)
         }
 
         func injectHighlights(into webView: WKWebView) {
-            let r = Int(highlightColorR * 255)
-            let g = Int(highlightColorG * 255)
-            let b = Int(highlightColorB * 255)
-
-            var script = "document.querySelectorAll('td, th').forEach(function(cell) { cell.style.removeProperty('background-color'); });"
+            var script = "document.querySelectorAll('[data-hl]').forEach(function(cell) { cell.removeAttribute('data-hl'); });"
 
             for annotation in annotations where annotation.isCellAnnotation {
                 let row = annotation.cellRow
@@ -160,7 +139,7 @@ struct TableBlockView: UIViewRepresentable {
                     if (rows[\(row)]) {
                         var cells = rows[\(row)].querySelectorAll('td, th');
                         if (cells[\(col)]) {
-                            cells[\(col)].style.backgroundColor = 'rgba(\(r), \(g), \(b), 0.45)';
+                            cells[\(col)].setAttribute('data-hl', '\(annotation.highlightColor.rawValue)');
                         }
                     }
                 })();

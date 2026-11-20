@@ -21,6 +21,7 @@ private struct RGBA: Equatable {
 @MainActor
 private struct Rendered {
     let window: UIWindow
+    let controller: UIHostingController<TextBlockView>
     let textView: UITextView
     var coordinator: TextBlockView.Coordinator { textView.delegate as! TextBlockView.Coordinator }
     var attributed: NSAttributedString { textView.attributedText }
@@ -47,13 +48,12 @@ private func render(
     annotations: [Annotation] = [],
     searchRanges: [NSRange] = [],
     currentSearchRange: NSRange? = nil,
-    color: (Double, Double, Double)? = nil,
     markdown: Bool = true,
     onAnnotate: @escaping (NSRange) -> Void = { _ in },
     onEdit: @escaping (Annotation) -> Void = { _ in },
     onDelete: @escaping (Annotation) -> Void = { _ in }
 ) async throws -> Rendered {
-    var view = TextBlockView(
+    let view = TextBlockView(
         text: text,
         annotations: annotations,
         searchRanges: searchRanges,
@@ -63,21 +63,14 @@ private func render(
         onEditAnnotation: onEdit,
         onDeleteAnnotation: onDelete
     )
-    if let color {
-        view.highlightColorR = color.0
-        view.highlightColorG = color.1
-        view.highlightColorB = color.2
-    }
     let (window, controller) = host(view)
     var found: UITextView?
     try await waitUntil {
         found = allSubviews(UITextView.self, in: controller.view).first
         return (found?.attributedText.length ?? 0) > 0
     }
-    return Rendered(window: window, textView: try #require(found))
+    return Rendered(window: window, controller: controller, textView: try #require(found))
 }
-
-private let yellow = RGBA(red: 1.0, green: 0.93, blue: 0.27)
 
 private extension RGBA {
     init(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat = 1) {
@@ -85,8 +78,10 @@ private extension RGBA {
     }
 }
 
-private func annotation(_ location: Int, _ length: Int, note: String = "note") -> Annotation {
-    Annotation(blockIndex: 1, startIndex: location, length: length, noteText: note)
+private func annotation(_ location: Int, _ length: Int, note: String = "note", color: HighlightColor = .yellow) -> Annotation {
+    let annotation = Annotation(blockIndex: 1, startIndex: location, length: length, noteText: note)
+    annotation.highlightColor = color
+    return annotation
 }
 
 extension AppTests {
@@ -147,16 +142,28 @@ extension AppTests {
         @Test func textAnnotationIsHighlightedWithDefaultColor() async throws {
             let r = try await render("hello world", annotations: [annotation(0, 3)])
             defer { r.window.isHidden = true }
+            let yellow = RGBA(HighlightColor.yellow.uiColor, in: r.textView.traitCollection)
             #expect(try #require(r.rgba(.backgroundColor, at: 0)).isClose(to: yellow))
             #expect(try #require(r.rgba(.backgroundColor, at: 2)).isClose(to: yellow))
             #expect(r.rgba(.backgroundColor, at: 3) == nil)
-            #expect(try #require(r.rgba(.foregroundColor, at: 0)).isClose(to: RGBA(red: 0, green: 0, blue: 0)))
+            #expect(try #require(r.rgba(.foregroundColor, at: 0)).isClose(to: RGBA(UIColor.label, in: r.textView.traitCollection)))
         }
 
-        @Test func customHighlightColorIsApplied() async throws {
-            let r = try await render("hello world", annotations: [annotation(0, 3)], color: (0.2, 0.4, 0.6))
+        @Test func eachAnnotationUsesItsOwnColor() async throws {
+            let r = try await render("hello world", annotations: [annotation(0, 3, color: .blue), annotation(6, 5, color: .pink)])
             defer { r.window.isHidden = true }
-            #expect(try #require(r.rgba(.backgroundColor, at: 0)).isClose(to: RGBA(red: 0.2, green: 0.4, blue: 0.6)))
+            #expect(try #require(r.rgba(.backgroundColor, at: 0)).isClose(to: RGBA(HighlightColor.blue.uiColor, in: r.textView.traitCollection)))
+            #expect(try #require(r.rgba(.backgroundColor, at: 6)).isClose(to: RGBA(HighlightColor.pink.uiColor, in: r.textView.traitCollection)))
+        }
+
+        @Test func changingAnnotationColorRerendersHighlight() async throws {
+            let note = annotation(0, 3)
+            let r = try await render("hello world", annotations: [note])
+            defer { r.window.isHidden = true }
+            note.highlightColor = .green
+            r.controller.rootView = r.controller.rootView
+            let green = RGBA(HighlightColor.green.uiColor, in: r.textView.traitCollection)
+            try await waitUntil { r.rgba(.backgroundColor, at: 0)?.isClose(to: green) == true }
         }
 
         @Test func outOfBoundsAnnotationIsIgnored() async throws {
@@ -175,15 +182,15 @@ extension AppTests {
         }
 
 
-        @Test func searchRangesUseYellowAndCurrentUsesOrange() async throws {
+        @Test func searchRangesUseGrayAndCurrentUsesOrange() async throws {
             let r = try await render(
                 "hello world",
                 searchRanges: [NSRange(location: 0, length: 5), NSRange(location: 6, length: 5)],
                 currentSearchRange: NSRange(location: 6, length: 5)
             )
             defer { r.window.isHidden = true }
-            let search = RGBA(.systemYellow.withAlphaComponent(0.35), in: r.textView.traitCollection)
-            let current = RGBA(.systemOrange, in: r.textView.traitCollection)
+            let search = RGBA(TextBlockView.searchMatchColor, in: r.textView.traitCollection)
+            let current = RGBA(TextBlockView.currentSearchMatchColor, in: r.textView.traitCollection)
             #expect(try #require(r.rgba(.backgroundColor, at: 0)).isClose(to: search))
             #expect(try #require(r.rgba(.backgroundColor, at: 6)).isClose(to: current))
             #expect(try #require(r.rgba(.foregroundColor, at: 6)).isClose(to: RGBA(red: 0, green: 0, blue: 0)))
@@ -196,7 +203,7 @@ extension AppTests {
             let r = try await render("The **cat** sat", searchRanges: matches.map(\.range))
             defer { r.window.isHidden = true }
             #expect(r.attributed.string == "The cat sat")
-            let search = RGBA(.systemYellow.withAlphaComponent(0.35), in: r.textView.traitCollection)
+            let search = RGBA(TextBlockView.searchMatchColor, in: r.textView.traitCollection)
             #expect(r.rgba(.backgroundColor, at: 8)?.isClose(to: search) == true)
         }
 
@@ -210,7 +217,7 @@ extension AppTests {
             let withSelection = try #require(r.coordinator.textView(
                 r.textView, editMenuForTextIn: NSRange(location: 0, length: 2), suggestedActions: [copy]))
             let annotate = try #require(withSelection.children.first as? UIAction)
-            #expect(annotate.title == "Annotate")
+            #expect(annotate.title == "Add Note")
             #expect(withSelection.children.count == 2)
             annotate.performWithSender(nil, target: nil)
             #expect(box.value == NSRange(location: 0, length: 2))
@@ -219,6 +226,24 @@ extension AppTests {
                 r.textView, editMenuForTextIn: NSRange(location: 3, length: 0), suggestedActions: [copy]))
             #expect(caretOnly.children.count == 1)
             #expect((caretOnly.children.first as? UIAction)?.title == "Copy")
+        }
+
+        @Test func editMenuOffersEditForExactSelectionOfExistingNote() async throws {
+            let added = Box<NSRange>()
+            let r = try await render("the test", annotations: [annotation(4, 4)], onAnnotate: { added.value = $0 })
+            defer { r.window.isHidden = true }
+            let copy = UIAction(title: "Copy") { _ in }
+
+            let exact = try #require(r.coordinator.textView(
+                r.textView, editMenuForTextIn: NSRange(location: 4, length: 4), suggestedActions: [copy]))
+            let edit = try #require(exact.children.first as? UIAction)
+            #expect(edit.title == "Edit Note")
+            edit.performWithSender(nil, target: nil)
+            #expect(added.value == NSRange(location: 4, length: 4))
+
+            let wider = try #require(r.coordinator.textView(
+                r.textView, editMenuForTextIn: NSRange(location: 0, length: 8), suggestedActions: [copy]))
+            #expect((wider.children.first as? UIAction)?.title == "Add Note")
         }
 
         @Test func tapOnlyBeginsOverAnnotatedText() async throws {

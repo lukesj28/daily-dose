@@ -64,6 +64,7 @@ struct ArticleNavigator: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var mode: Mode = .sections
+    @State private var colorFilter: HighlightColor?
 
     enum Mode: CaseIterable, Identifiable {
         case sections, annotations
@@ -170,10 +171,13 @@ struct ArticleNavigator: View {
 
     @ViewBuilder
     private var annotationsList: some View {
-        let annotations = AnnotationList.sorted(article.annotations)
-        if annotations.isEmpty {
+        let all = AnnotationList.sorted(article.annotations)
+        let colors = AnnotationList.colors(in: all)
+        let filter = colorFilter.map(colors.contains) == true ? colorFilter : nil
+        let annotations = all.filter { filter == nil || $0.highlightColor == filter }
+        if all.isEmpty {
             ContentUnavailableView("No Notes", systemImage: "note.text",
-                                   description: Text("Select text in the article and choose Annotate."))
+                                   description: Text("Select text in the article and choose Add Note."))
         } else {
             List(annotations) { annotation in
                 Button {
@@ -181,7 +185,7 @@ struct ArticleNavigator: View {
                 } label: {
                     VStack(alignment: .leading, spacing: 4) {
                         if let snippet = AnnotationList.snippet(for: annotation, in: article) {
-                            Text(snippet)
+                            Text(annotation.highlightColor.highlighting(snippet))
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                                 .foregroundStyle(.primary)
@@ -197,7 +201,32 @@ struct ArticleNavigator: View {
                 .listRowBackground(Color.clear)
             }
             .navigatorListStyle()
+            .safeAreaInset(edge: .top, spacing: 0) {
+                if colors.count > 1 {
+                    colorFilterBar(colors, selection: filter)
+                }
+            }
         }
+    }
+
+    private func colorFilterBar(_ colors: [HighlightColor], selection: HighlightColor?) -> some View {
+        HStack(spacing: 4) {
+            ForEach(colors, id: \.self) { color in
+                let isSelected = color == selection
+                SwatchButton(color: color, isSelected: isSelected, diameter: 22) {
+                    colorFilter = isSelected ? nil : color
+                }
+                .accessibilityLabel("\(color.name) notes")
+            }
+            Spacer()
+            if selection != nil {
+                Button("Show All") { colorFilter = nil }
+                    .font(.subheadline)
+            }
+        }
+        .padding(.horizontal, 12)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Filter by colour")
     }
 
     // MARK: - Search
@@ -257,20 +286,29 @@ enum AnnotationList {
         }
     }
 
+    static func colors(in annotations: [Annotation]) -> [HighlightColor] {
+        let used = Set(annotations.map(\.highlightColor))
+        return HighlightColor.allCases.filter(used.contains)
+    }
+
     static func snippet(for annotation: Annotation, in article: Article) -> String? {
-        if annotation.isCellAnnotation {
-            return "Table cell (\(annotation.cellRow + 1), \(annotation.cellColumn + 1))"
+        snippet(for: annotation.anchor, in: article)
+    }
+
+    static func snippet(for anchor: PendingAnnotation, in article: Article) -> String? {
+        if anchor.isCellAnnotation {
+            return "Table cell (\(anchor.cellRow + 1), \(anchor.cellColumn + 1))"
         }
 
-        if annotation.isEquationAnnotation {
+        if anchor.isEquationAnnotation {
             return "Equation"
         }
 
         let sourceText: String?
 
-        switch annotation.blockSection {
+        switch anchor.blockSection {
         case BlockSection.header:
-            switch annotation.blockIndex {
+            switch anchor.blockIndex {
             case 1: sourceText = article.title
             case 2: sourceText = article.authors.joined(separator: ", ")
             case 3: sourceText = article.formattedPublishDate
@@ -278,7 +316,7 @@ enum AnnotationList {
             }
 
         case BlockSection.footer:
-            switch annotation.blockIndex {
+            switch anchor.blockIndex {
             case 0: sourceText = article.authors.joined(separator: ", ")
             case 1: sourceText = "\(article.journal) · \(article.formattedPublishDate)"
             case 2: sourceText = article.license
@@ -286,7 +324,7 @@ enum AnnotationList {
             }
 
         default: // BlockSection.content
-            if let block = article.contentBlocks.first(where: { $0.index == annotation.blockIndex }) {
+            if let block = article.contentBlocks.first(where: { $0.index == anchor.blockIndex }) {
                 sourceText = block.searchableText ?? block.caption ?? block.text
             } else {
                 sourceText = nil
@@ -295,7 +333,7 @@ enum AnnotationList {
 
         guard let text = sourceText else { return nil }
         let ns = text as NSString
-        let range = annotation.range
+        let range = anchor.range
         guard range.location >= 0,
               range.location + range.length <= ns.length,
               range.length > 0 else { return nil }

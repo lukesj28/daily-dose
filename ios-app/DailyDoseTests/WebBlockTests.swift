@@ -45,6 +45,12 @@ private func cellCenter(_ webView: WKWebView) async throws -> CGPoint {
     return CGPoint(x: dict["x"]!, y: dict["y"]!)
 }
 
+private let bodyHighlight = "document.body.getAttribute('data-hl') || ''"
+
+private func cellHighlight(row: Int) -> String {
+    "document.querySelectorAll('tr')[\(row)].querySelectorAll('td, th')[0].getAttribute('data-hl') || ''"
+}
+
 @MainActor @Observable
 private final class Holder {
     var annotations: [Annotation] = []
@@ -86,10 +92,12 @@ extension AppTests {
             defer { window.isHidden = true }
             #expect(webView.configuration.defaultWebpagePreferences.allowsContentJavaScript == false)
 
-            let cell = "document.querySelectorAll('tr')[1].querySelectorAll('td, th')[0].style.backgroundColor"
-            try await waitUntil { await js(webView, cell) == "rgba(255, 237, 68, 0.45)" }
-            let other = "document.querySelectorAll('tr')[0].querySelectorAll('td, th')[0].style.backgroundColor"
+            let cell = cellHighlight(row: 1)
+            try await waitUntil { await js(webView, cell) == "yellow" }
+            let other = cellHighlight(row: 0)
             #expect(await js(webView, other) == "")
+            let painted = "getComputedStyle(document.querySelectorAll('tr')[1].querySelectorAll('td, th')[0]).boxShadow"
+            #expect(await js(webView, painted)?.contains("inset") == true)
         }
 
         @Test func longPressOnPlainCellRequestsNewAnnotation() async throws {
@@ -161,7 +169,7 @@ extension AppTests {
             let csp = "document.querySelector('meta[http-equiv=\"Content-Security-Policy\"]').content"
             #expect(await js(webView, csp)?.contains("default-src 'none'") == true)
             #expect(await js(webView, "String(document.querySelector('math') != null)") == "true")
-            try await waitUntil { await js(webView, "document.body.style.backgroundColor") == "rgba(255, 237, 68, 0.3)" }
+            try await waitUntil { await js(webView, bodyHighlight) == "yellow" }
         }
 
         @Test func mathWithoutAnnotationHasNoHighlight() async throws {
@@ -169,7 +177,7 @@ extension AppTests {
             let (window, controller) = host(view)
             defer { window.isHidden = true }
             let webView = try await loadedWebView(in: controller)
-            #expect(await js(webView, "document.body.style.backgroundColor") == "")
+            #expect(await js(webView, bodyHighlight) == "")
         }
 
 
@@ -178,11 +186,11 @@ extension AppTests {
             let (window, controller) = host(TableHost(holder: holder))
             defer { window.isHidden = true }
             let webView = try await loadedWebView(in: controller)
-            let cell = "document.querySelectorAll('tr')[1].querySelectorAll('td, th')[0].style.backgroundColor"
+            let cell = cellHighlight(row: 1)
 
             holder.tick += 1
             holder.annotations = [makeAnnotation(.cell(index: 3, row: 1, col: 0))]
-            try await waitUntil { await js(webView, cell) == "rgba(255, 237, 68, 0.45)" }
+            try await waitUntil { await js(webView, cell) == "yellow" }
 
             holder.annotations = []
             try await waitUntil { await js(webView, cell) == "" }
@@ -195,9 +203,9 @@ extension AppTests {
             let webView = try await loadedWebView(in: controller)
 
             holder.annotations = [makeAnnotation(.equation(index: 4))]
-            try await waitUntil { await js(webView, "document.body.style.backgroundColor") == "rgba(255, 237, 68, 0.3)" }
+            try await waitUntil { await js(webView, bodyHighlight) == "yellow" }
             holder.annotations = []
-            try await waitUntil { await js(webView, "document.body.style.backgroundColor") == "" }
+            try await waitUntil { await js(webView, bodyHighlight) == "" }
         }
 
         @Test func mathLongPressAnnotatesOrEdits() async throws {
@@ -216,8 +224,29 @@ extension AppTests {
 
             let existing = makeAnnotation(.equation(index: 4))
             holder.annotations = [existing]
-            try await waitUntil { await js(webView, "document.body.style.backgroundColor") != "" }
+            try await waitUntil { await js(webView, bodyHighlight) != "" }
             _ = coordinator.perform(press, with: FakeLongPress())
+            #expect(edited.value?.id == existing.id)
+        }
+
+        @Test func mathOffersVoiceOverNoteAction() async throws {
+            let holder = Holder()
+            let annotated = Box<Bool>()
+            let edited = Box<Annotation>()
+            let (window, controller) = host(MathHost(holder: holder, onAnnotate: { annotated.value = true }, onEdit: { edited.value = $0 }))
+            defer { window.isHidden = true }
+            let webView = try await loadedWebView(in: controller)
+
+            let add = try #require(webView.accessibilityCustomActions?.first)
+            #expect(add.name == "Add Note")
+            _ = add.actionHandler?(add)
+            #expect(annotated.value == true)
+
+            let existing = makeAnnotation(.equation(index: 4))
+            holder.annotations = [existing]
+            try await waitUntil { webView.accessibilityCustomActions?.first?.name == "Edit Note" }
+            let edit = try #require(webView.accessibilityCustomActions?.first)
+            _ = edit.actionHandler?(edit)
             #expect(edited.value?.id == existing.id)
         }
 

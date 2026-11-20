@@ -4,9 +4,6 @@ import WebKit
 struct MathBlockView: View {
     let mathml: String
     var annotation: Annotation? = nil
-    var highlightColorR: Double = 1.0
-    var highlightColorG: Double = 0.93
-    var highlightColorB: Double = 0.27
     var onAnnotate: (() -> Void)? = nil
     var onEditAnnotation: ((Annotation) -> Void)? = nil
     var onDeleteAnnotation: ((Annotation) -> Void)? = nil
@@ -17,9 +14,6 @@ struct MathBlockView: View {
         MathWebView(
             mathml: mathml,
             annotation: annotation,
-            highlightColorR: highlightColorR,
-            highlightColorG: highlightColorG,
-            highlightColorB: highlightColorB,
             onHeightMeasured: { height in contentHeight = height },
             onAnnotate: onAnnotate,
             onEditAnnotation: onEditAnnotation,
@@ -33,9 +27,6 @@ struct MathBlockView: View {
 private struct MathWebView: UIViewRepresentable {
     let mathml: String
     let annotation: Annotation?
-    let highlightColorR: Double
-    let highlightColorG: Double
-    let highlightColorB: Double
     let onHeightMeasured: (CGFloat) -> Void
     let onAnnotate: (() -> Void)?
     let onEditAnnotation: ((Annotation) -> Void)?
@@ -67,28 +58,25 @@ private struct MathWebView: UIViewRepresentable {
     func updateUIView(_ webView: WKWebView, context: Context) {
         context.coordinator.onHeightMeasured = onHeightMeasured
         context.coordinator.annotation = annotation
-        context.coordinator.highlightColorR = highlightColorR
-        context.coordinator.highlightColorG = highlightColorG
-        context.coordinator.highlightColorB = highlightColorB
         context.coordinator.onAnnotate = onAnnotate
         context.coordinator.onEditAnnotation = onEditAnnotation
         context.coordinator.onDeleteAnnotation = onDeleteAnnotation
+        webView.accessibilityCustomActions = [
+            UIAccessibilityCustomAction(name: annotation == nil ? "Add Note" : "Edit Note") { [coordinator = context.coordinator] _ in
+                coordinator.annotateOrEdit()
+                return true
+            }
+        ]
 
         let mathmlChanged = mathml != context.coordinator.lastMathml
-        let annotationChanged = annotation?.id != context.coordinator.lastAnnotationID
-        let colorChanged = highlightColorR != context.coordinator.lastHighlightR
-                        || highlightColorG != context.coordinator.lastHighlightG
-                        || highlightColorB != context.coordinator.lastHighlightB
+        let annotationChanged = annotation?.highlightKey != context.coordinator.lastHighlightKey
 
         if mathmlChanged {
             context.coordinator.lastMathml = mathml
             context.coordinator.pageLoaded = false
             webView.loadHTMLString(buildHTML(), baseURL: nil)
-        } else if (annotationChanged || colorChanged) && context.coordinator.pageLoaded {
-            context.coordinator.lastAnnotationID = annotation?.id
-            context.coordinator.lastHighlightR = highlightColorR
-            context.coordinator.lastHighlightG = highlightColorG
-            context.coordinator.lastHighlightB = highlightColorB
+        } else if annotationChanged && context.coordinator.pageLoaded {
+            context.coordinator.lastHighlightKey = annotation?.highlightKey
             context.coordinator.injectHighlight(into: webView)
         }
     }
@@ -115,6 +103,7 @@ private struct MathWebView: UIViewRepresentable {
             @media (prefers-color-scheme: dark) { body { color: #f5f5f7; } }
             @media (prefers-color-scheme: light) { body { color: #1d1d1f; } }
             math { display: block; }
+            \(HighlightColor.stylesheet)
         </style>
         </head>
         <body>\(mathml)</body>
@@ -124,14 +113,8 @@ private struct MathWebView: UIViewRepresentable {
 
     class Coordinator: NSObject, WKNavigationDelegate {
         var lastMathml = ""
-        var lastAnnotationID: UUID?
-        var lastHighlightR: Double = 1.0
-        var lastHighlightG: Double = 0.93
-        var lastHighlightB: Double = 0.27
+        var lastHighlightKey: HighlightKey?
         var annotation: Annotation?
-        var highlightColorR: Double = 1.0
-        var highlightColorG: Double = 0.93
-        var highlightColorB: Double = 0.27
         var pageLoaded = false
         var onHeightMeasured: ((CGFloat) -> Void)?
         var onAnnotate: (() -> Void)?
@@ -140,6 +123,10 @@ private struct MathWebView: UIViewRepresentable {
 
         @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
             guard gesture.state == .began else { return }
+            annotateOrEdit()
+        }
+
+        func annotateOrEdit() {
             if let existing = annotation {
                 onEditAnnotation?(existing)
             } else {
@@ -148,20 +135,14 @@ private struct MathWebView: UIViewRepresentable {
         }
 
         func injectHighlight(into webView: WKWebView) {
-            if annotation != nil {
-                let r = Int(highlightColorR * 255)
-                let g = Int(highlightColorG * 255)
-                let b = Int(highlightColorB * 255)
-                let script = "document.body.style.backgroundColor = 'rgba(\(r), \(g), \(b), 0.3)';"
-                webView.evaluateJavaScript(script, completionHandler: nil)
-            } else {
-                webView.evaluateJavaScript("document.body.style.removeProperty('background-color');", completionHandler: nil)
-            }
+            let script = annotation.map { "document.body.setAttribute('data-hl', '\($0.highlightColor.rawValue)');" }
+                ?? "document.body.removeAttribute('data-hl');"
+            webView.evaluateJavaScript(script, completionHandler: nil)
         }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             pageLoaded = true
-            lastAnnotationID = annotation?.id
+            lastHighlightKey = annotation?.highlightKey
             webView.evaluateJavaScript("document.body.scrollHeight") { result, _ in
                 let height = (result as? Double).map { CGFloat($0) } ?? 60
                 self.onHeightMeasured?(height)
