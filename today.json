@@ -1,0 +1,311 @@
+{
+  "id": "PMC13775217",
+  "title": "Emicizumab long-term outcomes and coagulation biomarkers in mild or moderate hemophilia A without inhibitors (HAVEN 6)",
+  "journal": "Therapeutic Advances in Hematology",
+  "fetch_date": "2026-11-21",
+  "publish_date": "2026-01-01",
+  "authors": [
+    "Cedric Hermans",
+    "Víctor Jiménez-Yuste",
+    "Giuliana Ventriglia",
+    "Anna Kiialainen",
+    "Laurent Frenzel",
+    "Olivier Catalani",
+    "Jerzy Windyga",
+    "Johannes Oldenburg",
+    "Christophe Schmitt",
+    "Amy D. Shapiro",
+    "Johnny Mahlangu",
+    "Michaela Lehle",
+    "Steven W. Pipe"
+  ],
+  "license": "This article is distributed under the terms of the Creative Commons Attribution-NonCommercial 4.0 License (https://creativecommons.org/licenses/by-nc/4.0/) which permits non-commercial use, reproduction and distribution of the work without further permission provided the original work is attributed as specified on the SAGE and Open Access pages (https://us.sagepub.com/en-us/nam/open-access-at-sage).",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13775217/",
+  "abstract": "Emicizumab, a bispecific monoclonal antibody, substitutes for activated factor (F)VIII, facilitating hemostasis in people with hemophilia A (HA). HAVEN 6 is a multicenter, open-label, single-arm phase 3 study of emicizumab in people with mild or moderate HA. At primary data cut-off, emicizumab demonstrated clinically meaningful bleed control and a favorable safety profile. To evaluate the long-term efficacy and safety of emicizumab in HAVEN 6. Participants had mild (FVIII >5–<40 IU/dL) or moderate (FVIII ≥1–≤5 IU/dL) HA without FVIII inhibitors, warranting prophylaxis as assessed by the treating physician. Safety endpoints included adverse events (AEs) and AEs of special interest (e.g. thromboembolic events [TEs] and thrombotic microangiopathies). Efficacy endpoints included annualized bleed rates (ABR) for treated bleeds. Pharmacokinetics (PK), pharmacodynamics (PD), safety biomarkers of coagulation, and *F8* genotypes were assessed. Further study details are published in the primary analysis (Négrier et al. Lancet Haematol 2023). At cut-off (December 11, 2023), median (interquartile range) follow-up was 155.9 (24.1–192.6) weeks (N = 72). In total, 481 AEs were reported; 93.1% of participants experienced ≥1 AE. Two TEs occurred, one since the primary analysis. Both participants continued emicizumab. Model-based ABR for treated bleeds was 1.0 (95% confidence interval: 0.71–1.35). Therapeutic emicizumab exposure levels were maintained throughout the study. FXIa-triggered thrombin generation peak height was higher compared with levels previously observed in people with severe HA. Safety biomarkers of coagulation were unaffected by emicizumab. *F8* genotyping of participants found variants consistent with mild or moderate HA. These long-term efficacy and safety data confirm emicizumab as a valuable treatment option for people with non-severe HA.",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Introduction"
+    },
+    {
+      "type": "paragraph",
+      "text": "Hemophilia A (HA) is an inherited bleeding disorder caused by factor (F)VIII deficiency, which impairs thrombin generation (TG) and can lead to spontaneous and traumatic bleeding in joints, muscles and soft tissues. Repeated joint bleeds in people with HA can cause inflammation, with arthropathy developing over time, resulting in permanent joint damage. HA severity varies between individuals and is currently characterized by FVIII activity levels in plasma as severe (<1 IU/dL), moderate (1–5 IU/dL) or mild (>5–40 IU/dL).^(,) The standard of care for severe HA is prophylaxis, but many with mild or moderate disease only receive treatment after a bleed, at which time joint and tissue damage has already occurred.^(,)"
+    },
+    {
+      "type": "paragraph",
+      "text": "People with mild or moderate HA report a significant burden of disease and show wide variability in bleeding phenotype.^(,) For some with mild or moderate HA, their bleeding phenotype does not correlate with their FVIII levels, suggesting HA severity classification may require more than the endogenous FVIII level alone.^(,) An analysis of 1066 people with HA observed 73% with moderate HA reported bleeding in the previous year, and 25% had frequent bleeding and joint disease. People with greater bleeding frequency were more likely to receive prophylaxis, suggesting that, in some cases, clinicians had recognized their severe bleeding tendency and prescribed prophylaxis accordingly."
+    },
+    {
+      "type": "paragraph",
+      "text": "Emicizumab is a recombinant, humanized, bispecific monoclonal antibody that substitutes for activated FVIII by bridging activated FIX and FX, improving hemostasis in people with HA. Several clinical trials and real-world studies have demonstrated the safety and efficacy of emicizumab prophylaxis in people with HA, many with long-term follow-up periods.^(–) However, most trials primarily focused on emicizumab in people with severe HA, while data detailing the safety and efficacy for those with mild or moderate HA are scarce. Similarly, pharmacokinetics (PK), pharmacodynamics (PD), and safety biomarker analyses from several emicizumab clinical trials have previously been published, but none enrolled people with mild or moderate HA without FVIII inhibitors.^(–)"
+    },
+    {
+      "type": "paragraph",
+      "text": "HAVEN 6 is a multicenter, open-label, single-arm phase 3 study of emicizumab, and the first study dedicated to people with mild or moderate HA without FVIII inhibitors. At primary cut-off (October 30, 2021), after a median follow-up of 55.6 weeks, emicizumab demonstrated clinically meaningful bleed control and was well tolerated. Most adverse events (AEs) were non-serious and no serious emicizumab-related AEs occurred. This article presents an updated analysis of HAVEN 6, including long-term safety and efficacy, *F8* genotypes of participants, PK, PD and safety biomarkers of coagulation."
+    },
+    {
+      "type": "heading",
+      "text": "Methods"
+    },
+    {
+      "type": "heading",
+      "text": "Study design"
+    },
+    {
+      "type": "paragraph",
+      "text": "HAVEN 6 (NCT04158648) was conducted across 22 specialty hospitals and clinics in Europe, North America and South Africa. Eligible participants were male or female, of any age, with mild (FVIII activity >5–<40 IU/dL) or moderate (FVIII ≥1–≤5 IU/dL) HA without FVIII inhibitors, and required prophylaxis as assessed by treating physicians. Participants required a negative FVIII inhibitor result (<0.6 Bethesda Units [BU]/mL) 8 weeks prior to enrolment and no documented inhibitor, FVIII half-life less than 6 hours or FVIII recovery of less than 66% over the past 5 years. Full inclusion and exclusion criteria have been published previously. Participants received subcutaneous emicizumab at a loading dose of 3 mg/kg once weekly (QW) for 4 weeks, followed by their choice of maintenance dose: 1.5 mg/kg QW, 3 mg/kg every 2 weeks (Q2W), or 6 mg/kg every 4 weeks (Q4W)."
+    },
+    {
+      "type": "heading",
+      "text": "Ethics approval and consent"
+    },
+    {
+      "type": "paragraph",
+      "text": "The study was conducted following the International Conference on Harmonisation Guidelines for Good Clinical Practice and the Declaration of Helsinki; written informed consent or assent for study participation was obtained before commencing any study-related procedures. The protocol was approved by the ethics committee or institutional review board at each site and the study was conducted in accordance with all applicable local regulations."
+    },
+    {
+      "type": "heading",
+      "text": "Objectives and endpoints"
+    },
+    {
+      "type": "paragraph",
+      "text": "Efficacy was evaluated by examining overall annualized bleed rates (ABRs) for all, treated, joint, target joint, and spontaneous bleeds, including changes compared with pre-study ABRs, and monitoring joint health as determined by target joint resolution. Safety endpoints included AE incidence and severity, including any leading to emicizumab discontinuation; incidence of thromboembolic events (TEs) and thrombotic microangiopathy; incidence and significance of anti-drug antibodies (ADAs); and incidence of *de novo* FVIII inhibitors."
+    },
+    {
+      "type": "paragraph",
+      "text": "Other study endpoints included PK and PD of emicizumab, change in coagulation biomarkers, and *F8* genotyping of participants."
+    },
+    {
+      "type": "heading",
+      "text": "Data collection"
+    },
+    {
+      "type": "paragraph",
+      "text": "Participants’ medical history was collected at enrollment. Investigators continuously monitored AEs and any reports were evaluated by the study sponsor. Participants reported bleed information using the Bleed and Medication Questionnaire, which the investigators reviewed."
+    },
+    {
+      "type": "paragraph",
+      "text": "Blood samples for PK, PD, and safety coagulation biomarkers were taken QW between Weeks 1–5 and Q4W from Weeks 9–49. Blood samples for ADAs were taken at Weeks 1, 5, 13, 25, 33, 41, and 49. Blood samples for FVIII inhibitors were taken at screening and Weeks 1, 13, 25, 37, and 49. After Week 49, blood samples for the above analyses were taken every 12 weeks. Blood samples for genotyping were taken at Week 1."
+    },
+    {
+      "type": "paragraph",
+      "text": "PK and PD of emicizumab, plus plasma concentrations of safety coagulation biomarkers, were assessed using methodology previously outlined in other HAVEN trials.^(,) A validated enzyme-linked immunosorbent assay (ELISA) measured emicizumab plasma concentrations. A chromogenic FVIII activity assay containing bovine coagulation factors (Siemens; insensitive to emicizumab) monitored endogenous and infused FVIII activity. FVIII antigen levels were quantified using an ELISA (Affinity Biologicals). A chromogenic FVIII activity assay containing human-derived coagulation factors (Hyphen Biophen) was used to monitor ‘FVIII-like activity’; however, this cannot be compared with or interpreted as equivalent to FVIII activity in people with HA.^(,) TG peak height was measured with two TG assays (Diagnostica Stago), triggered by activated FXI or tissue factor.^(,) Activated partial thromboplastin time (aPTT) and prothrombin time (PT) were measured by local laboratories using their standard reagents. Plasma concentrations of coagulation biomarkers, i.e. fibrinogen (STA Fibrinogen, Diagnostica Stago), prothrombin fragment 1+2 (Enzygnost F1+2 ELISA, Siemens) and D-dimer (STA-Liatest D-DI, Diagnostica Stago) were also measured.^(,)"
+    },
+    {
+      "type": "paragraph",
+      "text": "Immune responses to emicizumab were determined by assessing baseline ADAs and monitoring for ADA incidence during the study using bridging ELISAs. ADAs were evaluated for their neutralizing ability using a modified FVIII chromogenic assay measuring emicizumab activity. Samples were tested for *de novo* FVIII inhibitors using a chromogenic Bethesda assay. Inhibitor development was defined as a titer ≥0.6 BU/mL, and confirmed by a secondary sample. Analyses to distinguish true FVIII inhibitors from lupus anticoagulant were not part of study protocol and thus not performed."
+    },
+    {
+      "type": "paragraph",
+      "text": "Genetic analyses included sequencing of *F8* coding regions and exon/intron boundaries using Sanger sequencing and rearrangements were analyzed using inverse-shifting polymerase chain reaction. Variants were mapped against population and disease genetic databases, including ClinVar and gnomAD.^(,) A subset analysis of participants who were at high risk for developing FVIII inhibitors based on their *F8* genotype was also performed."
+    },
+    {
+      "type": "heading",
+      "text": "Data analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Efficacy and safety analyses were performed on all participants who received ≥1 emicizumab dose. The overall sample size of approximately 70 participants was based primarily on clinical considerations, taking into account the limited number of people with non-severe HA. All analyses were descriptive, and no formal statistical analyses were performed. ABRs were estimated using a negative binomial regression model."
+    },
+    {
+      "type": "heading",
+      "text": "Results"
+    },
+    {
+      "type": "heading",
+      "text": "Baseline characteristics"
+    },
+    {
+      "type": "paragraph",
+      "text": "This long-term follow-up of HAVEN 6 included all 72 participants treated with emicizumab, previously described in the primary analysis (). At cut-off (December 11, 2023: the date that the final participant enrolled in a country where the Post-Trial Access Program was available switched over to the continued access program), the median (interquartile range [IQR]) follow-up period was 155.9 (24.1–192.6) weeks. Sixty-nine (95.8%) participants were male and three (4.2%) were female. Median (range) age at enrollment was 23.5 (2–71) years (). Although FVIII levels do not uniformly correlate with clinical phenotype, HA severity according to FVIII classifications is reported here to characterize this study population: 51 (70.8%) participants had moderate HA and 21 (29.2%) had mild HA ().Figure 1.HAVEN 6 disposition chart*More than one reason could be given for screening failure. Prior to primary analysis, three participants discontinued treatment (withdrawal from study). Following primary analysis, two further participants discontinued treatment (withdrawal from study), and one participant discontinued treatment but completed the safety follow-up period.Table 1.Baseline characteristics.DemographicParticipants (N = 72)\n**Median age, years (range)**\n23.5 (2–71)\n**Hemophilia severity, n (%)**\n Moderate51 (70.8) Mild21 (29.2)\n**Gender, n (%)**\n Male69 (95.8) Female3 (4.2)\n**Race, n (%)**\n Asian3 (4.2) Black or African American6 (8.3) White61 (84.7) Unknown2 (2.8)\n**Prior treatment, n (%)**\n Prophylactic37 (51.4) Episodic35 (48.6)\n**History of FVIII inhibitors, n (%)**\n2 (2.8)\n**Pre-study bleeds (all bleeds, both treated and untreated)**\n Mean number of bleeds in past 24 weeks (SD)4.7 (13.2) Median number of bleeds in past 24 weeks (range)2.0 (0–96) Calculated ABR, median (IQR)4.3 (0.00–9.78) Model-based ABR (95% CI)10.1 (6.93–14.76)\n**Number of pre-study bleeds, n**\n179\n**Type of bleed, n (%)**\n Joint109 (60.9) Muscle15 (8.4) Other55 (30.7)\n**Cause of bleed, n (%)**\n Traumatic101 (56.4) Spontaneous77 (43.0) Surgery or procedure1 (0.6)\n**Number of target joints prior to study entry per participant**\n​ Mean (SD)0.6 (1.2) Median (range)0.0 (0–8)\n**Participants with target joints, n (%)**\n24 (33.3) Participants with 1 target joint13 (54.2) Participants with >1 target joint11 (45.8)\n**Number of target joints at baseline**\n43\n**Investigator-reported reason for warranting prophylaxis, n (%)**\n\n History of frequent bleeding41 (56.9) History of frequent joint bleeding32 (44.4) History of severe bleeding15 (20.8) Prevention of traumatic bleeds9 (12.5) Other5 (6.9)ABR, annualized bleed rate; CI, confidence interval; F, factor; IQR, interquartile range; SD, standard deviation.*More than one reason could be given for warranting prophylaxis.^(†)Reasons for being on episodic treatment prior to study, despite warranting prophylaxis, included subject request (31.4%), availability (17.1%), and efficacy (17.1%).^(¶)Calculated by: (number of bleeds/total number of days during the efficacy period) × 365.25."
+    },
+    {
+      "type": "paragraph",
+      "text": "Overall, 6/21 (28.6%) participants with mild HA had target joints (by International Society on Thrombosis and Haemostasis classification) at baseline, one of whom was receiving prophylactic treatment; the rest were receiving episodic treatment. Additionally, 18/51 (35.3%) participants with moderate HA had target joints at baseline: eight participants receiving prophylactic treatment; ten receiving episodic treatment. All participants with target joints at baseline were male."
+    },
+    {
+      "type": "paragraph",
+      "text": "Twenty-five (34.7%) participants received a maintenance dose of 1.5 mg/kg emicizumab QW, 39 (54.2%) received 3 mg/kg Q2W and eight (11.1%) received 6 mg/kg emicizumab Q4W."
+    },
+    {
+      "type": "heading",
+      "text": "Efficacy"
+    },
+    {
+      "type": "heading",
+      "text": "Bleeding events"
+    },
+    {
+      "type": "paragraph",
+      "text": "Mean model-based ABR for treated bleeds was 1.0 (95% confidence interval [CI]): 0.71–1.35), and median ABR for treated bleeds was 0.4 (IQR: 0.00–1.61). Treated bleeds were further categorized into spontaneous, joint, and target joint bleeds. Model-based ABRs were 0.2 (95% CI: 0.13–0.32) for treated spontaneous bleeds, 0.3 (95% CI: 0.15–0.43) for treated joint bleeds and 0.1 (95% CI: 0.04–0.25) for treated target joint bleeds (). Mean calculated ABR for treated bleeds was consistent across 52-week intervals: Weeks 1–52 (0.9; n = 69), Weeks 53–104 (1.0; n = 63) and Weeks 105–156 (0.9; n = 35) (Figure (A)); and across 24-week intervals (supplemental Figure 1). Mean calculated ABR for all bleeds was slightly higher in the first 52-week interval and the first 24-week interval, but consistently low thereafter (Figure (A); supplemental Figure 1).Table 2.ABRs for overall population and proportion of participants with zero bleeds.Bleed typeAll participants (N = 72)Participants with moderate HA (n = 51)Participants with mild HA (n = 21)\n**Treated bleeds**\n Participants with zero bleeds24 (33.3%)19 (37.3%)5 (23.8%) Model-based ABR (95% CI)1.0 (0.71–1.35)1.0 (0.65–1.50)0.9 (0.59–1.51) Mean calculated ABR (95% CI)1.0 (0.02–5.54)1.0 (0.02–5.56)1.0 (0.02–5.51) Median calculated ABR (IQR)0.4 (0.00–1.61)0.4 (0.00–1.58)0.4 (0.30–1.64) Calculated min–max0.00–6.110.00–6.110.00–3.62\n**All bleeds**\n Participants with zero bleeds13 (18.1%)9 (17.6%)4 (19.0%) Model-based ABR (95% CI)1.7 (1.32–2.18)1.8 (1.29–2.39)1.5 (1.03–2.29) Mean calculated ABR (95% CI)1.7 (0.15–6.71)1.7 (0.17–6.82)1.5 (0.11–6.44) Median calculated ABR (IQR)1.2 (0.34–2.28)1.1 (0.35–2.40)1.3 (0.33–2.17) Calculated min–max0.00–10.910.00–10.910.00–5.04\n**Treated spontaneous bleeds**\n Participants with zero bleeds50 (69.4%)36 (70.6%)14 (66.7%) Model-based ABR (95% CI)0.2 (0.13–0.32)0.1 (0.09–0.24)0.4 (0.14–0.86) Mean calculated ABR (95% CI)0.2 (0.00–4.10)0.1 (0.00–3.98)0.3 (0.00–4.37) Median calculated ABR (IQR)0.0 (0.00–0.31)0.0 (0.00–0.33)0.0 (0.00–0.33) Calculated min–max0.00–2.530.00–1.520.00–2.53\n**Treated joint bleeds**\n Participants with zero bleeds52 (72.2%)38 (74.5%)14 (66.7%) Model-based ABR (95% CI)0.3 (0.15–0.43)0.2 (0.11–0.45)0.3 (0.13–0.76) Mean calculated ABR (95% CI)0.3 (0.00–4.10)0.2 (0.00–4.15)0.3 (0.00–4.30) Median calculated ABR (IQR)0.0 (0.00–0.31)0.0 (0.00–0.30)0.0 (0.00–0.33) Calculated min–max0.00–2.530.00–1.800.00–2.53\n**Treated target joint bleeds**\n Participants with zero bleeds64 (88.9%)45 (88.2%)19 (90.5%) Model-based ABR (95% CI)0.1 (0.04–0.25)0.1 (0.03–0.20)0.2 (0.02–1.26) Mean calculated ABR (95% CI)0.1 (0.00–3.89)0.1 (0.00–3.85)0.2 (0.00–4.00) Median calculated ABR (IQR)0.0 (0.00–0.00)0.0 (0.00–0.00)0.0 (0.00–0.00) Calculated min–max0.00–2.530.00–1.520.00–2.53ABR, annualized bleed rate; CI, confidence interval; HA, hemophilia A; IQR, interquartile range; min, minimum; max, maximum.*Median observation time was 155.93 weeks. Bleeds due to surgery/procedure were excluded.Figure 2.Bleed endpoints: (A) mean calculated ABR and (B) proportion of participants with zero bleeds at 52-week intervals*95% CI for the mean based on Exact Poisson. Bleeds due to surgery/procedures excluded. All bleeds includes both treated and non-treated bleeds; all other endpoints include treated bleeds only. Treated bleeds are defined as bleeds followed by ‘treatment for bleed’. Treated joint bleeds are defined as treated bleeds where bleed type is ‘joint’ as reported in the bleed medication questionnaire regardless of whether any accompanying symptoms have been observed. Treated spontaneous bleeds are defined as a treated bleed with no other known contributing factor such as trauma or procedure/surgery. Treated target joint bleeds are defined as treated joint bleeds that occur in a target joint, defined as a joint in which ≥3 spontaneous bleeds occurred during the prior 24 weeks. ABR, annualized bleed rate; CI, confidence interval."
+    },
+    {
+      "type": "paragraph",
+      "text": "Overall, 33.3% of participants had zero treated bleeds and 69.4% of participants had zero treated spontaneous bleeds up to data cut-off (). When examined according to disease severity, four (19.0%) participants with mild HA and nine (17.6%) with moderate HA had zero bleeds (treated or untreated); five (23.8%) participants with mild HA and 19 (37.3%) with moderate HA had zero treated bleeds. The proportion of participants with zero treated bleeds across 52-week intervals was 66.7% (n = 46/69) in Weeks 1–52, 55.6% (n = 35/63) in Weeks 53–104, and 51.4% (n = 18/35) in Weeks 105–156 (Figure (B))."
+    },
+    {
+      "type": "heading",
+      "text": "Target joint resolution"
+    },
+    {
+      "type": "paragraph",
+      "text": "Twenty-four (33.3%) participants had 43 target joints in total at baseline (). A third (8/24; 33.3%) of participants with ≥1 target joint at baseline experienced ≥1 target joint bleed up to data cut-off (supplemental Table 1). Nonetheless, 95.3% of target joints resolved in the first 52 weeks of the study and 97.7% of target joints resolved by data cut-off (target joint resolution was defined as ≤2 spontaneous bleeds into a target joint within 52 weeks;\nsupplemental Table 2)."
+    },
+    {
+      "type": "paragraph",
+      "text": "Of the two participants with target joints that did not resolve during the first 52 weeks, one (participant C) was 46 years old at study entry and had moderate HA. At entry, he had two target joints: the left ankle and right knee. He received 3 mg/kg emicizumab Q2W and had four bleeds in the right knee during long-term follow-up, all traumatic (supplemental Table 1). The other (participant G) was 71 years old at study entry, with mild HA and a history of intermittent synovitis. At entry, he had one target joint: the right knee. He received 6 mg/kg emicizumab Q4W and experienced two traumatic and five spontaneous target joint bleeds during long-term follow-up (supplemental Table 1). Based on these results, participant C’s target joints were considered resolved, and participant G’s target joint remained unresolved at latest cut-off."
+    },
+    {
+      "type": "heading",
+      "text": "Safety"
+    },
+    {
+      "type": "paragraph",
+      "text": "By data cut-off, 481 AEs were reported. Overall, 67 (93.1%) participants experienced ≥1 AE (). Sixteen (22.2%) participants had ≥1 serious AE, while eight (11.1%) had ≥1 Grade 3 AE. No serious AEs were considered related to emicizumab (). Eighteen (25.0%) participants had ≥1 emicizumab-related AE, including 13 (18.1%) participants who had ≥1 local injection-site reaction (ISR; supplemental Table 3). All ISRs were deemed related to emicizumab.Table 3.Overall safety summary.​Number of participants (N = 72)\n**Total number of participants with at least one AE**\n67 (93.1%)\n**Total number of AEs**\n481\n**Total number of participants with at least one**\n AE with fatal outcome0 Serious AE16 (22.2%) AE leading to withdrawal from treatment0 AE leading to dose modification/interruption0 Grade ≥3 AE8 (11.1%) Related AE18 (25.0%) Local injection-site reaction13 (18.1%)\n**AEs of special interest**\n Systemic hypersensitivity/anaphylactic/anaphylactoid reaction0 Thromboembolic event2 (2.8%) Thrombotic microangiopathy0 Suspected transmission of an infectious agent by the study drug0 Potential drug-induced liver injury0AE, adverse event.*Twenty-three serious adverse events were reported in 16 participants, including: injury, poisoning and procedural complications (n = 7); gastrointestinal disorders (n = 4); infections and infestations (n = 3); reproductive system and breast disorders (n = 3); vascular disorders (n = 2); renal and urinary disorders (n = 2); musculoskeletal and connective tissue disorders (n = 1) and metabolism and nutrition disorder (n = 1).^(†)Forty-two emicizumab-related events were reported in 18 participants, 32 of which were injection-site reactions in 13 participants; full details are provided in supplemental Table 3."
+    },
+    {
+      "type": "heading",
+      "text": "Thromboembolic events and thrombotic microangiopathies"
+    },
+    {
+      "type": "paragraph",
+      "text": "Two TEs occurred up to latest cut-off: one previously reported in the primary analysis, the second during this follow-up. The first participant developed Grade 1 thrombosed hemorrhoids, classified as a TE and deemed unrelated to emicizumab. This TE resolved, and the participant continued with emicizumab treatment."
+    },
+    {
+      "type": "paragraph",
+      "text": "The second participant had mild HA and was 65 years old at enrollment. During HAVEN 6, he was diagnosed with a non-serious Grade 2 renal infarct, considered to be emicizumab-related, and hypertension (concomitant illness). Following dysuria, a renal echocardiography was performed, which found sequelae of infarction in the left kidney. The participant had previous history of coronary artery disease, urinary lithiasis, hepatitis C, chronic lymphocytic leukemia, and *Pneumocystis carinii* infection. The TE resolved, and the participant continued emicizumab treatment."
+    },
+    {
+      "type": "paragraph",
+      "text": "No thrombotic microangiopathies occurred up to this data cut-off."
+    },
+    {
+      "type": "heading",
+      "text": "Development of anti-drug antibodies"
+    },
+    {
+      "type": "paragraph",
+      "text": "ADAs were detected in two (3.0%) participants; although both cases were neutralizing *in vitro*, neither had an effect on emicizumab PK and both participants tested negative by the primary analysis cut-off. No further samples tested positive for ADAs in this long-term follow-up."
+    },
+    {
+      "type": "heading",
+      "text": "F8 genotyping analysis and development of FVIII inhibitors"
+    },
+    {
+      "type": "paragraph",
+      "text": "*F8* genotyping of participants identified variants consistent with mild or moderate HA; missense mutations were the most common (Figure (A)). Two rearrangements and 67 unique short variants were identified, including 13 benign and 47 likely pathogenic/unclassified. Six novel variants, previously undocumented in genetic databases, were also identified. After benign variants were excluded, 58 (81.6%) participants had one missense variant (Figure (A)). Genetic variants were mapped against endogenous FVIII activity of participants (Figure (B)). Eleven participants were identified with *F8* mutations previously associated with high risk of FVIII inhibitor development.Figure 3.(A) Variant type frequencies in HAVEN 6 participants and (B) *F8* variants vs endogenous FVIII activity (A) The participant with only benign variants is indicated by ‘benign’; this participant had three benign variants. Some participants had both pathogenic and benign variants; in these cases, only the suspected pathogenic variant(s) is included here. Two participants had no identifiable variants, and are indicated by ‘wild type’. (B) *According to Eckhardt et al. Mean FVIII activity across timepoints for each individual. Values <6 IU/dL (LLoQ of the assay) were set to 3 IU/dL (LLoQ/2) for the calculation. Timepoints corresponding with FVIII treatment were excluded. The Y2124YC heterozygous variant was identified in a female participant. bp, base pairs; F, factor; LLoQ, lower limit of quantification."
+    },
+    {
+      "type": "paragraph",
+      "text": "During HAVEN 6, 54 (75.0%) participants were exposed to FVIII. Mean (standard deviation) and median (range) cumulative number of exposure days (EDs) were 16.4 (27.9) and 7.5 (1–190) days, respectively."
+    },
+    {
+      "type": "paragraph",
+      "text": "Analysis of the 11 participants with high risk of developing FVIII inhibitors showed nine (81.8%) participants received FVIII for bleed treatment over a median (min–max) of 14.0 (1–43) EDs, cumulatively. Two participants (2.8%) in the subset analysis, who received emicizumab 3 mg/kg Q2W and had no prior history of FVIII inhibitors, received exogenous FVIII during the study and developed *de novo* FVIII inhibitors. The first participant had moderate HA. Following the first week, where FVIII prophylaxis was still permitted, he had 10 on-study FVIII EDs comprising Study Days 954 (treatment for a traumatic bleed in the left toes), 960 (preventative dose for procedure/surgery) and 975–982 consecutively (treatment for traumatic joint bleed in the right ankle), before testing positive for inhibitors on Study Day 1009. His highest titer measured 1.9 BU/mL. After testing positive for inhibitors, he received FVIII treatment on Study Day 1022 (preventative dose for procedure/surgery) and tested positive on study completion (1.6 BU/mL). This participant tested positive for FVIII inhibitors at 15 years of age. Documentation indicates he had 86 previous FVIII EDs since birth. His first inhibitor-positive central lab finding was after 21,500 total units of FVIII replacement. The second participant who developed inhibitors had mild HA. He had five on-study FVIII EDs; he received FVIII treatment once before testing positive for inhibitors, as a preventative dose for procedure/surgery on Study Day 208. After testing positive on Study Day 339 (highest titer 2.7 BU/mL), he received FVIII treatment on Study Days 486–489 inclusive, as treatment for a traumatic joint bleed in the right knee. This participant’s inhibitor titer was undetectable by Study Day 673 and he remained negative at cut-off date. This participant tested positive for inhibitors at 31 years of age. Available documentation from when he was approximately 10 years of age determined he had 58 FVIII EDs prior to enrollment in HAVEN 6, with a first inhibitor-positive result after 361,750 total units of FVIII replacement."
+    },
+    {
+      "type": "paragraph",
+      "text": "Both participants who developed *de novo* FVIII inhibitors had the same *F8* variant, R2169H. In a previous study, 9/57 (15.8%) participants with this mutation developed FVIII inhibitors."
+    },
+    {
+      "type": "paragraph",
+      "text": "Two participants had a history of FVIII inhibitors prior to the study, but were eligible as they tested negative for inhibitors (<0.6 BU/mL) within 8 weeks prior to enrollment. Regular FVIII prophylaxis was permitted to continue until the second emicizumab loading dose. After their second doses of emicizumab, one participant had three on-study FVIII EDs and one participant had 30 on-study FVIII EDs. Both participants had no recurrence of FVIII inhibitors during the study."
+    },
+    {
+      "type": "heading",
+      "text": "Pharmacokinetics and pharmacodynamics"
+    },
+    {
+      "type": "paragraph",
+      "text": "Therapeutic emicizumab plasma concentrations were maintained throughout the study (supplemental Figure 2). aPTT was shortened to below the upper limit of the reference range (23.9–40.0 seconds) at the first post-dose measurement, 1 week after the first dose of emicizumab (Figure (A)).Figure 4.(A) Activated partial thromboplastin time over time, (B) thrombin generation peak height (FXIa-triggered) over time and (C) thrombin generation peak height (TF-triggered) over time. Samples collected within 48 hours after FVIII administration were excluded, with the exception of the baseline samples. If clotting was not detected, the sample was also excluded from analysis. Dependent on the LLoQ of the local assay, values of aPTT reported as <20 seconds are replaced with 20 and values of aPTT reported as <22 seconds are replaced with 22. The laboratory-defined reference range for TF-triggered TG is 147.95–419.91 nM. There were no defined reference ranges for other laboratory measures. aPTT, activated partial thromboplastin time; CI, confidence interval; EOT, end of testing; FXIa, activated factor XI; LLoQ, lower limit of quantification; QW, weekly; Q2W, every 2 weeks; Q4W, every 4 weeks; sec, seconds; TF, tissue factor; TG, thrombin generation."
+    },
+    {
+      "type": "paragraph",
+      "text": "Mean TG peak height increased during the loading phase and was sustained during maintenance dosing, with levels below those observed in normo-coagulative people (Figure (B) and (C)). FXIa-triggered TG, with steady state peak height of 150–160 nM in HAVEN 6, in those with mild or moderate HA, was higher than the approximately 120 nM previously observed in people with severe HA using emicizumab."
+    },
+    {
+      "type": "paragraph",
+      "text": "FVIII-like activity increased to around 35–40 IU/dL during the loading phase, stabilized around 20–30 IU/dL by Week 61 and was maintained throughout the follow-up period (supplemental Figure 3)."
+    },
+    {
+      "type": "paragraph",
+      "text": "Endogenous FVIII levels were measured at various timepoints; results below the lower limit of quantification (LLoQ; 6 IU/dL) were set to half of the LLoQ (3 IU/dL). Median (IQR) endogenous FVIII activity in participants with mild HA across the duration of the study, including long-term follow-up, was 8.1 (3.6–11.6) IU/dL. Median endogenous FVIII activity in participants with moderate HA was below the LLoQ. Endogenous FVIII concentration and mean antigen levels remained constant (supplemental Figure 4)."
+    },
+    {
+      "type": "heading",
+      "text": "Exploratory biomarker analyses"
+    },
+    {
+      "type": "paragraph",
+      "text": "PT (supplemental Figure 5) and other coagulation parameters (mean concentrations of D-dimer, prothrombin fragment 1+2, and fibrinogen; supplemental Figure 6) all remained constant during the study."
+    },
+    {
+      "type": "heading",
+      "text": "Discussion"
+    },
+    {
+      "type": "paragraph",
+      "text": "This long-term analysis corroborates previously published HAVEN 6 data, expanding on the efficacy and safety profile of emicizumab and providing insight into *F8* genotypes, PK, PD and safety biomarkers in emicizumab-treated people with mild or moderate HA."
+    },
+    {
+      "type": "paragraph",
+      "text": "HAVEN 6 is the first study of emicizumab in people with mild or moderate HA, making comparisons with the literature difficult. CHESS II, one of the few studies to explore outcomes in people with mild and moderate hemophilia, concluded that disease burden, as measured by direct costs, health-related QoL and problem joints, increased with disease severity; however, it did not appear to differ substantially between people with moderate or severe hemophilia. This is corroborated by the notable disease burden evident from the HAVEN 6 participant characteristics prior to study entry, with 33% displaying ≥1 target joint and overall model-based ABR calculated to be 10.1. These data highlight the need for improved treatment of people with mild or moderate HA."
+    },
+    {
+      "type": "paragraph",
+      "text": "Efficacy and safety of emicizumab were maintained after almost 3 years of exposure in HAVEN 6, consistent with previous long-term analyses in people with severe HA.^(,) Model-based ABRs for treated bleeds were maintained at similar levels to those observed during the HAVEN 6 primary analysis, including treated joint, spontaneous, and target joint bleeds. The model-based ABR for all bleeds was numerically lower in this analysis (1.7) after a median follow-up time of 155.6 weeks compared with the primary analysis (2.3), which had a median follow-up of 55.6 weeks. This is consistent with long-term analyses of earlier HAVEN studies in people with severe HA; however, across those studies, both all-bleed ABR and treated-bleed ABR decreased over time, whereas no such finding for treated bleeds is seen here, perhaps due to an already low tendency to treat bleeds among people with mild and moderate HA. Calculated mean ABR for all bleeds was highest between 1 and 52 weeks and decreased by Week 156. The ABRs for treated bleeds, treated joint bleeds, treated target joint bleeds, and treated spontaneous bleeds generally remained stable through Week 1 to Week 156."
+    },
+    {
+      "type": "paragraph",
+      "text": "The proportions of participants with zero all bleeds and zero treated bleeds were lower in this follow-up compared with the primary analysis.^(,,) This is expected, given the longer observation period of this analysis. In an observational study of 304 participants with mild or moderate HA (82.0%) and hemophilia B (18.0%), over a median follow-up of 11 years, 22.0% of the overall study population had zero treated bleeds and 76.0% had zero spontaneous bleeds; among participants with mild HA (77.0% of the study population) and those with moderate HA (23.0% of the study population), 26.0% and 10.0% had zero treated bleeds, respectively. Additionally, 51% of patients experienced at least one joint bleed that was treated with clotting factor concentrates, while in the present study, 72.2% of patients had zero treated joint bleeds. Longer observation periods will reduce the proportion of participants with zero treated bleeds, and this study had a particularly long follow-up of 11 years, but these results suggest that higher rates of prophylactic treatment could help to prevent bleeding in this population that has been historically undertreated: 20% of those with moderate hemophilia and just 2% of those with mild hemophilia were receiving some form of prophylaxis. The fact that 24% of the population also had at least one spontaneous bleed during this observation period supports the fact that some people with non-severe hemophilia are still at risk of spontaneous bleeding events and the potential long-term consequences associated with this."
+    },
+    {
+      "type": "paragraph",
+      "text": "In the HAVEN 3 and 4 studies, when participants with HA with and without inhibitors were evaluated over 52-week intervals, the proportion of participants with zero treated bleeds increased from 50.5% in Weeks 1–52 to 70.5% in Weeks 209–260, unlike the current study where the proportion of participants with zero treated bleeds decreased over time (Weeks 1–52, 66.7%; Weeks 53–104, 55.6%; Weeks 105–156, 51.4%). This may be due to skewing of the data due to attrition of participants throughout the study, from 69 participants during Weeks 1–52 to 35 participants during Weeks 105–156. Other potential reasons for this disparity could be the population becoming more active over time, perhaps due to a perception of greater protection, and a younger median age (HAVEN 6, 23.5 years; HAVEN 3 and 4, 38.0 years), thereby being more susceptible to traumatic bleeds requiring treatment; or a tendency to more diverse and unique bleeding phenotypes among those with non-severe HA, which are still not fully understood."
+    },
+    {
+      "type": "paragraph",
+      "text": "Long-term ABR and target joint resolution data in participants with mild or moderate HA are valuable in informing clinicians of the potential clinical benefit of emicizumab in these populations, as there is still inadequate access to emicizumab for people with mild and moderate HA in some regions,^(–) despite a notable proportion of people with mild or moderate HA experiencing frequent bleeds and associated joint damage, impacting their health-related QoL.^(,,)"
+    },
+    {
+      "type": "paragraph",
+      "text": "The safety profile of emicizumab was comparable with previous studies.^(,,) Two TEs occurred: one considered to be hypertension- and emicizumab-related, the other unrelated to emicizumab. Neither instance led to discontinuation of emicizumab prophylaxis. There were no new reports of ADA development following the primary analysis. ADA incidence was consistent with the overall emicizumab immunogenicity profile reported in the development program so far."
+    },
+    {
+      "type": "paragraph",
+      "text": "*F8* mutations found in this analysis were consistent with previous mutations found in other studies; previous analyses found that, among 214 different missense mutations, 19 were associated with FVIII inhibitor development. Analysis of *F8* genotypes in larger numbers of people with HA may be able to determine individualized risk of FVIII inhibitor development in the HA population."
+    },
+    {
+      "type": "paragraph",
+      "text": "Overall, 75.0% of participants were exposed to FVIII over this long-term analysis (median [IQR] follow-up 155.9 [24.1–192.6] weeks), with a mean (SD) cumulative number of EDs of 16.4 (27.9). This included 9/11 participants who were genotypically at high risk of developing inhibitors. There were two cases of *de novo* FVIII inhibitor development, which is comparable to the low rates of inhibitor development in studies of emicizumab in people with severe HA.^(,) The effective bleed control and resulting low FVIII exposure shown in studies of emicizumab may decrease or defer the likelihood of inhibitor development^(,,,,); further studies over a longer follow-up period are warranted, including assessments of age at first FVIII exposure, total number of EDs, and intensity of exposure, in conjunction with race and genotype. Emicizumab prophylaxis could allow for FVIII treatment to be protected for emergency-use situations, such as major surgery, for people that do not experience breakthrough bleeds requiring FVIII treatment."
+    },
+    {
+      "type": "paragraph",
+      "text": "PK analysis confirmed that therapeutic emicizumab plasma levels were maintained throughout, consistent with previous studies that investigated PK in participants with severe HA. Median (range) endogenous FVIII activity for participants with mild HA (all of whom required prophylaxis, per inclusion criteria) was towards the lower end (8.1 [3.6–11.6] IU/dL) of the range defined as mild. People with endogenous FVIII activity at the high end of the mild range may be less likely to have a severe bleeding phenotype and therefore less likely to require prophylaxis. However, emicizumab is expected to improve coagulation potential regardless of endogenous FVIII activity, based on *in vitro, in vivo,* and clinical data.^(,,) Emicizumab effect on aPTT was similar to other studies in people with severe HA, despite the higher endogenous FVIII in this study population.^(,) TG was higher in HAVEN 6 compared with other studies, likely reflecting the higher levels of endogenous FVIII present in people with mild/moderate versus severe HA.^(,,) Safety biomarkers of coagulation (D-dimer, fibrinogen, and prothrombin fragment 1+2) were not affected, which further supports emicizumab safety in this population."
+    },
+    {
+      "type": "heading",
+      "text": "Strengths and limitations"
+    },
+    {
+      "type": "paragraph",
+      "text": "A strength of this long-term analysis is that it contains a relatively large number of participants with mild or moderate HA, including both pediatric and adult populations and female participants. HAVEN 6 demonstrates the importance of extending treatment access, including prophylaxis, to people with mild or moderate HA."
+    },
+    {
+      "type": "paragraph",
+      "text": "One limitation is that participants’ need for prophylaxis was determined by individual investigator assessment as part of the entry criteria, and results should not be considered representative of all individuals with mild or moderate HA. Secondly, HAVEN 6 was a single-arm, open-label, non-controlled study, so efficacy measurements are descriptive only and no statistical analysis has been completed. Power analysis was not undertaken prior to the study; however, the sample size was determined based on clinical considerations and was expected to provide statistically robust point estimates. Furthermore, any reported bleed data from the study relied on participant self-reporting tools; therefore, bleed assessments and whether treatment was required were subjective. Finally, the bovine chromogenic substrate assay used to measure endogenous FVIII activity has a LLoQ of 6 IU/dL, so correlation of FVIII activity and *F8* genotypes in participants with FVIII activity <6 IU/dL (all moderate and some mild HA) could not be determined."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusions"
+    },
+    {
+      "type": "paragraph",
+      "text": "HAVEN 6 was the first phase 3 clinical trial to examine outcomes of emicizumab in people with mild or moderate HA, and continued analysis is important to provide further evidence on the efficacy and safety of emicizumab in these populations. Emicizumab demonstrated efficacy in maintaining bleed control over time and was well tolerated with no new or unexpected safety concerns. Emicizumab had no impact on safety biomarkers of coagulation and no elevations of TG peak height surpassed the reported range for normo-coagulative people. These results confirm emicizumab as a suitable therapeutic option for long-term prophylactic treatment of select people with mild or moderate HA with severe bleeding phenotype."
+    },
+    {
+      "type": "heading",
+      "text": "Supplemental material"
+    }
+  ]
+}
