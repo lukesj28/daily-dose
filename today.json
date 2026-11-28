@@ -1,0 +1,221 @@
+{
+  "id": "PMC13800682",
+  "title": "The Lateral Mesencephalic Sulcus as a Layered Posterolateral Microsurgical Corridor: A Cadaveric Fiber Dissection and MRI Morphometric Study",
+  "journal": "Brain Sciences",
+  "fetch_date": "2026-11-28",
+  "publish_date": "2026-11-04",
+  "authors": [
+    "Berra Bilgin",
+    "Mustafa Eren Yuncu",
+    "Meltem Yilmaz",
+    "Erman Guler",
+    "Ali Karadag",
+    "Baran Bozkurt",
+    "Necmettin Tanriover"
+  ],
+  "license": "Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license.",
+  "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13800682/",
+  "abstract": "**What are the main findings?**\nStepwise fiber dissection documents the superficial and deep anatomical relationships surrounding the lateral mesencephalic sulcus.MRI morphometry in an independent cohort of 100 adults describes interindividual variation in selected LMS-related and midsagittal regional measurements. Stepwise fiber dissection documents the superficial and deep anatomical relationships surrounding the lateral mesencephalic sulcus. MRI morphometry in an independent cohort of 100 adults describes interindividual variation in selected LMS-related and midsagittal regional measurements. **What are the implications of the main findings?**\nThe cadaveric and MRI components provide complementary descriptive anatomical reference data.The clinical applicability of the MRI parameters and preliminary splenium–mesencephalon classification requires further validation. The cadaveric and MRI components provide complementary descriptive anatomical reference data. The clinical applicability of the MRI parameters and preliminary splenium–mesencephalon classification requires further validation. Background/Objectives: This study aimed to describe the sequential microsurgical relationships surrounding the lateral mesencephalic sulcus (LMS) through fiber dissection and characterize regional anatomical variation using MRI morphometry in an independent adult cohort. Methods: Eight formalin-fixed adult specimens underwent stepwise fiber dissection. T2-weighted MRI examinations from 100 adults were retrospectively analyzed. Measurements included the inferior colliculus–straight sinus angle (ICSSA), corpus callosum–pontomesencephalic junction distance (CCPJD), LMS–midline angle (LMS-MA), LMS–midline distance (LMS-MD), and LMS–cerebellar surface distance (LMS-CSD). The splenium–mesencephalon relationship (SMR) was categorized descriptively. Comparisons and age correlations were evaluated using Holm-adjusted *p* values. Results: Dissection documented sequential relationships between the LMS, lemniscal pathways, superior cerebellar peduncle, and deep tegmental structures. The MRI cohort included 50 women and 50 men aged 23–88 years. Mean ICSSA was 29.6 ± 5.3° and CCPJD was 24.17 ± 3.85 mm. Right and left values were 21.9 ± 3.9° and 22.2 ± 4.0° for LMS-MA, 9.77 ± 0.81 and 9.91 ± 0.84 mm for LMS-MD, and 6.12 ± 1.87 and 6.28 ± 1.68 mm for LMS-CSD. No right–left differences remained significant after correction. Males had greater left LMS-MD and right LMS-CSD (adjusted *p* = 0.002 and 0.004, respectively). Age correlated negatively with CCPJD (ρ = −0.389; adjusted *p* < 0.001) and positively with right and left LMS-CSD (ρ = 0.268 and 0.379; adjusted *p* = 0.042 and <0.001, respectively). SMR Types A, B, and C occurred in 70%, 29%, and 1%, respectively. Conclusions: Fiber dissection and MRI morphometry provide complementary descriptive anatomical reference data. The MRI parameters characterize regional variation; their correspondence with deep microsurgical boundaries and clinical applicability remain to be established.",
+  "content": [
+    {
+      "type": "heading",
+      "text": "1. Introduction"
+    },
+    {
+      "type": "paragraph",
+      "text": "Lateral mesencephalic sulcus (LMS) is one of the principal surface landmarks of the brainstem and has been recognized as a safe entry zone for intrinsic lesions of the lateral mesencephalon [,,]. Located on the posterolateral surface of the mesencephalon, the LMS extends craniocaudally from the level of the medial geniculate body superiorly to the ponto-mesencephalic junction inferiorly and lies between the cerebral peduncle anteriorly and the lateral tegmentum posteriorly [,,,,]. At deeper levels, it overlies a narrow region bounded anterolaterally by the substantia nigra and corticospinal tract (CST) and posteriorly by the medial lemniscus (ML) [,,,,]. Because of these anatomical relationships, the LMS has traditionally been regarded as a safe surgical entry zone for selected intrinsic mesencephalic lesions [,,,]. The LMS is most used for the surgical treatment of intrinsic lateral mesencephalic lesions, particularly cavernous malformations [,,,,]. Because favorable outcomes depend on precise trajectory selection and preservation of critical surrounding pathways, detailed knowledge of the microsurgical anatomy of this region is essential [,,]."
+    },
+    {
+      "type": "paragraph",
+      "text": "Several surgical approaches have been described to access the LMS, including the subtemporal, paramedian supracerebellar infratentorial (SCIT), and lateral SCIT approaches. More recently, a supreme-lateral SCIT approach through a presigmoid retrolabyrinthine craniectomy has been described as an additional surgical alternative [,,,,]. Each of these approaches provides a different surgical trajectory and offers varying degrees of craniocaudal and transverse exposure of the lateral mesencephalon. Consequently, selecting the optimal surgical approach requires careful consideration of the anatomical characteristics of the surgical corridor in each individual patient []. Previous microsurgical and fiber-dissection studies have characterized the LMS and its relationships with deep brainstem pathways and nuclei [,,]. Building on this anatomical foundation, the present study combines an LMS-focused sequence of fiber dissections with structural MRI morphometry in an independent cohort of 100 adults. Its distinctive contribution is the joint assessment of the sequential anatomical relationships surrounding the LMS and the interindividual variation in regional geometry, including angular relationships, mediolateral position, cerebellomesencephalic distances, and the splenium–mesencephalon relationship. This focused anatomical and radiological assessment extends the description of established microsurgical anatomy by adding quantitative reference data and evaluating variation according to age, sex, and side."
+    },
+    {
+      "type": "paragraph",
+      "text": "Accordingly, this study aimed to characterize the LMS and its surrounding structures through stepwise fiber dissection and to quantify selected regional anatomical relationships on structural MRI. The cadaveric component documents the progression from superficial landmarks to deep white matter pathways and mesencephalic structures, whereas the MRI component characterizes the distribution and variability of the selected measurements. Together, these complementary components provide an LMS-focused anatomical reference supported by population-based morphometric observations. The MRI measurements were obtained in a separate cohort and were not directly validated against the cadaveric specimens."
+    },
+    {
+      "type": "heading",
+      "text": "2. Materials and Methods"
+    },
+    {
+      "type": "heading",
+      "text": "2.1. Ethics Approval"
+    },
+    {
+      "type": "paragraph",
+      "text": "The retrospective MRI analysis was approved by the İzmir City Hospital Non-Interventional Ethics Committee (Approval No. 2026/291; 29 April 2026) and conducted in accordance with the Declaration of Helsinki. The MRI examinations were acquired and archived at İzmir City Hospital, İzmir, Türkiye, and the morphometric analysis was performed at the same institution. The approval covered the retrospective use and analysis of the imaging records included in this study. The analysis involved previously acquired imaging records and de-identified data, without direct participant contact; therefore, individual informed consent was not required."
+    },
+    {
+      "type": "paragraph",
+      "text": "The cadaveric component was an anatomical investigation involving donated adult human specimens, without living human participants, animals, or identifiable personal information. The specimens were obtained through Science Care, Inc. (Phoenix, AZ, USA), a commercial non-transplant anatomical donation organization, and no unclaimed bodies were used. Official guidance on ethics committee approval documentation issued by the Scientific and Technological Research Council of Türkiye (TÜBİTAK), updated on 21 October 2020, states that an ethics committee approval document is not required for studies using commercially available human cadavers, cadaveric parts, and other biological materials []. The authors considered this guidance applicable to the specimens obtained for the present investigation; no separate institutional ethics committee approval or formal exemption decision was obtained. Under the United States Federal Policy for the Protection of Human Subjects, a human subject is defined as a living individual (45 CFR §46.102(e)(1)) []. Research involving only deceased human specimens therefore falls outside the definition of human-subject research under this U.S. regulation."
+    },
+    {
+      "type": "paragraph",
+      "text": "In accordance with the providing organization’s donation and consent procedures, documented informed consent for postmortem anatomical dissection and educational and research use had been obtained from the donors or their legally authorized representatives before specimen acquisition. No additional participant consent was sought because the cadaveric component involved no living participants or identifiable personal information. All dissections were conducted at the Microsurgical Neuroanatomy Laboratory, Department of Neurosurgery, Cerrahpaşa Faculty of Medicine, Istanbul University-Cerrahpaşa, Istanbul, Türkiye. The procurement and anatomical dissection of the donated specimens were conducted in accordance with the relevant institutional standards of Istanbul University-Cerrahpaşa for postmortem anatomical research."
+    },
+    {
+      "type": "heading",
+      "text": "2.2. Fiber Dissection"
+    },
+    {
+      "type": "paragraph",
+      "text": "Eight formalin-fixed adult human specimens comprising the brainstem and preserved adjacent diencephalic, pineal, and cerebellar structures were examined. The adjacent structures included the pulvinar, medial geniculate body, pineal gland, and cerebellum, permitting assessment of their anatomical relationships with the LMS. The specimens were received already formalin-fixed and frozen and were thawed at room temperature before dissection. During the early stage of dissection, comprising removal of the arachnoid membranes and vascular structures, two additional freeze–thaw cycles were performed; in each cycle, the specimens were frozen at −18 °C for 12 h and thawed at room temperature. Freezing was not repeated during the later stages to avoid fragmentation of exposed delicate structures, such as cranial nerve roots. Between dissection sessions, the specimens were stored in 70% alcohol at room temperature. Exact donor age, sex, postmortem interval, and the interval between death and fixation were not available in the specimen records accessible to the investigators. Records of the fixation and initial freezing performed before delivery, including fixation duration, were also unavailable. Fiber dissection was performed according to the principles of the Klingler technique [,]. The dissection photographs presented in this report are original and have not been published in our previous studies."
+    },
+    {
+      "type": "paragraph",
+      "text": "Stepwise fiber dissections were performed under an operating microscope (Carl Zeiss AG, Oberkochen, Germany) at ×4 magnification using standard microsurgical instruments. Dissection proceeded from the superficial landmarks surrounding the LMS to the deeper white matter pathways and mesencephalic structures. The stages included exposure of the LMS and adjacent cerebellar peduncles, sequential dissection of the lateral and medial lemniscal systems and adjacent peduncular and pontine fibers, and subsequent exposure of the deep tegmental pathways, superior cerebellar peduncle decussation, red nucleus, and oculomotor complex. Complementary anterior, lateral, and posterior views were used to document these relationships. All eight specimens were examined at each dissection stage, and the anatomical relationships were assessed on both the right and left sides. Photographic documentation was obtained using a Canon EOS 200D camera (Canon Inc., Tokyo, Japan)."
+    },
+    {
+      "type": "heading",
+      "text": "2.3. MRI Morphometric Analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Brain MRI examinations obtained between October 2023 and 10 March 2026 were retrospectively retrieved from the institutional Picture Archiving and Communication System (PACS) of İzmir City Hospital, İzmir, Türkiye. Examinations were identified among patients attending the Department of Neurosurgery outpatient clinic or inpatient service for clinical evaluation. The examinations had been obtained for clinical care rather than for this study; specific MRI referral indications were not reviewed or recorded. The eligibility age range was 18–90 years. Inclusion required complete MRI records and adequate image quality for assessing the LMS and adjacent mesencephalic structures. The absence of relevant intracranial pathology was assessed using radiology reports. Exclusion criteria included intracranial masses, brainstem pathology, vascular malformations, or a history of trauma or surgery affecting the regional anatomy; inadequate image quality or incomplete records; and examinations acquired outside the institution or not conforming to the study imaging protocol. Eligible examinations were randomly selected within each sex group to obtain a balanced sample of 50 women and 50 men. The final cohort comprised 100 adults aged 23–88 years. All examinations were acquired at İzmir City Hospital using the same 1.5-T SIGNA Voyager MRI scanner (GE HealthCare, Waukesha, WI, USA) and the same acquisition protocol. Morphometric measurements were performed on sagittal and axial T2-weighted images with series descriptions indicating PROPELLER acquisition. The sagittal series parameters were TR = 5907 ms, TE = 101.58 ms, flip angle = 111°, and field of view (FOV) = 220 mm. The axial series parameters were TR = 6567 ms, TE = 104.82 ms, flip angle = 111°, and FOV = 220 mm. The radiological component was designed as a structural morphometric assessment; diffusion-based tract reconstruction was not included in the analysis. All measurements were performed at the same institution using the measurement tools integrated into PACS. All MRI morphometric measurements and SMR classifications were performed by a single observer. Measurements were not repeated, and no formal intraobserver or interobserver reliability assessment was performed. Measurements were obtained from the available axial and sagittal images without additional multiplanar reconstruction or standardization to an anatomical reference plane."
+    },
+    {
+      "type": "paragraph",
+      "text": "On midsagittal images, the inferior colliculus–straight sinus angle (ICSSA), corpus callosum–pontomesencephalic junction distance (CCPJD), and splenium–mesencephalon relationship (SMR) type were evaluated. ICSSA was defined as the angle between the axis of the straight sinus and a line connecting the inferior border of the inferior colliculus to the confluens sinuum. This parameter describes the angular relationship between a dorsal mesencephalic reference point and the straight sinus; it does not represent a direct trajectory to the LMS. CCPJD describes the midsagittal relationship between the corpus callosum and the pontomesencephalic junction. Although the pontomesencephalic junction corresponds to the inferior anatomical level of the LMS, CCPJD does not directly measure the position or length of the sulcus. These midsagittal parameters characterize regional anatomical relationships relevant to the posterolateral mesencephalon. Because the LMS is lateral and is not directly visualized on midsagittal images, these measurements represent regional anatomical descriptors rather than direct measurements of the LMS or a surgical trajectory terminating at the sulcus. For CCPJD and SMR assessment, “horizontal” refers to the horizontal axis of the displayed sagittal image in PACS. The reference lines passed through the pontomesencephalic junction for CCPJD and the superior aspect of the mesencephalon for SMR. SMR was described using a preliminary three-pattern classification based on the relationship between the reference line and the splenium. The category boundaries were defined descriptively using the inferior border of the splenium and the boundary between its inferior and superior halves. They were not derived from surgical exposure measurements or outcome-based thresholds. This classification has not been validated. In Type A, the reference line remained entirely below the splenium without intersecting it. In Type B, the line intersected only the inferior half of the splenium. In Type C, the line reached the boundary between the inferior and superior halves or intersected the superior half. A reference line passing entirely above the splenium falls outside these three descriptive patterns and would be recorded separately. LMS-related measurements were evaluated separately on axial images at the intercollicular level, between the superior and inferior colliculi. For each side, the image showing the LMS most clearly was selected. The superficial point was defined at the opening of the sulcus on the lateral mesencephalic surface, and the deepest point was defined as the innermost identifiable point of the sulcal indentation on the same image. The LMS–midline distance (LMS-MD), LMS–midline angle (LMS-MA), and LMS–cerebellar surface distance (LMS-CSD) were measured bilaterally. The anatomical definitions and measurement techniques for all morphometric parameters are illustrated in  and ."
+    },
+    {
+      "type": "heading",
+      "text": "2.4. Statistical Analysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Statistical analyses were performed using IBM SPSS Statistics for Windows, version 25.0 (IBM Corp., Armonk, NY, USA). Continuous variables are presented as mean ± standard deviation, and categorical variables as frequencies and percentages. Normality was assessed using the Shapiro–Wilk test, and homogeneity of variances using Levene’s test. Right–left comparisons were performed using paired-samples *t*-tests. Sex comparisons were performed using independent-samples *t*-tests, with Welch’s correction when equal variances could not be assumed. Cohen’s d was reported for sex differences. Associations with age were evaluated using Spearman’s rank correlation coefficients."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Holm procedure was applied separately to right–left comparisons (3 tests), sex comparisons (8 tests), and age correlations (8 tests). Raw and Holm-adjusted *p* values are reported, together with mean differences and their 95% confidence intervals (CIs) for side and sex comparisons. Approximate 95% CIs for Spearman correlations were calculated using the Fisher z transformation. These CIs were not adjusted for multiple comparisons; statistical significance was determined using Holm-adjusted *p* values < 0.05."
+    },
+    {
+      "type": "paragraph",
+      "text": "Exploratory multiple linear regression models included parameters showing unadjusted associations with both age and sex in the initial analyses. Age and sex (1 = female, 2 = male) were entered simultaneously. Unstandardized coefficients (B), 95% CIs, standardized coefficients (β), R^(2), and adjusted R^(2) are reported. Regression coefficient *p* values were Holm-adjusted across the three models separately for each predictor. Overall model F tests were evaluated at *p* < 0.05. Multicollinearity was assessed using variance inflation factors, and model assumptions were evaluated using residual plots. All tests were two-tailed."
+    },
+    {
+      "type": "heading",
+      "text": "3. Results"
+    },
+    {
+      "type": "heading",
+      "text": "3.1. Layered Microsurgical Anatomy of the LMS Corridor"
+    },
+    {
+      "type": "paragraph",
+      "text": "Stepwise fiber dissections were performed to define the layered microsurgical anatomy of the LMS corridor and its relationships with the surrounding white matter tracts and deep mesencephalic structures (). Sequential removal of the superficial and deep white matter layers exposed the anatomical organization extending from the pial surface to the deep tegmental nuclei. The principal anatomical relationships described below were consistently observed across the specimens and sides examined at each dissection stage."
+    },
+    {
+      "type": "paragraph",
+      "text": "The LMS was identified as a shallow sulcus extending along the posterolateral surface of the mesencephalon (A–D). It extended from the medial geniculate body superiorly to the pontomesencephalic junction inferiorly (B–D)."
+    },
+    {
+      "type": "paragraph",
+      "text": "On the surface, the cerebral peduncle formed its anterior border, whereas the lateral tegmentum formed its posterior border (A–D). The trochlear nerve, a reliable surface landmark for identifying the LMS, emerged below the inferior colliculus and crossed the surface of the LMS (A). The inferior part of the sulcus was partially covered by the cerebellum (B). Removal of the cerebellar cortex exposed the superior and middle cerebellar peduncles while preserving the anatomical relationships of the LMS with the medial geniculate body, cerebral peduncle, and brachium of the inferior colliculus (C,D). Initial fiber dissection along the LMS exposed the lateral lemniscus (LL), which formed the posterior boundary of the superficial portion of the corridor (E–G). The LL fibers joined the brachium of the inferior colliculus (E–G). Along the anterior border of the sulcus, the temporopontine tract fibers forming the lateral one-third of the cerebral peduncle were identified (F,G). Inferiorly, the deep transverse pontine fibers became visible (F,G). After removal of the CST and temporopontine tract, the ML was identified at the mesencephalic level with the substantia nigra immediately anterior to it (H)."
+    },
+    {
+      "type": "paragraph",
+      "text": "To demonstrate the deeper anatomical relationships, the dissection was continued through sequential removal of the superficial fiber systems (A–H). Removal of the deep transverse pontine fibers exposed the longitudinal course of the ML, which formed the principal posterior white matter boundary of the LMS corridor (A–D)."
+    },
+    {
+      "type": "paragraph",
+      "text": "The lateral and medial lemniscal systems remained closely related near the surface, whereas the ML extended into the depth of the mesencephalon and the LL coursed lateral to the superior cerebellar peduncle (SCP) (A–E). At the superior aspect of the corridor, the substantia nigra was consistently identified immediately anterior to the ML (C–F). Further dissection exposed the deeper tegmental fiber systems (E–H). Transection of the LL revealed the nondecussating fibers of the SCP (E). As the dissection proceeded medially, the trigeminal mesencephalic tract, central tegmental tract, and medial longitudinal fasciculus (MLF) were identified (E–H)."
+    },
+    {
+      "type": "paragraph",
+      "text": "The CTT was identified posterior to the SCP decussation and anteromedial to the trigeminal mesencephalic tract (H). The MLF lay medial to the trigeminal mesencephalic tract in the posterior tegmentum. The SCP decussation was anterior to the CTT, with the ML located further anteriorly (F–H). Throughout the dissection, the LMS corridor remained anterior to the SCP while maintaining a close anatomical relationship with its lateral fiber bundle (E–H). At the rostral levels, the red nucleus was identified dorsomedial to the corridor in close relationship with the decussating fibers of the SCP (F–H). Medially, the oculomotor nuclear complex and the intramesencephalic fibers of the oculomotor nerve constituted the medial boundary of the LMS corridor (F,G)."
+    },
+    {
+      "type": "paragraph",
+      "text": "Overall, the stepwise fiber dissections demonstrated the layered organization of the mesencephalic microsurgical anatomy surrounding the LMS. This organization extended from the pial surface to the deep mesencephalic structures and consisted of sequential anatomical layers, including the superficial anatomical landmarks, the lateral and medial lemniscal systems, the substantia nigra and corticospinal tract, the SCP, the deep tegmental fiber systems, and finally the red nucleus and oculomotor complex."
+    },
+    {
+      "type": "heading",
+      "text": "3.2. Radiological Measurements"
+    },
+    {
+      "type": "paragraph",
+      "text": "MRI morphometric analysis was performed in 100 adults without intracranial pathology, including 50 females and 50 males with a mean age of 49.28 ± 16.51 years (range, 23–88 years). Descriptive demographic characteristics, MRI morphometric measurements, and the distribution of SMR types are summarized in . SMR Type A was the most common configuration (70%), followed by Type B (29%), whereas Type C was identified in one subject (1%)."
+    },
+    {
+      "type": "paragraph",
+      "text": "After Holm adjustment for three comparisons, no significant right–left differences were identified in LMS-MA, LMS-MD, or LMS-CSD (adjusted *p* = 0.402, 0.078, and 0.402, respectively). The mean right–left LMS-MD difference was −0.141 mm (95% CI, −0.264 to −0.017; unadjusted *p* = 0.026), but this difference did not remain significant after correction ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "After Holm adjustment for eight comparisons, males had greater left LMS-MD (10.21 ± 0.83 vs. 9.61 ± 0.75 mm; female–male mean difference, −0.60 mm; 95% CI, −0.91 to −0.29; adjusted *p* = 0.002; Cohen’s d = 0.76) and right LMS-CSD (6.75 ± 1.85 vs. 5.49 ± 1.69 mm; mean difference, −1.26 mm; 95% CI, −1.96 to −0.56; adjusted *p* = 0.004; Cohen’s d = 0.71). No other sex comparisons remained significant after adjustment ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "After Holm adjustment for eight correlations, age was negatively associated with CCPJD (ρ = −0.389; 95% CI, −0.55 to −0.20; adjusted *p* < 0.001) and positively associated with right LMS-CSD (ρ = 0.268; 95% CI, 0.07 to 0.44; adjusted *p* = 0.042) and left LMS-CSD (ρ = 0.379; 95% CI, 0.19 to 0.54; adjusted *p* < 0.001). The association between age and left LMS-MD did not remain significant after adjustment (adjusted *p* = 0.115). No other correlations remained significant ()."
+    },
+    {
+      "type": "paragraph",
+      "text": "Exploratory multiple linear regression models included age and sex as predictors of left LMS-MD and bilateral LMS-CSD (). All three models were significant (overall *p* < 0.001), with R^(2) values of 0.169, 0.169, and 0.184, respectively. After Holm adjustment across models for each predictor, age and male sex remained associated with all three measurements. No multicollinearity was detected (VIF = 1.011). These associations were adjusted for age and sex only, without adjustment for overall brain size or atrophy."
+    },
+    {
+      "type": "heading",
+      "text": "4. Discussion"
+    },
+    {
+      "type": "paragraph",
+      "text": "Previous anatomical studies by Recalde et al. [], Yagmurlu et al. [], Cavalcanti et al. [,], and more recently Hanalioglu et al. [] have primarily described the LMS as a safe entry zone. These studies have also established its relationships with underlying pathways and nuclei, providing the anatomical foundation for the present investigation. Our study was designed to further characterize these relationships within an LMS-focused anatomical and radiological assessment, rather than to identify previously undescribed structures. Stepwise fiber dissection documents the sequence from superficial landmarks to deep tegmental structures, while structural MRI morphometry in a separate cohort of 100 adults quantifies selected regional angular relationships, mediolateral position, cerebellomesencephalic distances, and the splenium–mesencephalon relationship. The distinctive contribution lies in combining this focused anatomical account with quantitative reference data describing interindividual variation and associations with age, sex, and side. These complementary observations extend the characterization of LMS-related anatomy, although the MRI measurements were not directly validated against the cadaveric specimens and their clinical applicability remains to be established."
+    },
+    {
+      "type": "heading",
+      "text": "4.1. The LMS as a Layered Microsurgical Corridor"
+    },
+    {
+      "type": "paragraph",
+      "text": "Our fiber dissections complement this perspective by demonstrating that the LMS represents not only a pial entry point but also a posterolateral microsurgical corridor with distinct anatomical relationships that change throughout the depth of the approach. Beginning with the superficial anatomical landmarks, the sequential relationships of the lemniscal systems, superior cerebellar peduncle, deep tegmental fiber pathways, red nucleus, and oculomotor complex were systematically demonstrated. These findings suggest that evaluation of the LMS should extend beyond the pial entry point to include the anatomical structures encountered along the surgical trajectory. This anatomical organization has important microsurgical implications. The trochlear nerve and medial geniculate body serve as reliable superficial landmarks for identifying the LMS [,]. As the surgical trajectory progresses medially, the oculomotor nuclear complex, intramesencephalic fibers of the oculomotor nerve, and the MLF become increasingly vulnerable. In contrast, posterior deviation of the surgical trajectory places the superior cerebellar peduncle, central tegmental tract, and mesencephalic trigeminal tract at greater risk. At more rostral levels, the red nucleus lies in close dorsomedial relationship to the surgical corridor. Knowledge of the structures encountered according to surgical depth and trajectory may facilitate intraoperative orientation and contribute to the preservation of critical neurological structures. Nevertheless, intrinsic mesencephalic lesions may displace or distort the surrounding white matter tracts and deep mesencephalic structures [,,,]. Accordingly, the anatomical relationships described here represent normal anatomy and should be interpreted together with preoperative imaging and intraoperative findings in individual patients."
+    },
+    {
+      "type": "paragraph",
+      "text": "The present dissections are consistent with previous microsurgical descriptions of the LMS and its relationships with adjacent pathways and nuclei [,,,,]. The depth-dependent relationships illustrated here therefore complement established anatomy rather than redefine the boundaries of a safe entry zone. The LMS-focused sequence organizes these relationships from superficial landmarks to deep tegmental structures, providing a regional reference for anatomical orientation. The additional quantitative contribution comes from structural MRI morphometry in an independent cohort of 100 adults, which describes variation in selected regional measurements. However, these measurements do not quantify the deep anatomical relationships demonstrated by dissection, and the combined findings do not establish safe surgical dimensions or validate an operative trajectory."
+    },
+    {
+      "type": "heading",
+      "text": "4.2. MRI-Based Description of Regional Anatomical Variation"
+    },
+    {
+      "type": "paragraph",
+      "text": "The cadaveric and MRI components address different aspects of the same anatomical region. Fiber dissection documents the relationships of the LMS to adjacent pathways and deep tegmental structures, providing a qualitative reference for anatomical orientation. MRI measurements characterize selected aspects of regional geometry in individual examinations from a separate cohort. LMS-MA and LMS-MD describe the visible sulcal orientation and position relative to the midline, while LMS-CSD describes its relationship to the cerebellar surface. ICSSA, CCPJD, and SMR describe surrounding midsagittal geometry. None directly delineates the deep fiber pathways or nuclear boundaries exposed by dissection, measures a safe dissection depth, or establishes an operative trajectory. The two components are therefore complementary descriptive assessments rather than anatomical or quantitative validation of one another. Previous studies by Hanalioglu et al. [], Velho et al. [], and Yuncu et al. [] provide the anatomical and morphometric context for this regional assessment."
+    },
+    {
+      "type": "paragraph",
+      "text": "The midsagittal measurements provide regional anatomical context for evaluating the posterolateral mesencephalon. ICSSA describes the angular relationship between the inferior collicular reference point and the straight sinus. The relevance of surrounding anatomical relationships to supracerebellar approaches has been discussed previously [,,,]; however, ICSSA should be interpreted as a regional geometric descriptor rather than a direct measure of the surgical trajectory toward the LMS or the exposure achievable through a particular approach. CCPJD describes the midsagittal relationship between the corpus callosum and the pontomesencephalic junction within the selected reference system. Although the pontomesencephalic junction corresponds to the inferior anatomical level of the LMS, CCPJD does not directly measure the craniocaudal position of the sulcus. The potential associations of these parameters with operative viewing angles, surgical exposure, or approach selection require further validation. The preliminary SMR classification describes the position of the splenium relative to the superior mesencephalon. This relationship provides regional anatomical context for supracerebellar approaches [,]. Type A predominated in this cohort, whereas Type C was observed in only one participant (1%). These patterns should therefore be regarded as descriptive observations rather than an established classification system. Their relationship to operative viewing angles, surgical exposure, and approach selection requires further validation. The remaining axial measurements further characterize the spatial anatomy of the LMS. The LMS–MA reflects the orientation of the sulcus relative to the midline, whereas the LMS–MD quantifies its mediolateral position. LMS-CSD quantifies the distance between the visible sulcal landmark and the cerebellar surface on the selected axial image. These measurements describe regional spatial relationships but do not establish surgical working depth, achievable exposure, or the suitability of a particular approach."
+    },
+    {
+      "type": "paragraph",
+      "text": "After correction for multiple comparisons, no right–left differences remained statistically significant. The mean LMS-MD difference of 0.14 mm was also smaller than the nominal in-plane pixel dimensions of 1.0 × 1.0 mm. Its anatomical and surgical relevance remains uncertain, particularly without measurement reliability data."
+    },
+    {
+      "type": "paragraph",
+      "text": "The sex differences that remained significant involved left LMS-MD and right LMS-CSD. These differences may partly reflect overall brain or cranial size rather than LMS-specific variation. The age correlations that remained significant involved CCPJD and bilateral LMS-CSD. These cross-sectional associations describe differences between participants and do not demonstrate changes within individuals. Broader morphological variation, including ventricular enlargement or cerebellar volume loss, could contribute to these relationships but was not directly assessed. The exploratory regression findings likewise require cautious interpretation because adjustment was limited to age and sex. Statistical significance should not be equated with anatomical or surgical importance."
+    },
+    {
+      "type": "heading",
+      "text": "4.3. Limitations"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cadaveric fiber dissection allows detailed evaluation of white matter anatomy but may not fully reproduce the biomechanical properties of living tissue or the full spectrum of interindividual anatomical variability. The cadaveric sample was limited to eight specimens. This small sample may not capture uncommon anatomical configurations, and consistency across the examined specimens should not be interpreted as evidence of uniform anatomy in the wider population. Cadaveric corridor width, depth, and distances to adjacent critical structures were not quantified; the dissection findings therefore describe qualitative spatial relationships rather than quantitative surgical dimensions. Donor age, sex, postmortem interval, and time to fixation were unavailable, limiting assessment of their potential influence on tissue preservation and anatomical variability. Records of the fixation and initial freezing performed before specimen delivery, including fixation duration, were also unavailable, limiting full reproducibility of the specimen preparation procedure. CCPJD and SMR were assessed using image-based horizontal reference lines without standardization to an anatomical plane. These measurements may therefore be sensitive to sagittal image orientation and head positioning, which limits their comparability across examinations. MRI measurements and SMR classifications were performed by a single observer without repeated assessments. Intraobserver and interobserver reliability were therefore not evaluated, and the influence of observer judgment on landmark identification and classification remains a limitation. Consequently, measurement variability and classification agreement could not be quantified, limiting interpretation of small numerical differences and the robustness of the proposed SMR categories. Type C was identified in only one participant, limiting characterization of this pattern. The proposed SMR classification is preliminary and requires validation in independent cohorts. Overall brain or cranial size and measures of global or regional atrophy were not available for adjustment. Residual confounding by anatomical size, ventricular enlargement, or cerebellar volume loss cannot therefore be excluded. The cross-sectional design precludes conclusions about longitudinal changes within individuals. In addition, the regression analyses were exploratory and used outcomes selected on the basis of unadjusted univariate associations."
+    },
+    {
+      "type": "paragraph",
+      "text": "The MRI cohort was drawn from a single institution and comprised clinically acquired examinations selected within sex groups to achieve equal representation of women and men. Although selection within these groups was random, the eligibility criteria and hospital-based sampling may introduce selection bias and limit generalizability to the wider population. Specific MRI referral indications were not reviewed, preventing assessment of their potential influence on the sample. Vascular anatomy was not systematically assessed. The study therefore does not characterize regional arterial, perforating, or venous relationships that may constrain surgical access; the described fiber relationships alone cannot establish the safety of an operative corridor."
+    },
+    {
+      "type": "paragraph",
+      "text": "The MRI cohort did not include patients with intrinsic mesencephalic lesions, and lesion-induced distortion of the regional anatomy was not evaluated. The cadaveric and MRI samples were independent, without direct anatomical or quantitative validation between them. Diffusion tractography was not performed; therefore, the relationship between the structural MRI measurements and adjacent white matter pathways could not be assessed within the same individuals. The cadaveric dissections provide general anatomical context but do not establish individual tract locations in the MRI cohort. No intraoperative measurements, comparisons of surgical exposure, or surgical outcome assessments were performed. Consequently, the findings do not establish patient-specific safe trajectories or support individualized approach selection. Further studies are required to evaluate correspondence with deep anatomical boundaries and potential clinical applicability."
+    },
+    {
+      "type": "heading",
+      "text": "5. Conclusions"
+    },
+    {
+      "type": "paragraph",
+      "text": "This study documents the sequential superficial and deep anatomical relationships surrounding the LMS through stepwise fiber dissection and provides MRI morphometric reference data from an independent cohort of 100 adults. The two components offer complementary descriptions of regional anatomy and interindividual variation. The MRI measurements and preliminary SMR classification do not establish safe surgical boundaries, achievable exposure, or individualized approach selection. Their anatomical correspondence and clinical applicability require further validation."
+    }
+  ]
+}
